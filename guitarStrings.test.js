@@ -1,8 +1,5 @@
-/**
- * @jest-environment jsdom
- */
-
-const splitGuitarTabByStrings = require("../script.js");
+"use strict";
+import { splitGuitarTabByStrings } from "./guitarStrings.js";
 
 describe("Splitting guitar tab tests", () => {
   test("split guitar tabs to tablines", () => {
