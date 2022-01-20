@@ -1,5 +1,8 @@
 {
   "devDependencies": {
     "jest": "^27.4.7"
+  },
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   }
 }

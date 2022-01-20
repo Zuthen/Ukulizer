@@ -15,14 +15,14 @@ function showResults() {
   results.forEach((result) => result.classList.remove("hidden"));
 }
 
-const splitGuitarTabByStrings = function (guitarTab) {
+function splitGuitarTabByStrings(guitarTab) {
   let newstrings = guitarTab.split("\n");
   if (newstrings.length !== 6)
     console.error(
       `Unexpected tab lines count: ${newstrings.length}. Expected exactly 6 lines`
     );
   else return newstrings;
-};
+}
 
 const mergeNumbers = function (tabLine) {
   const removedIndexes = [];
