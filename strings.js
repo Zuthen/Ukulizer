@@ -1,5 +1,5 @@
 "use strict";
-const mergeNumbers = function (tabLine) {
+export const mergeNumbers = function (tabLine) {
   const removedIndexes = [];
   for (let i = 1; i < tabLine.length - 1; i++) {
     if (
