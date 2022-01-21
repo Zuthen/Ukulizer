@@ -30,5 +30,6 @@ export const changeStringNames = function (convertedTabSplittedByNotes) {
   const cString = convertedTabSplittedByNotes[2];
   const lowGstring = convertedTabSplittedByNotes[3];
 
+  console.log([aString, eString, cString, lowGstring]);
   return [aString, eString, cString, lowGstring];
 };

@@ -1,42 +1,31 @@
 "use strict";
 export const mergeNumbers = function (tabLine) {
-  const removedIndexes = [];
   for (let i = 1; i < tabLine.length - 1; i++) {
-    if (
-      tabLine[i] === "|" ||
-      tabLine[i] === "-" ||
-      tabLine[i + 1] === "|" ||
-      tabLine[i + 1] === "-"
-    )
-      continue;
+    if (isNaN(tabLine[i]) || isNaN(tabLine[i + 1])) continue;
     tabLine[i] = tabLine[i] + tabLine[i + 1];
-    removedIndexes.push(i + 1);
-    tabLine.splice(i + 1, 1);
+    tabLine[i + 1] = "*";
   }
-  return removedIndexes;
 };
 
-const convertToNumber = function (tabline) {
+export const convertToNumber = function (tabline) {
   for (let i = 1; i < tabline.length; i++) {
-    if (tabline[i] === "|" || tabline[i] === "-") continue;
+    if (isNaN(tabline[i])) continue;
     tabline[i] = Number(tabline[i]);
   }
 };
-const removeDuplicates = function (array) {
-  let uniqueChars = [];
-  array.forEach((c) => {
-    if (!uniqueChars.includes(c)) {
-      uniqueChars.push(c);
-    }
-  });
-  return uniqueChars;
+const includesAsterisk = function (array) {
+  return array.includes("*");
 };
 
-const removeDuplicatedDash = function (indexesToRemove, array) {
-  indexesToRemove.forEach((element) => {
-    if (array[element] === "-" && array[element - 1] === "-")
-      array.splice(element, 1);
-  });
+export const removeRedunantDashes = function (strings) {
+  findStringDifferences(strings[0], strings[1]);
+  for (let i = 0; i < strings.length; i++) {
+    while (includesAsterisk(strings[i])) {
+      let indexToRemove = strings[i].indexOf("*");
+      strings[i].splice(indexToRemove, 1);
+    }
+  }
+  return strings;
 };
 
 const adjustEnd = function (tables) {
@@ -63,22 +52,21 @@ const adjustEnd = function (tables) {
   });
 };
 
-export const splitStringsByNotes = function (tabLines, stringNames) {
+const validateStringName = function (firstElement, stringName) {
+  if (firstElement != stringName)
+    console.error(`Unexpected Guitar String Name : ${firstElement}`);
+};
+const splitArrayByChar = function (array) {
+  return Array.from(array);
+};
+
+export const prepareForConvert = function (tabLines, stringNames) {
   const strings = [];
-  let removedIndexes = [];
   for (let i = 0; i < stringNames.length; i++) {
-    strings[i] = Array.from(tabLines[i]);
-    if (strings[i][0] !== stringNames[i])
-      console.error(`Unexpected Guitar String Name : ${strings[i]}`);
-    mergeNumbers(strings[i]).forEach((element) => {
-      removedIndexes.push(element);
-    });
+    strings[i] = splitArrayByChar(tabLines[i]);
+    validateStringName(strings[i][0], stringNames[i]);
+    mergeNumbers(strings[i]);
+    convertToNumber(strings[i]);
   }
-  removedIndexes = removeDuplicates(removedIndexes);
-  strings.forEach((string) => {
-    removeDuplicatedDash(removedIndexes, string);
-    convertToNumber(string);
-  });
-  adjustEnd(strings);
   return strings;
 };

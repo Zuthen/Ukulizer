@@ -5,7 +5,7 @@ import {
   changeStringNames,
 } from "./guitarStrings.js";
 
-import { splitStringsByNotes } from "./strings.js";
+import { prepareForConvert, removeRedunantDashes } from "./strings.js";
 import { addTable } from "./ui.js";
 
 /*
@@ -37,8 +37,9 @@ init();
 convertButton.addEventListener("click", function () {
   tabInputText = document.getElementById("guitar-tab").value;
   const strings = splitGuitarTabByStrings(tabInputText);
-  const tabSplittedByNotes = splitStringsByNotes(strings, guitarStringNames);
+  const tabSplittedByNotes = prepareForConvert(strings, guitarStringNames);
   const basicConvert = ebgdBasicConvert(tabSplittedByNotes);
+  removeRedunantDashes(basicConvert);
   const formattedResult = changeStringNames(basicConvert);
   addTable(lowGResultTable, formattedResult);
   showResults();
