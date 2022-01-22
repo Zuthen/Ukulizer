@@ -16,16 +16,74 @@ export const convertToNumber = function (tabline) {
 const includesAsterisk = function (array) {
   return array.includes("*");
 };
+const addAdditionalDashesOnBeggining = function (notesArray, dashesCount) {
+  for (let i = 0; i < dashesCount; i++) {
+    notesArray.splice(2, 0, "-");
+  }
+};
+const removeAllAsterisks = function (notesArray) {
+  const removedIndexes = [];
+  while (includesAsterisk(notesArray)) {
+    let indexToRemove = notesArray.indexOf("*");
+    notesArray.splice(indexToRemove, 1);
+    removedIndexes.push(indexToRemove);
+  }
+  return removedIndexes;
+};
+const removeIndexIfDash = function (array, indexToRemove) {
+  if (array[indexToRemove] === "-") array.splice(2, 1);
+};
+
+const verifyIndexes = function (indexesArray, arrayElement) {
+  if (indexesArray.length === 0) return 0;
+  else return indexesArray[arrayElement];
+};
+
+const findStringOffset = function (higherString, lowerString) {
+  const findNumbersIndexes = function (array) {
+    const indexes = [];
+    for (let i = 0; i < array.length; i++)
+      if (typeof array[i] === "number") indexes.push(i);
+    return indexes;
+  };
+
+  const higherStringIndexes = findNumbersIndexes(higherString);
+  const lowerStringIndexes = findNumbersIndexes(lowerString);
+  console.log(higherStringIndexes);
+  console.log(lowerStringIndexes);
+  console.log(
+    verifyIndexes(lowerStringIndexes, 0) -
+      verifyIndexes(higherStringIndexes, higherStringIndexes.length - 1) -
+      1
+  );
+  return (
+    verifyIndexes(lowerStringIndexes, 0) -
+    verifyIndexes(higherStringIndexes, higherStringIndexes.length - 1) -
+    1
+  );
+};
+
+const createOffestArray = function (strings) {
+  const stringsOffset = [];
+  for (let i = 1; i < strings.length; i++) {
+    stringsOffset.push(findStringOffset(strings[0], strings[i]));
+  }
+  return stringsOffset;
+};
 
 export const removeRedunantDashes = function (strings) {
-  findStringDifferences(strings[0], strings[1]);
-  for (let i = 0; i < strings.length; i++) {
-    while (includesAsterisk(strings[i])) {
-      let indexToRemove = strings[i].indexOf("*");
-      strings[i].splice(indexToRemove, 1);
-    }
+  const stringsOffset = createOffestArray(strings);
+  console.log(`STRINGS OFFSETS:`, stringsOffset);
+  strings.forEach((string) => {
+    addAdditionalDashesOnBeggining(string, 20);
+    removeAllAsterisks(string);
+  });
+  const stringsOffsetAfterRemove = createOffestArray(strings);
+  for (let i = 1; i < strings.length; i++) {
+    let offset = stringsOffsetAfterRemove[i - 1] - stringsOffset[i - 1];
+    strings[i].splice(2, offset);
+    console.log(`splice ${offset}`);
   }
-  return strings;
 };
 
 const adjustEnd = function (tables) {
@@ -61,6 +119,7 @@ const splitArrayByChar = function (array) {
 };
 
 export const prepareForConvert = function (tabLines, stringNames) {
+  console.log(`prepare for convert input`, tabLines);
   const strings = [];
   for (let i = 0; i < stringNames.length; i++) {
     strings[i] = splitArrayByChar(tabLines[i]);
@@ -68,5 +127,6 @@ export const prepareForConvert = function (tabLines, stringNames) {
     mergeNumbers(strings[i]);
     convertToNumber(strings[i]);
   }
+  console.log(`prepareForConvert`, strings);
   return strings;
 };
