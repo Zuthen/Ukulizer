@@ -71,28 +71,28 @@ export const removeRedunantDashes = function (strings) {
     let offset = stringsOffsetAfterRemove[i - 1] - stringsOffset[i - 1];
     strings[i].splice(2, offset);
   }
+
   adjustEnd(strings);
+  adjustStart(strings);
+  return strings;
+};
+
+const lenghtDifference = function (lenght, number) {
+  return lenght - number;
 };
 
 const adjustEnd = function (tables) {
   const lastNotes = [];
   tables.forEach((table) => {
     const numberIndexes = findNumbersIndexes(table);
-    lastNotes.push(numberIndexes[numberIndexes.length - 1]);
+    let elementToAdd = verifyIndexes(numberIndexes, numberIndexes.length - 1);
+    lastNotes.push(elementToAdd);
   });
   let max = lastNotes[0];
-  for (let i = 0; i < lastNotes.length; i++) {
-    if (lastNotes[i] > max) max = lastNotes[i];
-  }
-  console.log(`MAX`, max);
-
-  const lenghtDifference = function (lenght, number) {
-    return lenght - number;
-  };
+  lastNotes.forEach((note) => (max = note > max ? note : max));
 
   tables.forEach((table) => {
     let difference = lenghtDifference(table.length, max + 1);
-    console.log(difference);
     if (difference > 0) table.splice(max + 1, difference);
     else {
       while (difference < 0) {
@@ -100,7 +100,23 @@ const adjustEnd = function (tables) {
         difference = lenghtDifference(table.length, max + 1);
       }
     }
-    table.push("|");
+    table.push("-", "|");
+  });
+};
+
+const adjustStart = function (tables) {
+  const firstNotes = [];
+  tables.forEach((table) => {
+    const numberIndexes = findNumbersIndexes(table);
+    firstNotes.push(numberIndexes[0]);
+  });
+  let min = firstNotes[0];
+  firstNotes.forEach((note) => (min = note < min ? note : min));
+  console.log(`MIN`, min);
+
+  const dashesToRemoveCount = min - 3;
+  tables.forEach((table) => {
+    table.splice(2, dashesToRemoveCount);
   });
 };
 
