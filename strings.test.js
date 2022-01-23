@@ -3,6 +3,7 @@ import {
   mergeNumbers,
   convertToNumber,
   isTransposeToOtherStingNeeded,
+  isTransposeStringsNeeded,
 } from "./strings.js";
 //node --experimental-vm-modules node_modules/jest/bin/jest.js
 
@@ -172,6 +173,68 @@ describe("strings operations tests", () => {
       let output = isTransposeToOtherStingNeeded(input.string);
       // Assert
       expect(output).toStrictEqual(input.expectedResult);
+    });
+  });
+  test("check if tab needs transpose to other strings", () => {
+    // Arrange
+    const stringToTranspose1 = [
+      "A",
+      "|",
+      "-",
+      "-",
+      2,
+      "-",
+      -5,
+      "-",
+      4,
+      "-",
+      "|",
+    ];
+    const stringToTranspose2 = ["E", "|", "-", -1, "-", -5, "-", 4, "-", "|"];
+    const stringToSkipTranspose1 = ["C", "|", "-", 12, "-", 13, "-", "|"];
+    const stringToSkipTranspose2 = ["G", "|", "-", "-", 0, "-", 15, "-", "|"];
+    const testCases = [
+      {
+        stringsToCheck: [
+          stringToTranspose1,
+          stringToTranspose2,
+          stringToTranspose1,
+          stringToTranspose2,
+          stringToSkipTranspose1,
+          stringToSkipTranspose2,
+        ],
+        expectedResult: {
+          transpose: true,
+          notesToTranspose: [
+            { string: 0, noteIndex: 6 },
+            { string: 1, noteIndex: 3 },
+            { string: 1, noteIndex: 5 },
+            { string: 2, noteIndex: 6 },
+            { string: 3, noteIndex: 3 },
+            { string: 3, noteIndex: 5 },
+          ],
+        },
+      },
+      {
+        stringsToCheck: [
+          stringToSkipTranspose1,
+          stringToSkipTranspose1,
+          stringToSkipTranspose2,
+          stringToSkipTranspose2,
+          stringToSkipTranspose1,
+          stringToSkipTranspose2,
+        ],
+        expectedResult: {
+          transpose: false,
+          notesToTranspose: [],
+        },
+      },
+    ];
+    testCases.forEach((testCase) => {
+      // Act
+      let result = isTransposeStringsNeeded(testCase.stringsToCheck);
+      // Assert
+      expect(result).toStrictEqual(testCase.expectedResult);
     });
   });
 });

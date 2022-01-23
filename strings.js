@@ -112,7 +112,6 @@ const adjustStart = function (tables) {
   });
   let min = firstNotes[0];
   firstNotes.forEach((note) => (min = note < min ? note : min));
-  console.log(`MIN`, min);
 
   const dashesToRemoveCount = min - 3;
   tables.forEach((table) => {
@@ -135,6 +134,28 @@ export const isTransposeToOtherStingNeeded = function (string) {
     if (string[noteIndex] < 0) result = true;
   });
   return result;
+};
+
+export const isTransposeStringsNeeded = function (strings) {
+  const transposeStrings = {
+    transpose: false,
+    notesToTranspose: [],
+  };
+  for (let i = 0; i < strings.length; i++) {
+    if (isTransposeToOtherStingNeeded(strings[i])) {
+      transposeStrings.transpose = true;
+      const stringsIndexes = findNumbersIndexes(strings[i]);
+      stringsIndexes.forEach((noteIndex) => {
+        if (strings[i][noteIndex] < 0) {
+          transposeStrings.notesToTranspose.push({
+            string: i,
+            noteIndex: noteIndex,
+          });
+        }
+      });
+    }
+  }
+  return transposeStrings;
 };
 
 export const prepareForConvert = function (tabLines, stringNames) {
