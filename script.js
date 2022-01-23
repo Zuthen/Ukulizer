@@ -6,6 +6,7 @@ import {
 } from "./guitarStrings.js";
 
 import { prepareForConvert, removeRedunantDashes } from "./strings.js";
+import { findNoteOnOtherString } from "./transposition.js";
 import { addTable } from "./ui.js";
 
 /*

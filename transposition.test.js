@@ -1,7 +1,5 @@
-"use strict";
-
-import { transponeToOtherString } from "./transposition";
-// C, C#, D, D#,E,F,F#,G,G#,A,A#,B
+import { findNoteOnOtherString } from "./transposition.js";
+// C, C#,D,D#,E,F,F#,G,G#,A,A#,B
 
 describe("transposition", () => {
   const testData = [
@@ -12,11 +10,10 @@ describe("transposition", () => {
     { string: 4, note: -1, expectedResult: { string: 2, note: 1 } },
     { string: 5, note: -1, expectedResult: { string: 3, note: 1 } },
   ];
-  test("transpone to other string", () => {
+  test("find note on other string", () => {
     testData.forEach((data) => {
-      const dataToTranspone = { string: data.string, note: data.note };
-      const result = transponeToOtherString(dataToTranspone);
-      expect(result).toBe(data.expectedResult);
+      const result = findNoteOnOtherString(data.string, data.note);
+      expect(result).toStrictEqual(data.expectedResult);
     });
   });
 });
