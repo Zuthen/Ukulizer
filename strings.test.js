@@ -2,7 +2,7 @@
 import {
   mergeNumbers,
   convertToNumber,
-  removeRedunantDashes,
+  isTransposeToOtherStingNeeded,
 } from "./strings.js";
 //node --experimental-vm-modules node_modules/jest/bin/jest.js
 
@@ -53,6 +53,7 @@ describe("strings operations tests", () => {
     "-",
     "9",
   ];
+
   test("merge numbers", () => {
     const input = [
       "e",
@@ -156,5 +157,21 @@ describe("strings operations tests", () => {
     ];
     convertToNumber(stringWithMergedNumbers);
     expect(stringWithMergedNumbers).toStrictEqual(expectedOutput);
+  });
+  test("check if move to other string needed", () => {
+    // Arrange
+    const inputs = [
+      {
+        string: ["A", "|", "-", -1, "-", -5, "-", 4, "-", "|"],
+        expectedResult: true,
+      },
+      { string: ["C", "|", "-", 12, "-", 13, "-", "|"], expectedResult: false },
+    ];
+    inputs.forEach((input) => {
+      // Act
+      let output = isTransposeToOtherStingNeeded(input.string);
+      // Assert
+      expect(output).toStrictEqual(input.expectedResult);
+    });
   });
 });

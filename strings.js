@@ -128,6 +128,15 @@ const splitArrayByChar = function (array) {
   return Array.from(array);
 };
 
+export const isTransposeToOtherStingNeeded = function (string) {
+  const allStringNotes = findNumbersIndexes(string);
+  let result = false;
+  allStringNotes.forEach((noteIndex) => {
+    if (string[noteIndex] < 0) result = true;
+  });
+  return result;
+};
+
 export const prepareForConvert = function (tabLines, stringNames) {
   const strings = [];
   for (let i = 0; i < stringNames.length; i++) {

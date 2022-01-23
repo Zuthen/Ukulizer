@@ -6,7 +6,6 @@ import {
 } from "./guitarStrings.js";
 
 import { prepareForConvert, removeRedunantDashes } from "./strings.js";
-import { findNoteOnOtherString } from "./transposition.js";
 import { addTable } from "./ui.js";
 
 /*
@@ -33,7 +32,6 @@ function showResults() {
   const results = document.querySelectorAll(".result");
   results.forEach((result) => result.classList.remove("hidden"));
 }
-
 init();
 convertButton.addEventListener("click", function () {
   tabInputText = document.getElementById("guitar-tab").value;
