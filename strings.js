@@ -35,7 +35,7 @@ const verifyIndexes = function (indexesArray, arrayElement) {
   if (indexesArray.length === 0) return 0;
   else return indexesArray[arrayElement];
 };
-const findNotesIndexes = function (array) {
+export const findNotesIndexes = function (array) {
   const indexes = [];
   for (let i = 0; i < array.length; i++)
     if (typeof array[i] === "number") indexes.push(i);
@@ -156,14 +156,6 @@ export const isTransposeStringsNeeded = function (strings) {
     }
   }
   return transposeStrings;
-};
-
-export const hasNotesOnAEstrings = function (tabLines) {
-  const aStringNotes = findNotesIndexes(tabLines[4]);
-  const eStringNotes = findNotesIndexes(tabLines[5]);
-  if (aStringNotes.length !== 0) return true;
-  else if (eStringNotes.length !== 0) return true;
-  else return false;
 };
 
 export const prepareForConvert = function (tabLines, stringNames) {
