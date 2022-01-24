@@ -1,5 +1,5 @@
 "use strict";
-import { findNotesIndexes } from "./strings";
+import { findNotesIndexes } from "./strings.js";
 export function splitGuitarTabByStrings(guitarTab) {
   let newstrings = guitarTab.split("\n");
   if (newstrings.length !== 6)
