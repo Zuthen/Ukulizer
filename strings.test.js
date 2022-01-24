@@ -4,6 +4,7 @@ import {
   convertToNumber,
   isTransposeToOtherStingNeeded,
   isTransposeStringsNeeded,
+  hasNotesOnAEstrings,
 } from "./strings.js";
 //node --experimental-vm-modules node_modules/jest/bin/jest.js
 
@@ -233,6 +234,57 @@ describe("strings operations tests", () => {
     testCases.forEach((testCase) => {
       // Act
       let result = isTransposeStringsNeeded(testCase.stringsToCheck);
+      // Assert
+      expect(result).toStrictEqual(testCase.expectedResult);
+    });
+  });
+  test("check if tab needs to move notes from lower strings", () => {
+    // Arrange
+    const stringWithNotes = ["G", "|", "-", "-", 7, "-", 12, "-"];
+    const stringWithoutNotes = ["C", "|", "-", "-", "-", "-", "-", "-"];
+    const tabWithoutNotesOnAEStrings = [
+      stringWithNotes,
+      stringWithoutNotes,
+      stringWithNotes,
+      stringWithNotes,
+      stringWithoutNotes,
+      stringWithoutNotes,
+    ];
+    const tabWithNotesOnAstring = [
+      stringWithNotes,
+      stringWithoutNotes,
+      stringWithNotes,
+      stringWithoutNotes,
+      stringWithNotes,
+      stringWithoutNotes,
+    ];
+    const tabWithNotesOnEstring = [
+      stringWithNotes,
+      stringWithoutNotes,
+      stringWithNotes,
+      stringWithoutNotes,
+      stringWithoutNotes,
+      stringWithNotes,
+    ];
+    const tabWithNotesOnAEstring = [
+      stringWithNotes,
+      stringWithoutNotes,
+      stringWithoutNotes,
+      stringWithoutNotes,
+      stringWithNotes,
+      stringWithNotes,
+    ];
+    const testCases = [
+      { input: tabWithoutNotesOnAEStrings, expectedResult: false },
+      { input: tabWithNotesOnAstring, expectedResult: true }, // fails
+      { input: tabWithNotesOnEstring, expectedResult: true }, // fails
+      { input: tabWithNotesOnAEstring, expectedResult: true },
+    ];
+
+    testCases.forEach((testCase) => {
+      // Act
+
+      const result = hasNotesOnAEstrings(testCase.input);
       // Assert
       expect(result).toStrictEqual(testCase.expectedResult);
     });

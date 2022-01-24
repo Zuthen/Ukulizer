@@ -35,7 +35,7 @@ const verifyIndexes = function (indexesArray, arrayElement) {
   if (indexesArray.length === 0) return 0;
   else return indexesArray[arrayElement];
 };
-const findNumbersIndexes = function (array) {
+const findNotesIndexes = function (array) {
   const indexes = [];
   for (let i = 0; i < array.length; i++)
     if (typeof array[i] === "number") indexes.push(i);
@@ -43,8 +43,8 @@ const findNumbersIndexes = function (array) {
 };
 
 const findStringOffset = function (higherString, lowerString) {
-  const higherStringIndexes = findNumbersIndexes(higherString);
-  const lowerStringIndexes = findNumbersIndexes(lowerString);
+  const higherStringIndexes = findNotesIndexes(higherString);
+  const lowerStringIndexes = findNotesIndexes(lowerString);
   return (
     verifyIndexes(lowerStringIndexes, 0) -
     verifyIndexes(higherStringIndexes, higherStringIndexes.length - 1) -
@@ -84,7 +84,7 @@ const lenghtDifference = function (lenght, number) {
 const adjustEnd = function (tables) {
   const lastNotes = [];
   tables.forEach((table) => {
-    const numberIndexes = findNumbersIndexes(table);
+    const numberIndexes = findNotesIndexes(table);
     let elementToAdd = verifyIndexes(numberIndexes, numberIndexes.length - 1);
     lastNotes.push(elementToAdd);
   });
@@ -107,7 +107,7 @@ const adjustEnd = function (tables) {
 const adjustStart = function (tables) {
   const firstNotes = [];
   tables.forEach((table) => {
-    const numberIndexes = findNumbersIndexes(table);
+    const numberIndexes = findNotesIndexes(table);
     firstNotes.push(numberIndexes[0]);
   });
   let min = firstNotes[0];
@@ -128,7 +128,7 @@ const splitArrayByChar = function (array) {
 };
 
 export const isTransposeToOtherStingNeeded = function (string) {
-  const allStringNotes = findNumbersIndexes(string);
+  const allStringNotes = findNotesIndexes(string);
   let result = false;
   allStringNotes.forEach((noteIndex) => {
     if (string[noteIndex] < 0) result = true;
@@ -144,7 +144,7 @@ export const isTransposeStringsNeeded = function (strings) {
   for (let i = 0; i < strings.length; i++) {
     if (isTransposeToOtherStingNeeded(strings[i])) {
       transposeStrings.transpose = true;
-      const stringsIndexes = findNumbersIndexes(strings[i]);
+      const stringsIndexes = findNotesIndexes(strings[i]);
       stringsIndexes.forEach((noteIndex) => {
         if (strings[i][noteIndex] < 0) {
           transposeStrings.notesToTranspose.push({
@@ -156,6 +156,14 @@ export const isTransposeStringsNeeded = function (strings) {
     }
   }
   return transposeStrings;
+};
+
+export const hasNotesOnAEstrings = function (tabLines) {
+  const aStringNotes = findNotesIndexes(tabLines[4]);
+  const eStringNotes = findNotesIndexes(tabLines[5]);
+  if (aStringNotes.length !== 0) return true;
+  else if (eStringNotes.length !== 0) return true;
+  else return false;
 };
 
 export const prepareForConvert = function (tabLines, stringNames) {
