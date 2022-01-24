@@ -169,3 +169,11 @@ export const prepareForConvert = function (tabLines, stringNames) {
   console.log(`prepareForConvert`, strings);
   return strings;
 };
+
+export const cutAdditionalStrings = function (tablines) {
+  const returnTablines = [];
+  for (let i = 0; i < 4; i++) {
+    returnTablines.push(tablines[i]);
+  }
+  return returnTablines;
+};

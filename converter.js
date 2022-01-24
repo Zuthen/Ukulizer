@@ -4,17 +4,21 @@ import {
   changeStringNames,
   hasNotesOnAEstrings,
 } from "./guitarStrings.js";
-import { removeRedunantDashes } from "./strings.js";
+import { removeRedunantDashes, cutAdditionalStrings } from "./strings.js";
 
 export const convert = function (guitarTab) {
-  if (hasNotesOnAEstrings(guitarTab))
+  if (hasNotesOnAEstrings(guitarTab)) {
+    console.error(
+      `Not implemented convertion for tabs with notes on A and E strings`
+    );
     return Error(
       `Not implemented convertion for tabs with notes on A and E strings`
     );
-  else {
+  } else {
     const ebgdBasic = ebgdBasicConvert(guitarTab);
-    removeRedunantDashes(ebgdBasic);
-    changeStringNames(ebgdBasic);
-    return ebgdBasic;
+    const cutStrings = cutAdditionalStrings(ebgdBasic);
+    removeRedunantDashes(cutStrings);
+    changeStringNames(cutStrings);
+    return cutStrings;
   }
 };
