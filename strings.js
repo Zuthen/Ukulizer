@@ -77,8 +77,8 @@ export const removeRedunantDashes = function (strings) {
   return strings;
 };
 
-const lenghtDifference = function (lenght, number) {
-  return lenght - number;
+const lengthDifference = function (length, number) {
+  return length - number;
 };
 
 const adjustEnd = function (tables) {
@@ -92,12 +92,12 @@ const adjustEnd = function (tables) {
   lastNotes.forEach((note) => (max = note > max ? note : max));
 
   tables.forEach((table) => {
-    let difference = lenghtDifference(table.length, max + 1);
+    let difference = lengthDifference(table.length, max + 1);
     if (difference > 0) table.splice(max + 1, difference);
     else {
       while (difference < 0) {
         table.push("-");
-        difference = lenghtDifference(table.length, max + 1);
+        difference = lengthDifference(table.length, max + 1);
       }
     }
     table.push("-", "|");
