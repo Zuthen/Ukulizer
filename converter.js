@@ -9,7 +9,7 @@ import {
   cutAdditionalStrings,
   isTransponeToOtherStingNeeded,
 } from "./strings.js";
-import { findTransponeData } from "./transposition.js";
+import { findNotesToTranspone } from "./transposition.js";
 
 export const convert = function (guitarTab) {
   if (hasNotesOnAEstrings(guitarTab)) {
@@ -24,7 +24,7 @@ export const convert = function (guitarTab) {
     ebgdBasicConvert(cutStrings);
     const moveToOtherString = isTransponeToOtherStingNeeded(cutStrings);
     if (moveToOtherString) {
-      findTransponeData(cutStrings);
+      findNotesToTranspone(cutStrings);
       // transpone
     }
     removeRedunantDashes(cutStrings);

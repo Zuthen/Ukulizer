@@ -1,43 +1,85 @@
-import { findNoteOnOtherString } from "./transposition.js";
-// C, C#,D,D#,E,F,F#,G,G#,A,A#,B
-
+import { findNoteOnOtherString, transpone } from "./transposition.js";
 describe("transposition", () => {
   const testData = [
     {
       string: 0,
       note: -1,
-      expectedResult: { string: 0, note: -1, stringToMove: 1, newNote: 4 },
+      noteIndex: 2,
+      expectedResult: { string: 0, noteIndex: 2, stringToMove: 1, newNote: 4 },
     },
     {
       string: 1,
       note: -1,
-      expectedResult: { string: 1, note: -1, stringToMove: 2, newNote: 3 },
+      noteIndex: 3,
+      expectedResult: { string: 1, noteIndex: 3, stringToMove: 2, newNote: 3 },
     },
     {
       string: 2,
       note: -1,
-      expectedResult: { string: 2, note: -1, stringToMove: 0, newNote: 2 },
+      noteIndex: 4,
+      expectedResult: { string: 2, noteIndex: 4, stringToMove: 0, newNote: 2 },
     },
     {
       string: 3,
       note: -1,
-      expectedResult: { string: 3, note: -1, stringToMove: 1, newNote: 2 },
+      noteIndex: 5,
+      expectedResult: { string: 3, noteIndex: 5, stringToMove: 1, newNote: 2 },
     },
     {
       string: 4,
       note: -1,
-      expectedResult: { string: 4, note: -1, stringToMove: 2, newNote: 1 },
+      noteIndex: 6,
+      expectedResult: { string: 4, noteIndex: 6, stringToMove: 2, newNote: 1 },
     },
     {
       string: 5,
       note: -1,
-      expectedResult: { string: 5, note: -1, stringToMove: 3, newNote: 1 },
+      noteIndex: 7,
+      expectedResult: { string: 5, noteIndex: 7, stringToMove: 3, newNote: 1 },
     },
   ];
   test("find note on other string", () => {
     testData.forEach((data) => {
-      const result = findNoteOnOtherString(data.string, data.note);
+      const result = findNoteOnOtherString(
+        data.string,
+        data.note,
+        data.noteIndex
+      );
       expect(result).toStrictEqual(data.expectedResult);
     });
+  });
+  test("transpone", () => {
+    // Arrange
+    const eString = ["e", "|", "-", "-", -1, "-", "-", "-"];
+    const bString = ["B", "|", "-", -2, "-", "-", "-", "-"];
+    const gString = ["G", "|", -3, "-", "-", "-", "-", "-"];
+    const dString = ["D", "|", "-", "-", "-", "-", "-", -3];
+    const aString = ["A", "|", "-", "-", "-", -2, "-", "-"];
+    const e1String = ["E", "|", "-", "-", "-", "-", -1, "-"];
+    const tabToTranspone = [
+      eString,
+      bString,
+      gString,
+      dString,
+      aString,
+      e1String,
+    ];
+    const eStringConverted = ["e", "|", 0, "-", "-", "-", "-", "-"];
+    const bStringConverted = ["B", "|", "-", "-", 4, "-", "-", 0];
+    const gStringConverted = ["G", "|", "-", 2, "-", 0, "-", "-"];
+    const dStringConverted = ["D", "|", "-", "-", "-", "-", 1, "-"];
+
+    const transponedTab = [
+      eStringConverted,
+      bStringConverted,
+      gStringConverted,
+      dStringConverted,
+    ];
+
+    // Act
+    const result = transpone(tabToTranspone);
+    // Assert
+    expect(result.length).toStrictEqual(4);
+    expect(result).toStrictEqual(transponedTab);
   });
 });
