@@ -1,4 +1,5 @@
 "use strict";
+
 export const mergeNumbers = function (tabLine) {
   for (let i = 1; i < tabLine.length - 1; i++) {
     if (isNaN(tabLine[i]) || isNaN(tabLine[i + 1])) continue;
@@ -90,7 +91,6 @@ const adjustEnd = function (tables) {
   });
   let max = lastNotes[0];
   lastNotes.forEach((note) => (max = note > max ? note : max));
-
   tables.forEach((table) => {
     let difference = lengthDifference(table.length, max + 1);
     if (difference > 0) table.splice(max + 1, difference);
@@ -127,35 +127,13 @@ const splitArrayByChar = function (array) {
   return Array.from(array);
 };
 
-export const isTransposeToOtherStingNeeded = function (string) {
+export const isTransponeToOtherStingNeeded = function (string) {
   const allStringNotes = findNotesIndexes(string);
   let result = false;
   allStringNotes.forEach((noteIndex) => {
     if (string[noteIndex] < 0) result = true;
   });
   return result;
-};
-
-export const isTransposeStringsNeeded = function (strings) {
-  const transposeStrings = {
-    transpose: false,
-    notesToTranspose: [],
-  };
-  for (let i = 0; i < strings.length; i++) {
-    if (isTransposeToOtherStingNeeded(strings[i])) {
-      transposeStrings.transpose = true;
-      const stringsIndexes = findNotesIndexes(strings[i]);
-      stringsIndexes.forEach((noteIndex) => {
-        if (strings[i][noteIndex] < 0) {
-          transposeStrings.notesToTranspose.push({
-            string: i,
-            noteIndex: noteIndex,
-          });
-        }
-      });
-    }
-  }
-  return transposeStrings;
 };
 
 export const prepareForConvert = function (tabLines, stringNames) {

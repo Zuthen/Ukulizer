@@ -4,7 +4,12 @@ import {
   changeStringNames,
   hasNotesOnAEstrings,
 } from "./guitarStrings.js";
-import { removeRedunantDashes, cutAdditionalStrings } from "./strings.js";
+import {
+  removeRedunantDashes,
+  cutAdditionalStrings,
+  isTransponeToOtherStingNeeded,
+} from "./strings.js";
+import { findTransponeData } from "./transposition.js";
 
 export const convert = function (guitarTab) {
   if (hasNotesOnAEstrings(guitarTab)) {
@@ -15,8 +20,13 @@ export const convert = function (guitarTab) {
       `Not implemented convertion for tabs with notes on A and E strings`
     );
   } else {
-    const ebgdBasic = ebgdBasicConvert(guitarTab);
-    const cutStrings = cutAdditionalStrings(ebgdBasic);
+    const cutStrings = cutAdditionalStrings(guitarTab);
+    ebgdBasicConvert(cutStrings);
+    const moveToOtherString = isTransponeToOtherStingNeeded(cutStrings);
+    if (moveToOtherString) {
+      findTransponeData(cutStrings);
+      // transpone
+    }
     removeRedunantDashes(cutStrings);
     changeStringNames(cutStrings);
     return cutStrings;

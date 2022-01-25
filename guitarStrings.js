@@ -16,7 +16,8 @@ export const substractFive = function (tabLine) {
 };
 
 export const ebgdBasicConvert = function (tabSplittedByStrings) {
-  for (let i = 0; i < 4; i++) substractFive(tabSplittedByStrings[i]);
+  for (let i = 0; i < tabSplittedByStrings.length; i++)
+    substractFive(tabSplittedByStrings[i]);
   return tabSplittedByStrings;
 };
 
