@@ -9,22 +9,15 @@ export function splitGuitarTabByStrings(guitarTab) {
   else return newstrings;
 }
 export const substractFive = function (tabLine) {
-  const newTabline = [];
   for (let i = 0; i < tabLine.length; i++) {
-    if (typeof tabLine[i] != "number") newTabline.push(tabLine[i]);
-    else {
-      tabLine[i] = tabLine[i] - 5;
-      newTabline.push(tabLine[i]);
-    }
+    if (typeof tabLine[i] != "number") continue;
+    tabLine[i] = tabLine[i] - 5;
   }
-  return newTabline;
 };
 
 export const ebgdBasicConvert = function (tabSplittedByStrings) {
-  const newTablines = [];
   for (let i = 0; i < tabSplittedByStrings.length; i++)
-    newTablines.push(substractFive(tabSplittedByStrings[i]));
-  tabSplittedByStrings = newTablines;
+    substractFive(tabSplittedByStrings[i]);
 };
 
 export const changeStringNames = function (convertedTabSplittedByNotes) {

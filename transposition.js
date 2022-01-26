@@ -55,11 +55,6 @@ export const transpone = function (guitarTab) {
     transponeData.push(data);
   });
   transponeData.forEach((data) => {
-    console.log(`DATA`, data);
-    console.log(`STRING TO MOVE`, data.stringToMove);
-    console.log(`TAB`, guitarTab);
-    console.log(`TAB`, guitarTab[data.stringToMove]);
-    console.log(`WTF`, guitarTab[data.stringToMove][data.noteIndex]);
     if (typeof guitarTab[data.stringToMove][data.noteIndex] !== "number") {
       guitarTab[data.string].splice(data.noteIndex, 1, "-");
       guitarTab[data.stringToMove].splice(data.noteIndex, 1, data.newNote);
