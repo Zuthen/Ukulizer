@@ -13,6 +13,7 @@ import { findNotesToTranspone, transpone } from "./transposition.js";
 
 export const convert = function (guitarTab) {
   ebgdBasicConvert(guitarTab);
+  let result = [];
   if (hasNotesOnAEstrings(guitarTab)) {
     console.error(
       `Not implemented convertion for tabs with notes on A and E strings`
@@ -23,10 +24,10 @@ export const convert = function (guitarTab) {
   } else {
     const moveToOtherString = isTransponeToOtherStingNeeded(guitarTab);
     if (moveToOtherString) {
-      transpone(guitarTab);
-    } else cutAdditionalStrings(guitarTab);
-    removeRedunantDashes(guitarTab);
-    changeStringNames(guitarTab);
-    return guitarTab;
+      result = transpone(guitarTab);
+    } else result = cutAdditionalStrings(guitarTab);
+    removeRedunantDashes(result);
+    changeStringNames(result);
+    return result;
   }
 };
