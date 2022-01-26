@@ -9,16 +9,22 @@ export function splitGuitarTabByStrings(guitarTab) {
   else return newstrings;
 }
 export const substractFive = function (tabLine) {
+  const newTabline = [];
   for (let i = 0; i < tabLine.length; i++) {
-    if (typeof tabLine[i] != "number") continue;
-    tabLine[i] = tabLine[i] - 5;
+    if (typeof tabLine[i] != "number") newTabline.push(tabLine[i]);
+    else {
+      tabLine[i] = tabLine[i] - 5;
+      newTabline.push(tabLine[i]);
+    }
   }
+  return newTabline;
 };
 
 export const ebgdBasicConvert = function (tabSplittedByStrings) {
+  const newTablines = [];
   for (let i = 0; i < tabSplittedByStrings.length; i++)
-    substractFive(tabSplittedByStrings[i]);
-  return tabSplittedByStrings;
+    newTablines.push(substractFive(tabSplittedByStrings[i]));
+  tabSplittedByStrings = newTablines;
 };
 
 export const changeStringNames = function (convertedTabSplittedByNotes) {
@@ -26,14 +32,6 @@ export const changeStringNames = function (convertedTabSplittedByNotes) {
   convertedTabSplittedByNotes[1][0] = "E";
   convertedTabSplittedByNotes[2][0] = "C";
   convertedTabSplittedByNotes[3][0] = "G";
-
-  const aString = convertedTabSplittedByNotes[0];
-  const eString = convertedTabSplittedByNotes[1];
-  const cString = convertedTabSplittedByNotes[2];
-  const lowGstring = convertedTabSplittedByNotes[3];
-
-  console.log(`changeStringNames`, [aString, eString, cString, lowGstring]);
-  return [aString, eString, cString, lowGstring];
 };
 
 export const hasNotesOnAEstrings = function (tabLines) {

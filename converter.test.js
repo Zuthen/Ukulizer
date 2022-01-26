@@ -3,16 +3,21 @@ import { convert } from "./converter.js";
 
 describe("Converter tests", () => {
   const stringWithNotes = ["G", "|", "-", "-", 7, "-", 12, "-"];
+  const stringWithNotes1 = ["G", "|", "-", "-", 7, "-", 12, "-"];
+  const stringWithNotes2 = ["G", "|", "-", "-", 7, "-", 12, "-"];
+
   const stringWithoutNotes = ["C", "|", "-", "-", "-", "-", "-", "-"];
+  const stringWithoutNotes1 = ["C", "|", "-", "-", "-", "-", "-", "-"];
+  const stringWithoutNotes2 = ["C", "|", "-", "-", "-", "-", "-", "-"];
   test("convert if there are no notes on AE strings", () => {
     // Arrange
     const input = [
       stringWithNotes,
       stringWithoutNotes,
-      stringWithNotes,
-      stringWithNotes,
-      stringWithoutNotes,
-      stringWithoutNotes,
+      stringWithNotes1,
+      stringWithNotes2,
+      stringWithoutNotes1,
+      stringWithoutNotes2,
     ];
     // Act
     const result = convert(input);

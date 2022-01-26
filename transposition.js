@@ -1,5 +1,9 @@
 "use strict";
-import { isTransponeToOtherStingNeeded, findNotesIndexes } from "./strings.js";
+import {
+  isTransponeToOtherStingNeeded,
+  findNotesIndexes,
+  cutAdditionalStrings,
+} from "./strings.js";
 
 export const findNoteOnOtherString = function (stringNumber, note, noteIndex) {
   const stringMap = [
@@ -11,7 +15,7 @@ export const findNoteOnOtherString = function (stringNumber, note, noteIndex) {
     { string: 5, stringToMove: 3, note: 2 },
   ];
   const mappedString = stringMap[stringNumber];
-  console.log();
+
   const newString = {
     string: stringNumber,
     noteIndex: noteIndex,
@@ -21,52 +25,47 @@ export const findNoteOnOtherString = function (stringNumber, note, noteIndex) {
 
   if (newString.newNote < 0)
     return Error(
-      `Note number for ${newString.string}, ${newString.note} is lower than 0: ${newString.note}`
+      `Note number for ${newString.string}, ${newString.noteIndex} is lower than 0: ${newString.newNote}`
     );
   return newString;
 };
 export const findNotesToTranspone = function (strings) {
   const transponeStrings = [];
   for (let i = 0; i < strings.length; i++) {
-    if (isTransponeToOtherStingNeeded(strings[i])) {
-      const stringsIndexes = findNotesIndexes(strings[i]);
-      stringsIndexes.forEach((noteIndex) => {
-        if (strings[i][noteIndex] < 0) {
-          transponeStrings.push({
-            stringId: i,
-            noteIndex: noteIndex,
-            string: strings[i],
-          });
-        }
-      });
-    }
+    const stringsIndexes = findNotesIndexes(strings[i]);
+    stringsIndexes.forEach((noteIndex) => {
+      if (strings[i][noteIndex] < 0) {
+        transponeStrings.push({
+          stringId: i,
+          noteIndex: noteIndex,
+          string: strings[i],
+        });
+      }
+    });
   }
   return transponeStrings;
 };
 
 export const transpone = function (guitarTab) {
   const notesToTransform = findNotesToTranspone(guitarTab);
-  //stringNumber, note, noteIndex
   const transponeData = [];
   notesToTransform.forEach((note) => {
-    let data = findNoteOnOtherString(
-      note.stringId,
-      note.string[note.noteIndex],
-      note.noteIndex
-    );
+    let noteValue = note.string[note.noteIndex];
+    let data = findNoteOnOtherString(note.stringId, noteValue, note.noteIndex);
     transponeData.push(data);
   });
   transponeData.forEach((data) => {
+    console.log(`DATA`, data);
+    console.log(`STRING TO MOVE`, data.stringToMove);
+    console.log(`TAB`, guitarTab);
+    console.log(`TAB`, guitarTab[data.stringToMove]);
+    console.log(`WTF`, guitarTab[data.stringToMove][data.noteIndex]);
     if (typeof guitarTab[data.stringToMove][data.noteIndex] !== "number") {
       guitarTab[data.string].splice(data.noteIndex, 1, "-");
       guitarTab[data.stringToMove].splice(data.noteIndex, 1, data.newNote);
     } else
       Error(`Position ${data.stringToMove}:${data.noteIndex} already taken!`);
   });
-  const transponedTab = [];
-  for (let i = 0; i < 4; i++) {
-    transponedTab.push(guitarTab[i]);
-  }
-  console.log(`AFTER TRANSPOSE`, transponedTab);
-  return transponedTab;
+  let result = cutAdditionalStrings(guitarTab);
+  return result;
 };

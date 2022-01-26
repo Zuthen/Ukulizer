@@ -163,10 +163,19 @@ describe("strings operations tests", () => {
     // Arrange
     const inputs = [
       {
-        string: ["A", "|", "-", -1, "-", -5, "-", 4, "-", "|"],
+        string: [
+          ["A", "|", "-", -1, "-", -5, "-", 4, "-", "|"],
+          ["A", "|", "-", -1, "-", -5, "-", 4, "-", "|"],
+        ],
         expectedResult: true,
       },
-      { string: ["C", "|", "-", 12, "-", 13, "-", "|"], expectedResult: false },
+      {
+        string: [
+          ["C", "|", "-", 12, "-", 13, "-", "|"],
+          ["C", "|", "-", 12, "-", 13, "-", "|"],
+        ],
+        expectedResult: false,
+      },
     ];
     inputs.forEach((input) => {
       // Act

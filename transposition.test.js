@@ -77,7 +77,8 @@ describe("transposition", () => {
     ];
 
     // Act
-    const result = transpone(tabToTranspone);
+
+    let result = transpone(tabToTranspone);
     // Assert
     expect(result.length).toStrictEqual(4);
     expect(result).toStrictEqual(transponedTab);

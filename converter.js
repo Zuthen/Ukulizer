@@ -9,9 +9,10 @@ import {
   cutAdditionalStrings,
   isTransponeToOtherStingNeeded,
 } from "./strings.js";
-import { findNotesToTranspone } from "./transposition.js";
+import { findNotesToTranspone, transpone } from "./transposition.js";
 
 export const convert = function (guitarTab) {
+  ebgdBasicConvert(guitarTab);
   if (hasNotesOnAEstrings(guitarTab)) {
     console.error(
       `Not implemented convertion for tabs with notes on A and E strings`
@@ -20,15 +21,12 @@ export const convert = function (guitarTab) {
       `Not implemented convertion for tabs with notes on A and E strings`
     );
   } else {
-    const cutStrings = cutAdditionalStrings(guitarTab);
-    ebgdBasicConvert(cutStrings);
-    const moveToOtherString = isTransponeToOtherStingNeeded(cutStrings);
+    const moveToOtherString = isTransponeToOtherStingNeeded(guitarTab);
     if (moveToOtherString) {
-      findNotesToTranspone(cutStrings);
-      // transpone
-    }
-    removeRedunantDashes(cutStrings);
-    changeStringNames(cutStrings);
-    return cutStrings;
+      transpone(guitarTab);
+    } else cutAdditionalStrings(guitarTab);
+    removeRedunantDashes(guitarTab);
+    changeStringNames(guitarTab);
+    return guitarTab;
   }
 };

@@ -75,7 +75,6 @@ export const removeRedunantDashes = function (strings) {
 
   adjustEnd(strings);
   adjustStart(strings);
-  return strings;
 };
 
 const lengthDifference = function (length, number) {
@@ -127,11 +126,14 @@ const splitArrayByChar = function (array) {
   return Array.from(array);
 };
 
-export const isTransponeToOtherStingNeeded = function (string) {
-  const allStringNotes = findNotesIndexes(string);
+export const isTransponeToOtherStingNeeded = function (strings) {
   let result = false;
-  allStringNotes.forEach((noteIndex) => {
-    if (string[noteIndex] < 0) result = true;
+  strings.forEach((string) => {
+    const allStringNotes = findNotesIndexes(string);
+
+    allStringNotes.forEach((noteIndex) => {
+      if (string[noteIndex] < 0) result = true;
+    });
   });
   return result;
 };
@@ -144,7 +146,6 @@ export const prepareForConvert = function (tabLines, stringNames) {
     mergeNumbers(strings[i]);
     convertToNumber(strings[i]);
   }
-  console.log(`prepareForConvert`, strings);
   return strings;
 };
 
@@ -153,5 +154,5 @@ export const cutAdditionalStrings = function (tablines) {
   for (let i = 0; i < 4; i++) {
     returnTablines.push(tablines[i]);
   }
-  return returnTablines;
+  return (tablines = returnTablines);
 };
