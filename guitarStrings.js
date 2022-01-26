@@ -26,11 +26,3 @@ export const changeStringNames = function (convertedTabSplittedByNotes) {
   convertedTabSplittedByNotes[2][0] = "C";
   convertedTabSplittedByNotes[3][0] = "G";
 };
-
-export const hasNotesOnAEstrings = function (tabLines) {
-  const aStringNotes = findNotesIndexes(tabLines[4]);
-  const eStringNotes = findNotesIndexes(tabLines[5]);
-  if (aStringNotes.length !== 0) return true;
-  else if (eStringNotes.length !== 0) return true;
-  else return false;
-};
