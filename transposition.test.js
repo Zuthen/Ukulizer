@@ -1,4 +1,8 @@
-import { findNoteOnOtherString, transpone } from "./transposition.js";
+import {
+  findNoteOnOtherString,
+  transpone,
+  validateTransponeResult,
+} from "./transposition.js";
 describe("transposition", () => {
   const testData = [
     {
@@ -82,5 +86,64 @@ describe("transposition", () => {
     // Assert
     expect(result.length).toStrictEqual(4);
     expect(result).toStrictEqual(transponedTab);
+  });
+  test("validate transpone result", () => {
+    // Arrange
+    const stringWithoutNotesBelowZero = ["G", "|", "-", 2, "-", 0, "-", 3];
+    const stringWithNotesBelowZero = ["G", "|", "-", 6, "-", -1, "-", "-"];
+    const testcases = [
+      {
+        input: [
+          stringWithNotesBelowZero,
+          stringWithoutNotesBelowZero,
+          stringWithoutNotesBelowZero,
+          stringWithoutNotesBelowZero,
+        ],
+        expectedResult: false,
+      },
+      {
+        input: [
+          stringWithoutNotesBelowZero,
+          stringWithNotesBelowZero,
+          stringWithoutNotesBelowZero,
+          stringWithoutNotesBelowZero,
+        ],
+        expectedResult: false,
+      },
+      {
+        input: [
+          stringWithoutNotesBelowZero,
+          stringWithoutNotesBelowZero,
+          stringWithNotesBelowZero,
+          stringWithoutNotesBelowZero,
+        ],
+        expectedResult: false,
+      },
+      {
+        input: [
+          stringWithoutNotesBelowZero,
+          stringWithoutNotesBelowZero,
+          stringWithoutNotesBelowZero,
+          stringWithNotesBelowZero,
+        ],
+        expectedResult: false,
+      },
+      {
+        input: [
+          stringWithoutNotesBelowZero,
+          stringWithoutNotesBelowZero,
+          stringWithoutNotesBelowZero,
+          stringWithoutNotesBelowZero,
+        ],
+        expectedResult: true,
+      },
+    ];
+
+    testcases.forEach((testcase) => {
+      // Act
+      const valid = validateTransponeResult(testcase.input);
+      // Assert
+      expect(valid).toBe(testcase.expectedResult);
+    });
   });
 });

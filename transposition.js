@@ -64,3 +64,14 @@ export const transpone = function (guitarTab) {
   let result = cutAdditionalStrings(guitarTab);
   return result;
 };
+
+export const validateTransponeResult = function (ukuleleTab) {
+  let result = true;
+  ukuleleTab.forEach((string) => {
+    const notesIndexes = findNotesIndexes(string);
+    notesIndexes.forEach((noteIndex) => {
+      if (string[noteIndex] < 0) result = false;
+    });
+  });
+  return result;
+};

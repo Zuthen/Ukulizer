@@ -28,6 +28,7 @@ export const convert = function (guitarTab) {
     } else result = cutAdditionalStrings(guitarTab);
     removeRedunantDashes(result);
     changeStringNames(result);
+    validateTransponeResult(result);
     return result;
   }
 };
