@@ -4,6 +4,7 @@ import {
   findNotesIndexes,
   cutAdditionalStrings,
 } from "./strings.js";
+import { ebgdBasicConvert } from "./guitarStrings.js";
 
 export const findNoteOnOtherString = function (stringNumber, note, noteIndex) {
   const stringMap = [
@@ -31,16 +32,27 @@ export const findNoteOnOtherString = function (stringNumber, note, noteIndex) {
 };
 export const findNotesToTranspone = function (strings) {
   const transponeStrings = [];
-  for (let i = 0; i < strings.length; i++) {
+  for (let i = 0; i < 4; i++) {
     const stringsIndexes = findNotesIndexes(strings[i]);
     stringsIndexes.forEach((noteIndex) => {
-      if (strings[i][noteIndex] < 0) {
+      if (strings[i][noteIndex] < 5) {
         transponeStrings.push({
           stringId: i,
           noteIndex: noteIndex,
           string: strings[i],
         });
       }
+    });
+  }
+  for (let i = 4; i < 6; i++) {
+    const notesIndexes = findNotesIndexes(strings[i]);
+    notesIndexes.forEach((noteIndex) => {
+      if (typeof strings[i][noteIndex] === "number")
+        transponeStrings.push({
+          stringId: i,
+          noteIndex: noteIndex,
+          string: strings[i],
+        });
     });
   }
   return transponeStrings;
@@ -61,6 +73,7 @@ export const transpone = function (guitarTab) {
     } else
       Error(`Position ${data.stringToMove}:${data.noteIndex} already taken!`);
   });
+  ebgdBasicConvert(guitarTab);
   let result = cutAdditionalStrings(guitarTab);
   return result;
 };

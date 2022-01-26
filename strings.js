@@ -128,13 +128,18 @@ const splitArrayByChar = function (array) {
 
 export const isTransponeToOtherStingNeeded = function (strings) {
   let result = false;
-  strings.forEach((string) => {
-    const allStringNotes = findNotesIndexes(string);
-
-    allStringNotes.forEach((noteIndex) => {
-      if (string[noteIndex] < 0) result = true;
+  let aeNotesIndexes = findNotesIndexes(strings[4]).concat(
+    findNotesIndexes(strings[5])
+  );
+  if (aeNotesIndexes.length > 0) return (result = true);
+  else {
+    strings.forEach((string) => {
+      const allStringNotes = findNotesIndexes(string);
+      allStringNotes.forEach((noteIndex) => {
+        if (string[noteIndex] < 0) result = true;
+      });
     });
-  });
+  }
   return result;
 };
 

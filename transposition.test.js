@@ -68,10 +68,10 @@ describe("transposition", () => {
       aString,
       e1String,
     ];
-    const eStringConverted = ["e", "|", 0, "-", "-", "-", "-", "-"];
-    const bStringConverted = ["B", "|", "-", "-", 4, "-", "-", 0];
-    const gStringConverted = ["G", "|", "-", 2, "-", 0, "-", "-"];
-    const dStringConverted = ["D", "|", "-", "-", "-", "-", 1, "-"];
+    const eStringConverted = ["e", "|", -5, "-", "-", "-", "-", "-"];
+    const bStringConverted = ["B", "|", "-", "-", -1, "-", "-", -5];
+    const gStringConverted = ["G", "|", "-", -3, "-", -5, "-", "-"];
+    const dStringConverted = ["D", "|", "-", "-", "-", "-", -4, "-"];
 
     const transponedTab = [
       eStringConverted,
