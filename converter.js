@@ -6,9 +6,11 @@ import {
   isTransponeToOtherStingNeeded,
 } from "./strings.js";
 import { validateTransponeResult, transpone } from "./transposition.js";
+import { ebgdBasicConvert } from "./guitarStrings.js";
 
 export const convert = function (guitarTab) {
   let result = [];
+  ebgdBasicConvert(guitarTab);
   const moveToOtherString = isTransponeToOtherStingNeeded(guitarTab);
   if (moveToOtherString) {
     result = transpone(guitarTab);
