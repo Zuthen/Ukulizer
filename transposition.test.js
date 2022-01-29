@@ -5,21 +5,6 @@ import {
 } from "./transposition.js";
 describe("transposition", () => {
   test("find note on other string", () => {
-    // [
-    // { goDown: { stringIndex: 1, noteDifference: +5 } },
-    // {
-    //   goUp: { stringIndex: 0, noteDifference: -5 },
-    //   goDown: { stringIndex: 2, noteDifference: +4 },
-    // },
-    // {
-    //   goUp: { stringIndex: 1, noteDifference: -4 },
-    //   goDown: { stringIndex: 3, noteDifference: +5 },
-    // },
-    // { goUp: { stringIndex: 2, noteDifference: -5 } },
-    // { goUp: { stringIndex: 3, noteDifference: -5 } },
-    // { goUp: { stringIndex: 3, noteDifference: -10 } },
-    // ];
-
     const testData = [
       {
         string: 0,
@@ -40,6 +25,64 @@ describe("transposition", () => {
           { string: 0, noteIndex: 8, stringToMove: 2, newNote: 8 },
           { string: 0, noteIndex: 8, stringToMove: 3, newNote: 13 },
         ],
+      },
+      {
+        string: 1,
+        note: -6,
+        noteIndex: 3,
+        expectedResult: [
+          { string: 1, noteIndex: 3, stringToMove: 3, newNote: 3 },
+        ],
+      },
+      {
+        string: 2,
+        note: -8,
+        noteIndex: 7,
+        expectedResult: [],
+      },
+      {
+        string: 2,
+        note: -1,
+        noteIndex: 5,
+        expectedResult: [
+          { string: 2, noteIndex: 5, stringToMove: 3, newNote: 4 },
+        ],
+      },
+      {
+        string: 3,
+        note: -3,
+        noteIndex: 9,
+        expectedResult: [],
+      },
+      {
+        string: 4,
+        note: -1,
+        noteIndex: 6,
+        expectedResult: [],
+      },
+      {
+        string: 4,
+        note: 12,
+        noteIndex: 7,
+        expectedResult: [
+          { string: 4, noteIndex: 7, stringToMove: 3, newNote: 7 },
+          { string: 4, noteIndex: 7, stringToMove: 2, newNote: 2 },
+        ],
+      },
+      {
+        string: 5,
+        note: 18,
+        noteIndex: 3,
+        expectedResult: [
+          { string: 5, noteIndex: 3, stringToMove: 3, newNote: 8 },
+          { string: 5, noteIndex: 3, stringToMove: 2, newNote: 3 },
+        ],
+      },
+      {
+        string: 5,
+        note: -1,
+        noteIndex: 6,
+        expectedResult: [],
       },
     ];
     // każda struna >> każdy sukces >> każdy error

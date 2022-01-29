@@ -51,12 +51,10 @@ export const findNoteOnOtherString = function (stringNumber, note, noteIndex) {
   ) {
     let currentNote = note;
     let currentStringMap = stringMap[stringNumber];
-    while (
-      currentNote + currentStringMap.goUp.noteDifference >= 0 &&
-      currentStringMap.goUp !== undefined
-    ) {
-      addToNewNotes(currentNote, currentStringMap.goUp);
-      if (stringMap[currentStringMap.goUp] === undefined) break;
+    while (currentStringMap.goUp !== undefined) {
+      if (currentNote + currentStringMap.goUp.noteDifference >= 0)
+        addToNewNotes(currentNote, currentStringMap.goUp);
+      if (stringMap[currentStringMap.goUp.stringIndex] === undefined) break;
       currentNote += currentStringMap.goUp.noteDifference;
       currentStringMap = stringMap[currentStringMap.goUp.stringIndex];
     }
