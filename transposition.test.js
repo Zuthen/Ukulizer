@@ -1,7 +1,7 @@
 import {
   findNoteOnOtherString,
-  transpone,
-  validateTransponeResult,
+  transpose as transpose,
+  validateTransposeResult,
 } from "./transposition.js";
 describe("transposition", () => {
   test("find note on other string", () => {
@@ -96,15 +96,15 @@ describe("transposition", () => {
       expect(result).toStrictEqual(data.expectedResult);
     });
   });
-  test("transpone", () => {
+  test("transpose", () => {
     // Arrange
     const eString = ["e", "|", "-", "-", -1, "-", "-", "-"];
     const bString = ["B", "|", "-", -2, "-", "-", "-", "-"];
     const gString = ["G", "|", -3, "-", "-", "-", "-", "-"];
-    const dString = ["D", "|", "-", "-", "-", "-", "-", -3];
-    const aString = ["A", "|", "-", "-", "-", -2, "-", "-"];
-    const e1String = ["E", "|", "-", "-", "-", "-", -1, "-"];
-    const tabToTranspone = [
+    const dString = ["D", "|", "-", "-", "-", "-", "-", 12];
+    const aString = ["A", "|", "-", "-", "-", 10, "-", "-"];
+    const e1String = ["E", "|", "-", "-", "-", "-", 11, "-"];
+    const tabToTranspose = [
       eString,
       bString,
       gString,
@@ -112,12 +112,12 @@ describe("transposition", () => {
       aString,
       e1String,
     ];
-    const eStringConverted = ["e", "|", -5, "-", "-", "-", "-", "-"];
-    const bStringConverted = ["B", "|", "-", "-", -1, "-", "-", -5];
-    const gStringConverted = ["G", "|", "-", -3, "-", -5, "-", "-"];
-    const dStringConverted = ["D", "|", "-", "-", "-", "-", -4, "-"];
+    const eStringConverted = ["e", "|", "-", "-", "-", "-", "-", "-"];
+    const bStringConverted = ["B", "|", "-", "-", 4, "-", "-", "-"];
+    const gStringConverted = ["G", "|", "-", 2, "-", "-", "-", "-"];
+    const dStringConverted = ["D", "|", 2, "-", "-", 5, 1, 12];
 
-    const transponedTab = [
+    const transposedTab = [
       eStringConverted,
       bStringConverted,
       gStringConverted,
@@ -126,12 +126,12 @@ describe("transposition", () => {
 
     // Act
 
-    let result = transpone(tabToTranspone);
+    let result = transpose(tabToTranspose);
     // Assert
-    expect(result.length).toStrictEqual(4);
-    expect(result).toStrictEqual(transponedTab);
+    //expect(result.length).toStrictEqual(4);
+    expect(result).toStrictEqual(transposedTab);
   });
-  test("validate transpone result", () => {
+  test("validate transpose result", () => {
     // Arrange
     const stringWithoutNotesBelowZero = ["G", "|", "-", 2, "-", 0, "-", 3];
     const stringWithNotesBelowZero = ["G", "|", "-", 6, "-", -1, "-", "-"];
@@ -185,7 +185,7 @@ describe("transposition", () => {
 
     testcases.forEach((testcase) => {
       // Act
-      const valid = validateTransponeResult(testcase.input);
+      const valid = validateTransposeResult(testcase.input);
       // Assert
       expect(valid).toBe(testcase.expectedResult);
     });

@@ -1,7 +1,5 @@
 "use strict";
 import { findNotesIndexes, cutAdditionalStrings } from "./strings.js";
-import { ebgdBasicConvert } from "./guitarStrings.js";
-
 /*
   MAP
   UKULELE low g: 
@@ -77,13 +75,13 @@ export const findNoteOnOtherString = function (stringNumber, note, noteIndex) {
   }
   return newNotes;
 };
-export const findNotesToTranspone = function (strings) {
-  const transponeStrings = [];
+export const findNotesToTranspose = function (strings) {
+  const transposeStrings = [];
   for (let i = 0; i < 4; i++) {
     const stringsIndexes = findNotesIndexes(strings[i]);
     stringsIndexes.forEach((noteIndex) => {
       if (strings[i][noteIndex] < 0) {
-        transponeStrings.push({
+        transposeStrings.push({
           stringId: i,
           noteIndex: noteIndex,
           string: strings[i],
@@ -95,37 +93,64 @@ export const findNotesToTranspone = function (strings) {
     const notesIndexes = findNotesIndexes(strings[i]);
     notesIndexes.forEach((noteIndex) => {
       if (typeof strings[i][noteIndex] === "number")
-        transponeStrings.push({
+        transposeStrings.push({
           stringId: i,
           noteIndex: noteIndex,
           string: strings[i],
         });
     });
   }
-  return transponeStrings;
+  return transposeStrings;
 };
 
-export const transpone = function (guitarTab) {
-  const notesToTransform = findNotesToTranspone(guitarTab);
-  const transponeData = [];
+export const transpose = function (guitarTab) {
+  const notesToTransform = findNotesToTranspose(guitarTab);
+  const transposeData = [];
   notesToTransform.forEach((note) => {
     let noteValue = note.string[note.noteIndex];
     let data = findNoteOnOtherString(note.stringId, noteValue, note.noteIndex);
-    transponeData.push(data);
+    transposeData.push(data);
   });
-  transponeData.forEach((data) => {
-    if (typeof guitarTab[data.stringToMove][data.noteIndex] !== "number") {
-      guitarTab[data.string].splice(data.noteIndex, 1, "-");
-      guitarTab[data.stringToMove].splice(data.noteIndex, 1, data.newNote);
-    } else
-      Error(`Position ${data.stringToMove}:${data.noteIndex} already taken!`);
+  const isArrayElementNumber = function (array, arrayRow, arrayIndex) {
+    return typeof array[arrayRow][arrayIndex] === "number" ? true : false;
+  };
+  const moveToOtherString = function (guitarTab, transposeDataForOneNote) {
+    let movedSuccesfully = false;
+    for (let i = 0; i < transposeDataForOneNote.length; i++) {
+      if (
+        !isArrayElementNumber(
+          guitarTab,
+          transposeDataForOneNote[i].stringToMove,
+          transposeDataForOneNote[i].noteIndex
+        )
+      ) {
+        guitarTab[transposeDataForOneNote[i].string].splice(
+          transposeDataForOneNote[i].noteIndex,
+          1,
+          "-"
+        );
+        guitarTab[transposeDataForOneNote[i].stringToMove].splice(
+          transposeDataForOneNote[i].noteIndex,
+          1,
+          transposeDataForOneNote[i].newNote
+        );
+        movedSuccesfully = true;
+        break;
+      }
+    }
+    return movedSuccesfully;
+  };
+  const transposeSucceded = [];
+  transposeData.forEach((data) => {
+    transposeSucceded.push(moveToOtherString(guitarTab, data));
   });
-  ebgdBasicConvert(guitarTab);
-  let result = cutAdditionalStrings(guitarTab);
-  return result;
+  if (!transposeSucceded.includes(false)) {
+    const result = cutAdditionalStrings(guitarTab);
+    return result;
+  } else return Error(`Transpose to next octave needed`);
 };
 
-export const validateTransponeResult = function (ukuleleTab) {
+export const validateTransposeResult = function (ukuleleTab) {
   let result = true;
   ukuleleTab.forEach((string) => {
     const notesIndexes = findNotesIndexes(string);

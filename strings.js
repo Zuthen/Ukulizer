@@ -126,7 +126,7 @@ const splitArrayByChar = function (array) {
   return Array.from(array);
 };
 
-export const isTransponeToOtherStingNeeded = function (strings) {
+export const isTransposeToOtherStingNeeded = function (strings) {
   let result = false;
   let aeNotesIndexes = findNotesIndexes(strings[4]).concat(
     findNotesIndexes(strings[5])
