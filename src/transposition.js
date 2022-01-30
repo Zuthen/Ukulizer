@@ -1,5 +1,6 @@
 "use strict";
 import { findNotesIndexes, cutAdditionalStrings } from "./strings.js";
+import { ukuleleBasicOctaveTranspose } from "./ukuleleStrings.js";
 /*
   MAP
   UKULELE low g: 
@@ -158,6 +159,12 @@ export const transpose = function (guitarTab) {
   } else return Error(`Transpose to next octave needed`);
 };
 
+export const transposeOctave = function (ukuleleTab) {
+  ukuleleBasicOctaveTranspose(ukuleleTab);
+  const ukuleleFretLength = 18; // might be configurable in the future
+  // checkIfMoveToOtherStringNeeded using ukuleleFretLength
+  // moveIfNeeded
+};
 // TODO: transpose to next octave
 // TODO: transpose to high G ukulele
 // TODO: fix dashes ending
