@@ -3,7 +3,7 @@ import {
   mergeNumbers,
   convertToNumber,
   isTransposeToOtherStingNeeded,
-} from "./strings.js";
+} from "../src/strings";
 
 //node --experimental-vm-modules node_modules/jest/bin/jest.js
 

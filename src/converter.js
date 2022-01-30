@@ -13,7 +13,6 @@ export const convert = function (guitarTab) {
   ebgdBasicConvert(guitarTab);
   const moveToOtherString = isTransposeToOtherStingNeeded(guitarTab);
   if (moveToOtherString) {
-    // jeżeli nuta na strunie 0 < 0 przesuń o oktawę!!
     result = transpose(guitarTab);
   } else result = cutAdditionalStrings(guitarTab);
   removeRedunantDashes(result);

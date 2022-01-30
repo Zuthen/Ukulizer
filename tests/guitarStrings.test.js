@@ -1,5 +1,5 @@
 "use strict";
-import { splitGuitarTabByStrings } from "./guitarStrings.js";
+import { splitGuitarTabByStrings } from "../src/guitarStrings";
 //node --experimental-vm-modules node_modules/jest/bin/jest.js
 describe("Splitting guitar tab tests", () => {
   test("split guitar tabs to tablines", () => {

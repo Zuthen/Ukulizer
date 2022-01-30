@@ -1,7 +1,7 @@
 import {
   findNoteOnOtherString,
   transpose as transpose,
-} from "./transposition.js";
+} from "../src/transposition";
 describe("transposition", () => {
   test("find note on other string", () => {
     const testData = [
@@ -128,32 +128,5 @@ describe("transposition", () => {
     // Assert
     expect(result.length).toStrictEqual(4);
     expect(result).toStrictEqual(transposedTab);
-  });
-  test("transpose twice because the first time some notes change their position and other might be moved there", () => {
-    const eString = ["e", "|", "-", "-", -1, "-", "-", "-"];
-    const bString = ["B", "|", "-", -2, "-", "-", "-", "-"];
-    const gString = ["G", "|", -3, "-", "-", "-", "-", "-"];
-    const dString = ["D", "|", "-", "-", "-", "-", "-", 12];
-    const aString = ["A", "|", "-", "-", "-", 10, "-", "-"];
-    const e1String = ["E", "|", "-", "-", "-", "-", 11, "-"];
-    const tabToTranspose = [
-      eString,
-      bString,
-      gString,
-      dString,
-      aString,
-      e1String,
-    ];
-    const eStringConverted = ["e", "|", "-", "-", "-", "-", "-", "-"];
-    const bStringConverted = ["B", "|", "-", "-", 4, "-", "-", "-"];
-    const gStringConverted = ["G", "|", "-", 2, "-", "-", "-", "-"];
-    const dStringConverted = ["D", "|", 2, "-", "-", 5, 1, 12];
-
-    const transposedTab = [
-      eStringConverted,
-      bStringConverted,
-      gStringConverted,
-      dStringConverted,
-    ];
   });
 });

@@ -77,7 +77,7 @@ export const findNoteOnOtherString = function (stringNumber, note, noteIndex) {
 };
 export const findNotesToTranspose = function (strings) {
   const transposeStrings = [];
-  for (let i = 0; i < 4; i++) {
+  for (let i = 3; i >= 0; i--) {
     const stringsIndexes = findNotesIndexes(strings[i]);
     stringsIndexes.forEach((noteIndex) => {
       if (strings[i][noteIndex] < 0) {
@@ -102,45 +102,53 @@ export const findNotesToTranspose = function (strings) {
   }
   return transposeStrings;
 };
+const isArrayElementNumber = function (array, arrayRow, arrayIndex) {
+  return typeof array[arrayRow][arrayIndex] === "number" ? true : false;
+};
 
-export const transpose = function (guitarTab) {
-  const notesToTransform = findNotesToTranspose(guitarTab);
-  const transposeData = [];
-  notesToTransform.forEach((note) => {
-    let noteValue = note.string[note.noteIndex];
-    let data = findNoteOnOtherString(note.stringId, noteValue, note.noteIndex);
-    transposeData.push(data);
-  });
-  const isArrayElementNumber = function (array, arrayRow, arrayIndex) {
-    return typeof array[arrayRow][arrayIndex] === "number" ? true : false;
-  };
-  const moveToOtherString = function (guitarTab, transposeDataForOneNote) {
-    let movedSuccesfully = false;
-    for (let i = 0; i < transposeDataForOneNote.length; i++) {
-      if (
-        !isArrayElementNumber(
-          guitarTab,
-          transposeDataForOneNote[i].stringToMove,
-          transposeDataForOneNote[i].noteIndex
-        )
-      ) {
-        guitarTab[transposeDataForOneNote[i].string].splice(
-          transposeDataForOneNote[i].noteIndex,
-          1,
-          "-"
-        );
-        guitarTab[transposeDataForOneNote[i].stringToMove].splice(
-          transposeDataForOneNote[i].noteIndex,
-          1,
-          transposeDataForOneNote[i].newNote
-        );
-        movedSuccesfully = true;
-        break;
-      }
+const moveToOtherString = function (guitarTab, transposeDataForOneNote) {
+  let movedSuccesfully = false;
+  for (let i = 0; i < transposeDataForOneNote.length; i++) {
+    if (
+      !isArrayElementNumber(
+        guitarTab,
+        transposeDataForOneNote[i].stringToMove,
+        transposeDataForOneNote[i].noteIndex
+      )
+    ) {
+      guitarTab[transposeDataForOneNote[i].string].splice(
+        transposeDataForOneNote[i].noteIndex,
+        1,
+        "-"
+      );
+      guitarTab[transposeDataForOneNote[i].stringToMove].splice(
+        transposeDataForOneNote[i].noteIndex,
+        1,
+        transposeDataForOneNote[i].newNote
+      );
+      movedSuccesfully = true;
+      break;
     }
-    return movedSuccesfully;
+  }
+  return movedSuccesfully;
+};
+export const transpose = function (guitarTab) {
+  const findNotesOnOtherString = function (notesToTransform) {
+    const transposeData = [];
+    notesToTransform.forEach((note) => {
+      let noteValue = note.string[note.noteIndex];
+      let data = findNoteOnOtherString(
+        note.stringId,
+        noteValue,
+        note.noteIndex
+      );
+      transposeData.push(data);
+    });
+    return transposeData;
   };
+  const notesToTransform = findNotesToTranspose(guitarTab);
   const transposeSucceded = [];
+  const transposeData = findNotesOnOtherString(notesToTransform);
   transposeData.forEach((data) => {
     transposeSucceded.push(moveToOtherString(guitarTab, data));
   });
@@ -149,3 +157,9 @@ export const transpose = function (guitarTab) {
     return result;
   } else return Error(`Transpose to next octave needed`);
 };
+
+// TODO: transpose to next octave
+// TODO: transpose to high G ukulele
+// TODO: fix dashes ending
+// TODO: fretLength as parameter
+// TODO: export to pdf with song and author name

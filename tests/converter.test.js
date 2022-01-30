@@ -1,5 +1,5 @@
 "use strict";
-import { convert } from "./converter.js";
+import { convert } from "../src/converter";
 
 describe("Converter tests", () => {
   const stringWithNotes = ["G", "|", "-", "-", 7, "-", 12, "-"];
