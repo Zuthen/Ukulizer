@@ -1,5 +1,6 @@
 import {
   findNoteOnOtherString,
+  findNotesToTransposeAfterOctaveTranspose,
   transpose as transpose,
 } from "../src/transposition";
 describe("transposition", () => {
@@ -128,5 +129,26 @@ describe("transposition", () => {
     // Assert
     expect(result.length).toStrictEqual(4);
     expect(result).toStrictEqual(transposedTab);
+  });
+  test("find notes to transpose after octave transpose", () => {
+    // Arrange
+    const aString = ["A", "|", "-", 10, "-", 14];
+    const eString = ["E", "|", "-", 11, "-", "-"];
+    const cString = ["C", "|", "-", 12, "-", 1];
+    const gString = ["G", "|", "-", 13, "-", 11];
+    const strings = [aString, eString, cString, gString];
+    const ukuleleFretLength = 12;
+
+    const expectedResult = [
+      { stringId: 3, noteIndex: 3, string: gString },
+      { stringId: 0, noteIndex: 5, string: aString },
+    ];
+    // Act
+    const result = findNotesToTransposeAfterOctaveTranspose(
+      strings,
+      ukuleleFretLength
+    );
+    // Assert
+    expect(result).toStrictEqual(expectedResult);
   });
 });

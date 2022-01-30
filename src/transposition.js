@@ -79,7 +79,7 @@ export const findNoteOnOtherString = function (stringNumber, note, noteIndex) {
 export const findNotesToTranspose = function (strings) {
   const transposeStrings = [];
   for (let i = 3; i >= 0; i--) {
-    const stringsIndexes = findNotesIndexes(strings[i]);
+    let stringsIndexes = findNotesIndexes(strings[i]);
     stringsIndexes.forEach((noteIndex) => {
       if (strings[i][noteIndex] < 0) {
         transposeStrings.push({
@@ -91,7 +91,7 @@ export const findNotesToTranspose = function (strings) {
     });
   }
   for (let i = 4; i < 6; i++) {
-    const notesIndexes = findNotesIndexes(strings[i]);
+    let notesIndexes = findNotesIndexes(strings[i]);
     notesIndexes.forEach((noteIndex) => {
       if (typeof strings[i][noteIndex] === "number")
         transposeStrings.push({
@@ -158,10 +158,42 @@ export const transpose = function (guitarTab) {
     return result;
   } else return Error(`Transpose to next octave needed`);
 };
-
+export const findNotesToTransposeAfterOctaveTranspose = function (
+  strings,
+  ukuleleFretLength
+) {
+  const transposeStrings = [];
+  for (let i = 3; i >= 0; i--) {
+    let stringsIndexes = findNotesIndexes(strings[i]);
+    stringsIndexes.forEach((noteIndex) => {
+      if (strings[i][noteIndex] > ukuleleFretLength) {
+        transposeStrings.push({
+          stringId: i,
+          noteIndex: noteIndex,
+          string: strings[i],
+        });
+      }
+    });
+  }
+  return transposeStrings;
+};
 export const transposeOctave = function (ukuleleTab) {
   ukuleleBasicOctaveTranspose(ukuleleTab);
   const ukuleleFretLength = 18; // might be configurable in the future
+  const moveToOtherStrings = isTransposeToOtherStingNeededAfterOctaveTranspose(
+    ukuleleTab,
+    ukuleleFretLength
+  );
+  if (moveToOtherStrings) {
+    const notesToTranspose = findNotesToTransposeAfterOctaveTranspose(
+      ukuleleTab,
+      ukuleleFretLength
+    );
+    notesToTranspose.forEach((note) => {
+      // TODO:
+    });
+  }
+
   // checkIfMoveToOtherStringNeeded using ukuleleFretLength
   // moveIfNeeded
 };
