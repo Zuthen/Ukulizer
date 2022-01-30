@@ -5,10 +5,7 @@ import {
   cutAdditionalStrings,
   isTransposeToOtherStingNeeded,
 } from "./strings.js";
-import {
-  validateTransposeResult,
-  transpose as transpose,
-} from "./transposition.js";
+import { transpose as transpose } from "./transposition.js";
 import { ebgdBasicConvert } from "./guitarStrings.js";
 
 export const convert = function (guitarTab) {
@@ -21,6 +18,5 @@ export const convert = function (guitarTab) {
   } else result = cutAdditionalStrings(guitarTab);
   removeRedunantDashes(result);
   changeStringNames(result);
-  validateTransposeResult(result);
   return result;
 };

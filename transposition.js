@@ -149,14 +149,3 @@ export const transpose = function (guitarTab) {
     return result;
   } else return Error(`Transpose to next octave needed`);
 };
-
-export const validateTransposeResult = function (ukuleleTab) {
-  let result = true;
-  ukuleleTab.forEach((string) => {
-    const notesIndexes = findNotesIndexes(string);
-    notesIndexes.forEach((noteIndex) => {
-      if (string[noteIndex] < 0) result = false;
-    });
-  });
-  return result;
-};
