@@ -135,9 +135,9 @@ export const isTransposeToOtherStingNeeded = function (strings) {
   return result;
 };
 
-export const prepareForConvert = function (tabLines, stringNames) {
+export const prepareForConvert = function (tabLines) {
   const strings = [];
-  for (let i = 0; i < stringNames.length; i++) {
+  for (let i = 0; i < tabLines.length; i++) {
     strings[i] = Array.from(tabLines[i]);
     mergeNumbers(strings[i]);
     convertToNumber(strings[i]);

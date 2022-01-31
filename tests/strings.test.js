@@ -4,6 +4,7 @@ import {
   convertToNumber,
   isTransposeToOtherStingNeeded,
   removeAllAsterisks,
+  prepareForConvert,
 } from "../src/strings";
 
 //node --experimental-vm-modules node_modules/jest/bin/jest.js
@@ -225,7 +226,18 @@ describe("strings operations tests", () => {
     expect(removedIndexes).toStrictEqual([3, 5]);
     expect(input).toStrictEqual(expectedResult);
   });
-  test("splitArrayByChar", () => {});
+  test("prepare for convert", () => {
+    // Arrange
+    const input = ["A|-12--1--8-|", "E|-6--17---|"];
+    const expectedResult = [
+      ["A", "|", "-", 12, "*", "-", "-", 1, "-", "-", 8, "-", "|"],
+      ["E", "|", "-", 6, "-", "-", 17, "*", "-", "-", "-", "|"],
+    ];
+    // Act
+    const result = prepareForConvert(input);
+    // Assert
+    expect(result).toStrictEqual(expectedResult);
+  });
   //TODO: adjustEnd
   //TODO: prepareForConvert
 });

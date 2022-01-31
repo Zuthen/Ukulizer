@@ -7,7 +7,6 @@ import { convert } from "./converter.js";
 
 const convertButton = document.getElementById("convert");
 let tabInputText;
-const guitarStringNames = ["e", "B", "G", "D", "A", "E"];
 const lowGResultTable = document.getElementById("lowGResult");
 
 function init() {
@@ -23,7 +22,7 @@ init();
 convertButton.addEventListener("click", function () {
   tabInputText = document.getElementById("guitar-tab").value;
   const strings = splitGuitarTabByStrings(tabInputText);
-  const tabSplittedByNotes = prepareForConvert(strings, guitarStringNames);
+  const tabSplittedByNotes = prepareForConvert(strings);
   const result = convert(tabSplittedByNotes);
   addTable(lowGResultTable, result);
   showResults();
