@@ -147,7 +147,8 @@ const findNotesOnOtherString = function (notesToTransform) {
 };
 
 export const transpose = function (guitarTab) {
-  const tabToTranspose = guitarTab;
+  const tabToTranspose = JSON.parse(JSON.stringify(guitarTab));
+
   const notesToTranspose = findNotesToTranspose(tabToTranspose);
 
   const transposeSucceded = [];
@@ -220,4 +221,5 @@ export const transposeOctave = function (guitarTab) {
 // TODO: transpose to high G ukulele
 // TODO: fix dashes ending
 // TODO: fretLength as parameter
+// TODO: fix notes spaces when moved note is > 9
 // TODO: export to pdf with song and author name

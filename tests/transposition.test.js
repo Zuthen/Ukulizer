@@ -183,4 +183,24 @@ describe("transposition", () => {
     // Assert
     expect(result).toStrictEqual(expectedResult);
   });
+  test("when basic convert fails, move an octave", () => {
+    // Arrange
+    const aString = ["A", "|", "-", 1, "-", 2];
+    const eString = ["E", "|", "-", 0, "-", "-"];
+    const cString = ["C", "|", "-", "-", "-", 1];
+    const gString = ["G", "|", "-", "-", "-", "-"];
+    const dString = ["D", "|", 2, "-", 4, "-"];
+    const e2String = ["E", "|", "-", "-", "-", "-"];
+    const input = [aString, eString, cString, gString, dString, e2String];
+    const expectedResult = [
+      ["A", "|", "-", 13, "-", 14],
+      ["E", "|", "-", 12, "-", "-"],
+      ["C", "|", "-", "-", "-", 13],
+      ["G", "|", 9, "-", 11, "-"],
+    ];
+    // Act
+    const result = transpose(input);
+    // Assert
+    expect(result).toStrictEqual(expectedResult);
+  });
 });
