@@ -18,6 +18,10 @@ export const isTransposeToOtherStingNeededAfterOctaveTranspose = function (
   ukuleleFretLength
 ) {
   let result = false;
+  let aeNotesIndexes = findNotesIndexes(strings[4]).concat(
+    findNotesIndexes(strings[5])
+  );
+  if (aeNotesIndexes.length > 0) return (result = true);
   strings.forEach((string) => {
     const allStringNotes = findNotesIndexes(string);
     allStringNotes.forEach((noteIndex) => {

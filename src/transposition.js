@@ -1,6 +1,9 @@
 "use strict";
 import { findNotesIndexes, cutAdditionalStrings } from "./strings.js";
-import { ukuleleBasicOctaveTranspose } from "./ukuleleStrings.js";
+import {
+  ukuleleBasicOctaveTranspose,
+  isTransposeToOtherStingNeededAfterOctaveTranspose,
+} from "./ukuleleStrings.js";
 /*
   MAP
   UKULELE low g: 
@@ -46,7 +49,7 @@ export const findNoteOnOtherString = function (stringNumber, note, noteIndex) {
   };
   if (
     mappedString.goUp !== undefined &&
-    mappedString.goUp.noteDifference + note > 0
+    mappedString.goUp.noteDifference + note >= 0
   ) {
     let currentNote = note;
     let currentStringMap = stringMap[stringNumber];
@@ -59,7 +62,7 @@ export const findNoteOnOtherString = function (stringNumber, note, noteIndex) {
     }
   } else if (
     mappedString.goDown !== undefined &&
-    mappedString.goDown.noteDifference + note < ukuleleFretLength
+    mappedString.goDown.noteDifference + note <= ukuleleFretLength
   ) {
     let currentNote = note;
     let currentStringMap = stringMap[stringNumber];
@@ -133,30 +136,33 @@ const moveToOtherString = function (guitarTab, transposeDataForOneNote) {
   }
   return movedSuccesfully;
 };
+const findNotesOnOtherString = function (notesToTransform) {
+  const transposeData = [];
+  notesToTransform.forEach((note) => {
+    let noteValue = note.string[note.noteIndex];
+    let data = findNoteOnOtherString(note.stringId, noteValue, note.noteIndex);
+    transposeData.push(data);
+  });
+  return transposeData;
+};
+
 export const transpose = function (guitarTab) {
-  const findNotesOnOtherString = function (notesToTransform) {
-    const transposeData = [];
-    notesToTransform.forEach((note) => {
-      let noteValue = note.string[note.noteIndex];
-      let data = findNoteOnOtherString(
-        note.stringId,
-        noteValue,
-        note.noteIndex
-      );
-      transposeData.push(data);
-    });
-    return transposeData;
-  };
-  const notesToTransform = findNotesToTranspose(guitarTab);
+  const tabToTranspose = guitarTab;
+  const notesToTranspose = findNotesToTranspose(tabToTranspose);
+
   const transposeSucceded = [];
-  const transposeData = findNotesOnOtherString(notesToTransform);
+  const transposeData = findNotesOnOtherString(notesToTranspose);
   transposeData.forEach((data) => {
-    transposeSucceded.push(moveToOtherString(guitarTab, data));
+    transposeSucceded.push(moveToOtherString(tabToTranspose, data));
   });
   if (!transposeSucceded.includes(false)) {
-    const result = cutAdditionalStrings(guitarTab);
+    const result = cutAdditionalStrings(tabToTranspose);
     return result;
-  } else return Error(`Transpose to next octave needed`);
+  } else {
+    const ukuleleTab = transposeOctave(guitarTab);
+    const result = cutAdditionalStrings(ukuleleTab);
+    return result;
+  }
 };
 export const findNotesToTransposeAfterOctaveTranspose = function (
   strings,
@@ -175,29 +181,42 @@ export const findNotesToTransposeAfterOctaveTranspose = function (
       }
     });
   }
+  for (let i = 4; i < 6; i++) {
+    let notesIndexes = findNotesIndexes(strings[i]);
+    notesIndexes.forEach((noteIndex) => {
+      if (typeof strings[i][noteIndex] === "number")
+        transposeStrings.push({
+          stringId: i,
+          noteIndex: noteIndex,
+          string: strings[i],
+        });
+    });
+  }
   return transposeStrings;
 };
-export const transposeOctave = function (ukuleleTab) {
-  ukuleleBasicOctaveTranspose(ukuleleTab);
+export const transposeOctave = function (guitarTab) {
+  ukuleleBasicOctaveTranspose(guitarTab);
   const ukuleleFretLength = 18; // might be configurable in the future
   const moveToOtherStrings = isTransposeToOtherStingNeededAfterOctaveTranspose(
-    ukuleleTab,
+    guitarTab,
     ukuleleFretLength
   );
   if (moveToOtherStrings) {
     const notesToTranspose = findNotesToTransposeAfterOctaveTranspose(
-      ukuleleTab,
+      guitarTab,
       ukuleleFretLength
     );
-    notesToTranspose.forEach((note) => {
-      // TODO:
+    const transposeSucceded = [];
+    const transposeData = findNotesOnOtherString(notesToTranspose);
+    transposeData.forEach((data) => {
+      transposeSucceded.push(moveToOtherString(guitarTab, data));
     });
-  }
-
-  // checkIfMoveToOtherStringNeeded using ukuleleFretLength
-  // moveIfNeeded
+    if (!transposeSucceded.includes(false)) {
+      return guitarTab;
+    } else return Error(`Transpose failed`);
+  } else return guitarTab;
 };
-// TODO: transpose to next octave
+
 // TODO: transpose to high G ukulele
 // TODO: fix dashes ending
 // TODO: fretLength as parameter

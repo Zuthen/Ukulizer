@@ -10,7 +10,8 @@ describe("ukulele strings tests", () => {
     const eString = ["E", "|", "-", 11];
     const cString = ["C", "|", "-", 12];
     const gString = ["G", "|", "-", 13];
-    const strings = [aString, eString, cString, gString];
+    const g1String = ["G", "|", "-", "-"];
+    const strings = [aString, eString, cString, gString, g1String, g1String];
     const testcases = [
       { fretLength: 14, expectedResult: false },
       { fretLength: 13, expectedResult: false },

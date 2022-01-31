@@ -2,6 +2,7 @@ import {
   findNoteOnOtherString,
   findNotesToTransposeAfterOctaveTranspose,
   transpose as transpose,
+  transposeOctave,
 } from "../src/transposition";
 describe("transposition", () => {
   test("find note on other string", () => {
@@ -136,7 +137,15 @@ describe("transposition", () => {
     const eString = ["E", "|", "-", 11, "-", "-"];
     const cString = ["C", "|", "-", 12, "-", 1];
     const gString = ["G", "|", "-", 13, "-", 11];
-    const strings = [aString, eString, cString, gString];
+    const emptyString = ["G", "|", "-", "-", "-", "-"];
+    const strings = [
+      aString,
+      eString,
+      cString,
+      gString,
+      emptyString,
+      emptyString,
+    ];
     const ukuleleFretLength = 12;
 
     const expectedResult = [
@@ -148,6 +157,29 @@ describe("transposition", () => {
       strings,
       ukuleleFretLength
     );
+    // Assert
+    expect(result).toStrictEqual(expectedResult);
+  });
+  test("move an octave", () => {
+    // Arrange
+    const aString = ["A", "|", "-", -3, "-", -7];
+    const eString = ["E", "|", "-", -1, "-", "-"];
+    const cString = ["C", "|", "-", -6, "-", -10];
+    const gString = ["G", "|", "-", "-", "-", "-"];
+    const dString = ["D", "|", 2, "-", 4, "-"];
+    const e2String = ["E", "|", "-", -2, "-", -2];
+    const strings = [aString, eString, cString, gString, dString, e2String];
+
+    const expectedResult = [
+      ["A", "|", "-", 9, "-", 5],
+      ["E", "|", "-", 11, "-", "-"],
+      ["C", "|", "-", 6, "-", 2],
+      ["G", "|", 9, 0, 11, 0],
+      ["D", "|", "-", "-", "-", "-"],
+      ["E", "|", "-", "-", "-", "-"],
+    ];
+    // Act
+    const result = transposeOctave(strings);
     // Assert
     expect(result).toStrictEqual(expectedResult);
   });
