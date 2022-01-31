@@ -8,6 +8,7 @@ import { convert } from "./converter.js";
 const convertButton = document.getElementById("convert");
 let tabInputText;
 const lowGResultTable = document.getElementById("lowGResult");
+const highGResultTable = document.getElementById("highGResult");
 
 function init() {
   const results = document.querySelectorAll(".result");
@@ -24,6 +25,7 @@ convertButton.addEventListener("click", function () {
   const strings = splitGuitarTabByStrings(tabInputText);
   const tabSplittedByNotes = prepareForConvert(strings);
   const result = convert(tabSplittedByNotes);
-  addTable(lowGResultTable, result);
+  addTable(lowGResultTable, result.lowGresult);
+  addTable(highGResultTable, result.highGresult);
   showResults();
 });

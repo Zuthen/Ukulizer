@@ -3,6 +3,7 @@ import { findNotesIndexes, cutAdditionalStrings } from "./strings.js";
 import {
   ukuleleBasicOctaveTranspose,
   isTransposeToOtherStingNeededAfterOctaveTranspose,
+  addTwelve,
 } from "./ukuleleStrings.js";
 /*
   MAP
@@ -218,8 +219,37 @@ export const transposeOctave = function (guitarTab) {
   } else return guitarTab;
 };
 
-// TODO: transpose to high G ukulele
+export const transposeToHighG = function (ukuleleTab) {
+  const ukuleleFretLength = 18; // might be configurable in the future
+  addTwelve(ukuleleTab[3]);
+  const moveTocString = function (ukuleleTabLine) {
+    let result = false;
+    const notes = findNotesIndexes(ukuleleTabLine);
+    notes.forEach((note) => {
+      if (ukuleleTabLine[note] > ukuleleFretLength) result = true;
+    });
+    return result;
+  };
+  const findNotesToMove = function (ukuleleTabLine) {
+    const notes = findNotesIndexes(ukuleleTabLine);
+    const notesToMove = [];
+    notes.forEach((note) => {
+      if (ukuleleTabLine[note] > ukuleleFretLength) {
+        notesToMove.push(findNoteOnOtherString(3, ukuleleTabLine[note], note));
+      }
+    });
+    return notesToMove;
+  };
+  if (moveTocString(ukuleleTab[3])) {
+    const moveNotes = findNotesToMove(ukuleleTab[3]);
+    moveNotes.forEach((note) => {
+      moveToOtherString(ukuleleTab, note);
+    });
+  }
+  return ukuleleTab;
+};
+
+// TODO: fix notes spaces when moved note is > 9
 // TODO: fix dashes ending
 // TODO: fretLength as parameter
-// TODO: fix notes spaces when moved note is > 9
 // TODO: export to pdf with song and author name

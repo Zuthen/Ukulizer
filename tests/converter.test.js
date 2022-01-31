@@ -42,6 +42,6 @@ describe("Converter tests", () => {
     // Act
     const result = convert(input);
     // Assert
-    expect(result).toStrictEqual(expectedResult);
+    expect(result.lowGresult).toStrictEqual(expectedResult);
   });
 });

@@ -3,6 +3,7 @@ import {
   findNotesToTransposeAfterOctaveTranspose,
   transpose as transpose,
   transposeOctave,
+  transposeToHighG,
 } from "../src/transposition";
 describe("transposition", () => {
   test("find note on other string", () => {
@@ -202,5 +203,23 @@ describe("transposition", () => {
     const result = transpose(input);
     // Assert
     expect(result).toStrictEqual(expectedResult);
+  });
+  test("transpone from low G to high G tab", () => {
+    // Arrange
+    const aString = ["A", "|", "-", "-", 1, "-", 3, "-", "|"];
+    const eString = ["E", "|", "-", "-", "-", "-", 1, "-", "|"];
+    const cString = ["C", "|", "-", "-", 1, "-", "-", "-", "|"];
+    const gString = ["G", "|", 7, "-", "-", "-", 0, "-", "|"];
+    const input = [aString, eString, cString, gString];
+    const expectedResult = [
+      ["A", "|", "-", "-", 1, "-", 3, "-", "|"],
+      ["E", "|", "-", "-", "-", "-", 1, "-", "|"],
+      ["C", "|", 14, "-", 1, "-", "-", "-", "|"],
+      ["G", "|", "-", "-", "-", "-", 12, "-", "|"],
+    ];
+    // Act
+    const highGukuleleTab = transposeToHighG(input);
+    // Assert
+    expect(highGukuleleTab).toStrictEqual(expectedResult);
   });
 });

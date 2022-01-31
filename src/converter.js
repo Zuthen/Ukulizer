@@ -5,17 +5,21 @@ import {
   cutAdditionalStrings,
   isTransposeToOtherStingNeeded,
 } from "./strings.js";
-import { transpose as transpose } from "./transposition.js";
+import { transpose as transpose, transposeToHighG } from "./transposition.js";
 import { ebgdBasicConvert } from "./guitarStrings.js";
 
 export const convert = function (guitarTab) {
-  let result = [];
+  let lowGresult = [];
   ebgdBasicConvert(guitarTab);
   const moveToOtherString = isTransposeToOtherStingNeeded(guitarTab);
   if (moveToOtherString) {
-    result = transpose(guitarTab);
-  } else result = cutAdditionalStrings(guitarTab);
-  removeRedunantDashes(result);
-  changeStringNames(result);
-  return result;
+    lowGresult = transpose(guitarTab);
+  } else lowGresult = cutAdditionalStrings(guitarTab);
+  const highGresult = JSON.parse(JSON.stringify(lowGresult));
+  transposeToHighG(highGresult);
+  removeRedunantDashes(lowGresult);
+  removeRedunantDashes(highGresult);
+  changeStringNames(lowGresult);
+  changeStringNames(highGresult);
+  return { lowGresult, highGresult };
 };

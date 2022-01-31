@@ -239,5 +239,4 @@ describe("strings operations tests", () => {
     expect(result).toStrictEqual(expectedResult);
   });
   //TODO: adjustEnd
-  //TODO: prepareForConvert
 });
