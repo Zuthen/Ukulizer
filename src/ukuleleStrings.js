@@ -1,5 +1,6 @@
 "use strict";
-import { findNotesIndexes } from "./strings";
+import { findNotesIndexes } from "./strings.js";
+
 export const addTwelve = function (tabLine) {
   for (let i = 0; i < tabLine.length; i++) {
     if (typeof tabLine[i] != "number") continue;

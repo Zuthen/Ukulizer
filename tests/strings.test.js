@@ -3,6 +3,7 @@ import {
   mergeNumbers,
   convertToNumber,
   isTransposeToOtherStingNeeded,
+  removeAllAsterisks,
 } from "../src/strings";
 
 //node --experimental-vm-modules node_modules/jest/bin/jest.js
@@ -214,4 +215,17 @@ describe("strings operations tests", () => {
       expect(output).toStrictEqual(input.expectedResult);
     });
   });
+  test("remove asterisks", () => {
+    // Arrange
+    const input = ["C", "|", 14, "*", "-", 12, "*"];
+    const expectedResult = ["C", "|", 14, "-", 12];
+    // Act
+    const removedIndexes = removeAllAsterisks(input);
+    // Assert
+    expect(removedIndexes).toStrictEqual([3, 5]);
+    expect(input).toStrictEqual(expectedResult);
+  });
+  test("splitArrayByChar", () => {});
+  //TODO: adjustEnd
+  //TODO: prepareForConvert
 });

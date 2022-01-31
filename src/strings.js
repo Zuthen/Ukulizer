@@ -22,7 +22,7 @@ const addAdditionalDashesOnBeggining = function (notesArray, dashesCount) {
     notesArray.splice(2, 0, "-");
   }
 };
-const removeAllAsterisks = function (notesArray) {
+export const removeAllAsterisks = function (notesArray) {
   const removedIndexes = [];
   while (includesAsterisk(notesArray)) {
     let indexToRemove = notesArray.indexOf("*");
@@ -118,14 +118,6 @@ const adjustStart = function (tables) {
   });
 };
 
-const validateStringName = function (firstElement, stringName) {
-  if (firstElement != stringName)
-    console.error(`Unexpected Guitar String Name : ${firstElement}`);
-};
-const splitArrayByChar = function (array) {
-  return Array.from(array);
-};
-
 export const isTransposeToOtherStingNeeded = function (strings) {
   let result = false;
   let aeNotesIndexes = findNotesIndexes(strings[4]).concat(
@@ -146,8 +138,7 @@ export const isTransposeToOtherStingNeeded = function (strings) {
 export const prepareForConvert = function (tabLines, stringNames) {
   const strings = [];
   for (let i = 0; i < stringNames.length; i++) {
-    strings[i] = splitArrayByChar(tabLines[i]);
-    validateStringName(strings[i][0], stringNames[i]);
+    strings[i] = Array.from(tabLines[i]);
     mergeNumbers(strings[i]);
     convertToNumber(strings[i]);
   }

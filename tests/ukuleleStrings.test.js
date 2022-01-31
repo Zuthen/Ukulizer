@@ -1,4 +1,7 @@
-import { isTransposeToOtherStingNeededAfterOctaveTranspose } from "../src/ukuleleStrings";
+import {
+  isTransposeToOtherStingNeededAfterOctaveTranspose,
+  ukuleleBasicOctaveTranspose,
+} from "../src/ukuleleStrings";
 
 describe("ukulele strings tests", () => {
   test("check if transpose needed", () => {
@@ -22,5 +25,24 @@ describe("ukulele strings tests", () => {
       // Assert
       expect(result).toStrictEqual(testcase.expectedResult);
     });
+  });
+  test("basic octave transpose", () => {
+    // Arrange
+    const input = [
+      ["A", "|", "-", 12, "-", 1, "-", 3],
+      ["E", "|", "-", 1, "-", 7, "-", "-"],
+      ["C", "|", "-", "-", 2, "-", "-", "-"],
+      ["G", "|", "-", "-", "-", 5, "-", 0],
+    ];
+    const expectedResult = [
+      ["A", "|", "-", 24, "-", 13, "-", 15],
+      ["E", "|", "-", 13, "-", 19, "-", "-"],
+      ["C", "|", "-", "-", 14, "-", "-", "-"],
+      ["G", "|", "-", "-", "-", 17, "-", 12],
+    ];
+    // Act
+    ukuleleBasicOctaveTranspose(input);
+    // Assert
+    expect(input).toStrictEqual(expectedResult);
   });
 });

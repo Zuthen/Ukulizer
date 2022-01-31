@@ -3,9 +3,7 @@ import { findNotesIndexes } from "./strings.js";
 export function splitGuitarTabByStrings(guitarTab) {
   let newstrings = guitarTab.split("\n");
   if (newstrings.length !== 6)
-    console.error(
-      `Unexpected tab lines count: ${newstrings.length}. Expected exactly 6 lines`
-    );
+    Error(`unexpected lines count: ${newstrings.length}`);
   else return newstrings;
 }
 export const substractFive = function (tabLine) {
