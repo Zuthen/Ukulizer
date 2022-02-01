@@ -13,12 +13,14 @@ export const convert = function (guitarTab) {
   ebgdBasicConvert(guitarTab);
   const moveToOtherString = isTransposeToOtherStingNeeded(guitarTab);
   if (moveToOtherString) {
-    lowGresult = transpose(guitarTab);
+    lowGresult = transpose(guitarTab, 5);
   } else lowGresult = cutAdditionalStrings(guitarTab);
   const highGresult = JSON.parse(JSON.stringify(lowGresult));
-  transposeToHighG(highGresult);
-  removeRedunantDashes(lowGresult);
   removeRedunantDashes(highGresult);
+  transposeToHighG(highGresult);
+  removeRedunantDashes(highGresult);
+  removeRedunantDashes(lowGresult);
+
   changeStringNames(lowGresult);
   changeStringNames(highGresult);
   return { lowGresult, highGresult };

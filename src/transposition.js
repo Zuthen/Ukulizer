@@ -120,23 +120,36 @@ const isArrayElementNumber = function (array, arrayRow, arrayIndex) {
 const moveToOtherString = function (guitarTab, transposeDataForOneNote) {
   let movedSuccesfully = false;
   for (let i = 0; i < transposeDataForOneNote.length; i++) {
-    if (
-      !isArrayElementNumber(
-        guitarTab,
-        transposeDataForOneNote[i].stringToMove,
-        transposeDataForOneNote[i].noteIndex
-      )
-    ) {
-      guitarTab[transposeDataForOneNote[i].string].splice(
-        transposeDataForOneNote[i].noteIndex,
-        1,
-        "—"
-      );
-      guitarTab[transposeDataForOneNote[i].stringToMove].splice(
-        transposeDataForOneNote[i].noteIndex,
-        1,
-        transposeDataForOneNote[i].newNote
-      );
+    let currentString = transposeDataForOneNote[i].string;
+    let newString = transposeDataForOneNote[i].stringToMove;
+    let noteIndex = transposeDataForOneNote[i].noteIndex;
+    let newNote = transposeDataForOneNote[i].newNote;
+    let originalNote = transposeDataForOneNote[i].originalNote;
+    if (!isArrayElementNumber(guitarTab, newString, noteIndex)) {
+      guitarTab[currentString].splice(noteIndex, 1, "—");
+      if (guitarTab[currentString][noteIndex + 1] === "*")
+        guitarTab[newString][noteIndex + 1] = "*";
+      for (let i = 0; i < guitarTab.length; i++) {
+        if (
+          isNaN(guitarTab[i][noteIndex + 1]) &&
+          i !== newString &&
+          i !== currentString
+        )
+          guitarTab[i].splice(noteIndex + 1, 1, "*");
+      }
+      guitarTab[newString].splice(noteIndex, 1, newNote);
+      // if (originalNote > 9 && newNote < 10) {
+      //   guitarTab[newString].splice(noteIndex, 1, newNote);
+      //   guitarTab[newString].splice(noteIndex + 1, 1, "*");
+      //   for (let i = 0; i < guitarTab.length; i++) {
+      //     if (
+      //       isNaN(guitarTab[i][noteIndex]) &&
+      //       i !== newString &&
+      //       i !== currentString
+      //     )
+      //       guitarTab[i].splice(noteIndex, 1);
+      //   }
+      // } else guitarTab[newString].splice(noteIndex, 1, newNote);
       movedSuccesfully = true;
       break;
     }
@@ -247,7 +260,9 @@ export const transposeToHighG = function (ukuleleTab) {
     const notesToMove = [];
     notes.forEach((note) => {
       if (ukuleleTabLine[note] > ukuleleFretLength) {
-        notesToMove.push(findNoteOnOtherString(3, ukuleleTabLine[note], note));
+        notesToMove.push(
+          findNoteOnOtherString(3, ukuleleTabLine[note], note, 7)
+        );
       }
     });
     return notesToMove;
@@ -261,7 +276,8 @@ export const transposeToHighG = function (ukuleleTab) {
   return ukuleleTab;
 };
 // store original note value before any transpose
-// TODO: fix notes spaces when moved note is > 9
+// TODO: fix tests
+// TODO: remove unused parameter: originalNote
 // TODO: fix dashes ending
 // TODO: fretLength as parameter
 // TODO: export to pdf with song and author name

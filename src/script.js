@@ -24,7 +24,9 @@ convertButton.addEventListener("click", function () {
   tabInputText = document.getElementById("guitar-tab").value;
   const strings = splitGuitarTabByStrings(tabInputText);
   const tabSplittedByNotes = prepareForConvert(strings);
+  console.log(`co dostaje convert`, tabSplittedByNotes);
   const result = convert(tabSplittedByNotes);
+  console.log(`co zwraca convert`, result);
   addTable(lowGResultTable, result.lowGresult);
   addTable(highGResultTable, result.highGresult);
   showResults();
