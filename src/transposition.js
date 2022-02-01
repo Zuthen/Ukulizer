@@ -124,7 +124,7 @@ const moveToOtherString = function (guitarTab, transposeDataForOneNote) {
       guitarTab[transposeDataForOneNote[i].string].splice(
         transposeDataForOneNote[i].noteIndex,
         1,
-        "-"
+        "—"
       );
       guitarTab[transposeDataForOneNote[i].stringToMove].splice(
         transposeDataForOneNote[i].noteIndex,

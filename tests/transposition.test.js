@@ -100,12 +100,12 @@ describe("transposition", () => {
   });
   test("transpose", () => {
     // Arrange
-    const eString = ["e", "|", "-", "-", -1, "-", "-", "-"];
-    const bString = ["B", "|", "-", -2, "-", "-", "-", "-"];
-    const gString = ["G", "|", -3, "-", "-", "-", "-", "-"];
-    const dString = ["D", "|", "-", "-", "-", "-", "-", 12];
-    const aString = ["A", "|", "-", "-", "-", 10, "-", "-"];
-    const e1String = ["E", "|", "-", "-", "-", "-", 11, "-"];
+    const eString = ["e", "|", "—", "—", -1, "—", "—", "—"];
+    const bString = ["B", "|", "—", -2, "—", "—", "—", "—"];
+    const gString = ["G", "|", -3, "—", "—", "—", "—", "—"];
+    const dString = ["D", "|", "—", "—", "—", "—", "—", 12];
+    const aString = ["A", "|", "—", "—", "—", 10, "—", "—"];
+    const e1String = ["E", "|", "—", "—", "—", "—", 11, "—"];
     const tabToTranspose = [
       eString,
       bString,
@@ -114,10 +114,10 @@ describe("transposition", () => {
       aString,
       e1String,
     ];
-    const eStringConverted = ["e", "|", "-", "-", "-", "-", "-", "-"];
-    const bStringConverted = ["B", "|", "-", "-", 4, "-", "-", "-"];
-    const gStringConverted = ["G", "|", "-", 2, "-", "-", "-", "-"];
-    const dStringConverted = ["D", "|", 2, "-", "-", 5, 1, 12];
+    const eStringConverted = ["e", "|", "—", "—", "—", "—", "—", "—"];
+    const bStringConverted = ["B", "|", "—", "—", 4, "—", "—", "—"];
+    const gStringConverted = ["G", "|", "—", 2, "—", "—", "—", "—"];
+    const dStringConverted = ["D", "|", 2, "—", "—", 5, 1, 12];
 
     const transposedTab = [
       eStringConverted,
@@ -134,11 +134,11 @@ describe("transposition", () => {
   });
   test("find notes to transpose after octave transpose", () => {
     // Arrange
-    const aString = ["A", "|", "-", 10, "-", 14];
-    const eString = ["E", "|", "-", 11, "-", "-"];
-    const cString = ["C", "|", "-", 12, "-", 1];
-    const gString = ["G", "|", "-", 13, "-", 11];
-    const emptyString = ["G", "|", "-", "-", "-", "-"];
+    const aString = ["A", "|", "—", 10, "—", 14];
+    const eString = ["E", "|", "—", 11, "—", "—"];
+    const cString = ["C", "|", "—", 12, "—", 1];
+    const gString = ["G", "|", "—", 13, "—", 11];
+    const emptyString = ["G", "|", "—", "—", "—", "—"];
     const strings = [
       aString,
       eString,
@@ -163,21 +163,21 @@ describe("transposition", () => {
   });
   test("move an octave", () => {
     // Arrange
-    const aString = ["A", "|", "-", -3, "-", -7];
-    const eString = ["E", "|", "-", -1, "-", "-"];
-    const cString = ["C", "|", "-", -6, "-", -10];
-    const gString = ["G", "|", "-", "-", "-", "-"];
-    const dString = ["D", "|", 2, "-", 4, "-"];
-    const e2String = ["E", "|", "-", -2, "-", -2];
+    const aString = ["A", "|", "—", -3, "—", -7];
+    const eString = ["E", "|", "—", -1, "—", "—"];
+    const cString = ["C", "|", "—", -6, "—", -10];
+    const gString = ["G", "|", "—", "—", "—", "—"];
+    const dString = ["D", "|", 2, "—", 4, "—"];
+    const e2String = ["E", "|", "—", -2, "—", -2];
     const strings = [aString, eString, cString, gString, dString, e2String];
 
     const expectedResult = [
-      ["A", "|", "-", 9, "-", 5],
-      ["E", "|", "-", 11, "-", "-"],
-      ["C", "|", "-", 6, "-", 2],
+      ["A", "|", "—", 9, "—", 5],
+      ["E", "|", "—", 11, "—", "—"],
+      ["C", "|", "—", 6, "—", 2],
       ["G", "|", 9, 0, 11, 0],
-      ["D", "|", "-", "-", "-", "-"],
-      ["E", "|", "-", "-", "-", "-"],
+      ["D", "|", "—", "—", "—", "—"],
+      ["E", "|", "—", "—", "—", "—"],
     ];
     // Act
     const result = transposeOctave(strings);
@@ -206,16 +206,16 @@ describe("transposition", () => {
   });
   test("transpone from low G to high G tab", () => {
     // Arrange
-    const aString = ["A", "|", "-", "-", 1, "-", 3, "-", "|"];
-    const eString = ["E", "|", "-", "-", "-", "-", 1, "-", "|"];
-    const cString = ["C", "|", "-", "-", 1, "-", "-", "-", "|"];
-    const gString = ["G", "|", 7, "-", "-", "-", 0, "-", "|"];
+    const aString = ["A", "|", "—", "—", 1, "—", 3, "—", "|"];
+    const eString = ["E", "|", "—", "—", "—", "—", 1, "—", "|"];
+    const cString = ["C", "|", "—", "—", 1, "—", "—", "—", "|"];
+    const gString = ["G", "|", 7, "—", "—", "—", 0, "—", "|"];
     const input = [aString, eString, cString, gString];
     const expectedResult = [
-      ["A", "|", "-", "-", 1, "-", 3, "-", "|"],
-      ["E", "|", "-", "-", "-", "-", 1, "-", "|"],
-      ["C", "|", 14, "-", 1, "-", "-", "-", "|"],
-      ["G", "|", "-", "-", "-", "-", 12, "-", "|"],
+      ["A", "|", "—", "—", 1, "—", 3, "—", "|"],
+      ["E", "|", "—", "—", "—", "—", 1, "—", "|"],
+      ["C", "|", 14, "—", 1, "—", "—", "—", "|"],
+      ["G", "|", "—", "—", "—", "—", 12, "—", "|"],
     ];
     // Act
     const highGukuleleTab = transposeToHighG(input);

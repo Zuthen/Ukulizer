@@ -14,12 +14,18 @@ export const convertToNumber = function (tabline) {
     tabline[i] = Number(tabline[i]);
   }
 };
+
+export const dahesToEndashes = function (tabline) {
+  for (let i = 1; i < tabline.length; i++) {
+    if (tabline[i] === "-") tabline[i] = "—";
+  }
+};
 const includesAsterisk = function (array) {
   return array.includes("*");
 };
 const addAdditionalDashesOnBeggining = function (notesArray, dashesCount) {
   for (let i = 0; i < dashesCount; i++) {
-    notesArray.splice(2, 0, "-");
+    notesArray.splice(2, 0, "—");
   }
 };
 export const removeAllAsterisks = function (notesArray) {
@@ -95,11 +101,11 @@ const adjustEnd = function (tables) {
     if (difference > 0) table.splice(max + 1, difference);
     else {
       while (difference < 0) {
-        table.push("-");
+        table.push("—");
         difference = lengthDifference(table.length, max + 1);
       }
     }
-    table.push("-", "|");
+    table.push("—", "|");
   });
 };
 
@@ -141,6 +147,7 @@ export const prepareForConvert = function (tabLines) {
     strings[i] = Array.from(tabLines[i]);
     mergeNumbers(strings[i]);
     convertToNumber(strings[i]);
+    dahesToEndashes(strings[i]);
   }
   return strings;
 };
