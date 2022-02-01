@@ -13,9 +13,27 @@ describe("transposition", () => {
         note: -5,
         noteIndex: 12,
         expectedResult: [
-          { string: 0, noteIndex: 12, stringToMove: 1, newNote: 0 },
-          { string: 0, noteIndex: 12, stringToMove: 2, newNote: 4 },
-          { string: 0, noteIndex: 12, stringToMove: 3, newNote: 9 },
+          {
+            string: 0,
+            noteIndex: 12,
+            stringToMove: 1,
+            newNote: 0,
+            originalNote: -4,
+          },
+          {
+            string: 0,
+            noteIndex: 12,
+            stringToMove: 2,
+            newNote: 4,
+            originalNote: -4,
+          },
+          {
+            string: 0,
+            noteIndex: 12,
+            stringToMove: 3,
+            newNote: 9,
+            originalNote: -4,
+          },
         ],
       },
       {
@@ -23,9 +41,27 @@ describe("transposition", () => {
         note: -1,
         noteIndex: 8,
         expectedResult: [
-          { string: 0, noteIndex: 8, stringToMove: 1, newNote: 4 },
-          { string: 0, noteIndex: 8, stringToMove: 2, newNote: 8 },
-          { string: 0, noteIndex: 8, stringToMove: 3, newNote: 13 },
+          {
+            string: 0,
+            noteIndex: 8,
+            stringToMove: 1,
+            newNote: 4,
+            originalNote: 0,
+          },
+          {
+            string: 0,
+            noteIndex: 8,
+            stringToMove: 2,
+            newNote: 8,
+            originalNote: 0,
+          },
+          {
+            string: 0,
+            noteIndex: 8,
+            stringToMove: 3,
+            newNote: 13,
+            originalNote: 0,
+          },
         ],
       },
       {
@@ -33,7 +69,13 @@ describe("transposition", () => {
         note: -6,
         noteIndex: 3,
         expectedResult: [
-          { string: 1, noteIndex: 3, stringToMove: 3, newNote: 3 },
+          {
+            string: 1,
+            noteIndex: 3,
+            stringToMove: 3,
+            newNote: 3,
+            originalNote: -5,
+          },
         ],
       },
       {
@@ -47,7 +89,13 @@ describe("transposition", () => {
         note: -1,
         noteIndex: 5,
         expectedResult: [
-          { string: 2, noteIndex: 5, stringToMove: 3, newNote: 4 },
+          {
+            string: 2,
+            noteIndex: 5,
+            stringToMove: 3,
+            newNote: 4,
+            originalNote: 0,
+          },
         ],
       },
       {
@@ -67,8 +115,20 @@ describe("transposition", () => {
         note: 12,
         noteIndex: 7,
         expectedResult: [
-          { string: 4, noteIndex: 7, stringToMove: 3, newNote: 7 },
-          { string: 4, noteIndex: 7, stringToMove: 2, newNote: 2 },
+          {
+            string: 4,
+            noteIndex: 7,
+            stringToMove: 3,
+            newNote: 7,
+            originalNote: 13,
+          },
+          {
+            string: 4,
+            noteIndex: 7,
+            stringToMove: 2,
+            newNote: 2,
+            originalNote: 13,
+          },
         ],
       },
       {
@@ -76,8 +136,20 @@ describe("transposition", () => {
         note: 18,
         noteIndex: 3,
         expectedResult: [
-          { string: 5, noteIndex: 3, stringToMove: 3, newNote: 8 },
-          { string: 5, noteIndex: 3, stringToMove: 2, newNote: 3 },
+          {
+            string: 5,
+            noteIndex: 3,
+            stringToMove: 3,
+            newNote: 8,
+            originalNote: 19,
+          },
+          {
+            string: 5,
+            noteIndex: 3,
+            stringToMove: 2,
+            newNote: 3,
+            originalNote: 19,
+          },
         ],
       },
       {
@@ -93,7 +165,8 @@ describe("transposition", () => {
       const result = findNoteOnOtherString(
         data.string,
         data.note,
-        data.noteIndex
+        data.noteIndex,
+        1
       );
       expect(result).toStrictEqual(data.expectedResult);
     });

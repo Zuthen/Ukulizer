@@ -44,4 +44,25 @@ describe("Converter tests", () => {
     // Assert
     expect(result.lowGresult).toStrictEqual(expectedResult);
   });
+  test("when moved number is 2digit remove additional dash on target string", () => {
+    // Arrange
+    const input = [
+      ["e", "|", "—", "—", "—", "—", "—", "—", "—", "—", "—", "—", "|"],
+      ["B", "|", "—", "—", "—", "—", "—", "—", "—", "—", "—", "—", "|"],
+      ["G", "|", "—", "—", "—", "—", "—", "—", "—", "—", "—", "—", "|"],
+      ["D", "|", "—", 10, "—", "—", "—", "—", 10, "—", "|"],
+      ["A", "|", "—", "—", "—", "—", 12, "—", "—", "—", "—", "|"],
+      ["E", "|", "—", "—", "—", "—", "—", "—", "—", "—", "—", "—", "|"],
+    ];
+    const expectedResult = [
+      ["A", "|", "—", "—", "—", "—", "—", "—", "—", "—", "—", "—", "|"],
+      ["E", "|", "—", "—", "—", "—", "—", "—", "—", "—", "—", "—", "|"],
+      ["C", "|", "—", "—", "—", "—", "—", "—", "—", "—", "—", "—", "|"],
+      ["G", "|", "—", 5, "—", 2, "—", 5, "—", "—", "—", "—", "|"],
+    ];
+    // Act
+    const result = convert(input);
+    // Assert
+    expect(result.lowGresult).toStrictEqual(expectedResult);
+  });
 });

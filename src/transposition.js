@@ -22,7 +22,12 @@ import {
   5       29       A4    
 */
 
-export const findNoteOnOtherString = function (stringNumber, note, noteIndex) {
+export const findNoteOnOtherString = function (
+  stringNumber,
+  note,
+  noteIndex,
+  originalDifference
+) {
   const ukuleleFretLength = 18; // might be configurable in the future
   const stringMap = [
     { goDown: { stringIndex: 1, noteDifference: +5 } },
@@ -46,6 +51,7 @@ export const findNoteOnOtherString = function (stringNumber, note, noteIndex) {
       noteIndex: noteIndex,
       stringToMove: stringMapItem.stringIndex,
       newNote: stringMapItem.noteDifference + noteToAdjust,
+      originalNote: note + originalDifference,
     });
   };
   if (
@@ -137,23 +143,29 @@ const moveToOtherString = function (guitarTab, transposeDataForOneNote) {
   }
   return movedSuccesfully;
 };
-const findNotesOnOtherString = function (notesToTransform) {
+const findNotesOnOtherString = function (notesToTransform, originalDifference) {
   const transposeData = [];
   notesToTransform.forEach((note) => {
     let noteValue = note.string[note.noteIndex];
-    let data = findNoteOnOtherString(note.stringId, noteValue, note.noteIndex);
+    let data = findNoteOnOtherString(
+      note.stringId,
+      noteValue,
+      note.noteIndex,
+      originalDifference
+    );
     transposeData.push(data);
   });
   return transposeData;
 };
 
-export const transpose = function (guitarTab) {
+export const transpose = function (guitarTab, originalDifference) {
   const tabToTranspose = JSON.parse(JSON.stringify(guitarTab));
-
   const notesToTranspose = findNotesToTranspose(tabToTranspose);
-
   const transposeSucceded = [];
-  const transposeData = findNotesOnOtherString(notesToTranspose);
+  const transposeData = findNotesOnOtherString(
+    notesToTranspose,
+    originalDifference
+  );
   transposeData.forEach((data) => {
     transposeSucceded.push(moveToOtherString(tabToTranspose, data));
   });
@@ -248,7 +260,7 @@ export const transposeToHighG = function (ukuleleTab) {
   }
   return ukuleleTab;
 };
-
+// store original note value before any transpose
 // TODO: fix notes spaces when moved note is > 9
 // TODO: fix dashes ending
 // TODO: fretLength as parameter
