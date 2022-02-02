@@ -1,3 +1,4 @@
+import { removeRedunantDashes } from "../src/strings";
 import {
   findNoteOnOtherString,
   findNotesToTransposeAfterOctaveTranspose,
@@ -187,10 +188,10 @@ describe("transposition", () => {
       aString,
       e1String,
     ];
-    const eStringConverted = ["e", "|", "—", "—", "—", "—", "—", "—"];
-    const bStringConverted = ["B", "|", "—", "—", 4, "—", "—", "—"];
-    const gStringConverted = ["G", "|", "—", 2, "—", "—", "—", "—"];
-    const dStringConverted = ["D", "|", 2, "—", "—", 5, 1, 12];
+    const eStringConverted = ["e", "|", "—", "—", "—", "—", "—", "—", "—", "|"];
+    const bStringConverted = ["B", "|", "—", "—", 4, "—", "—", "—", "—", "|"];
+    const gStringConverted = ["G", "|", "—", 2, "—", "—", "—", "—", "—", "|"];
+    const dStringConverted = ["D", "|", 2, "—", "—", 5, 1, 12, "—", "|"];
 
     const transposedTab = [
       eStringConverted,
@@ -201,6 +202,7 @@ describe("transposition", () => {
 
     // Act
     let result = transpose(tabToTranspose);
+    removeRedunantDashes(result);
     // Assert
     expect(result.length).toStrictEqual(4);
     expect(result).toStrictEqual(transposedTab);
@@ -245,15 +247,16 @@ describe("transposition", () => {
     const strings = [aString, eString, cString, gString, dString, e2String];
 
     const expectedResult = [
-      ["A", "|", "—", 9, "—", 5],
-      ["E", "|", "—", 11, "—", "—"],
-      ["C", "|", "—", 6, "—", 2],
-      ["G", "|", 9, 0, 11, 0],
-      ["D", "|", "—", "—", "—", "—"],
-      ["E", "|", "—", "—", "—", "—"],
+      ["A", "|", "—", "—", 9, "—", 5, "—", "|"],
+      ["E", "|", "—", "—", 11, "—", "—", "—", "|"],
+      ["C", "|", "—", "—", 6, "—", 2, "—", "|"],
+      ["G", "|", "—", 9, 0, 11, 0, "—", "|"],
+      ["D", "|", "—", "—", "—", "—", "—", "—", "|"],
+      ["E", "|", "—", "—", "—", "—", "—", "—", "|"],
     ];
     // Act
     const result = transposeOctave(strings);
+    removeRedunantDashes(result);
     // Assert
     expect(result).toStrictEqual(expectedResult);
   });
@@ -267,13 +270,14 @@ describe("transposition", () => {
     const e2String = ["E", "|", "-", "-", "-", "-"];
     const input = [aString, eString, cString, gString, dString, e2String];
     const expectedResult = [
-      ["A", "|", "-", 13, "-", 14],
-      ["E", "|", "-", 12, "-", "-"],
-      ["C", "|", "-", "-", "-", 13],
-      ["G", "|", 9, "-", 11, "-"],
+      ["A", "|", "—", "-", 13, "-", 14, "—", "|"],
+      ["E", "|", "—", "-", 12, "-", "-", "—", "|"],
+      ["C", "|", "—", "-", "-", "-", 13, "—", "|"],
+      ["G", "|", "—", 9, "-", 11, "-", "—", "|"],
     ];
     // Act
     const result = transpose(input);
+    removeRedunantDashes(result);
     // Assert
     expect(result).toStrictEqual(expectedResult);
   });
@@ -285,13 +289,14 @@ describe("transposition", () => {
     const gString = ["G", "|", 7, "—", "—", "—", 0, "—", "|"];
     const input = [aString, eString, cString, gString];
     const expectedResult = [
-      ["A", "|", "—", "—", 1, "—", 3, "—", "|"],
-      ["E", "|", "—", "—", "—", "—", 1, "—", "|"],
-      ["C", "|", 14, "—", 1, "—", "—", "—", "|"],
-      ["G", "|", "—", "—", "—", "—", 12, "—", "|"],
+      ["A", "|", "—", "—", "—", 13, "—", 15, "—", "|"],
+      ["E", "|", "—", "—", "—", "—", "—", 13, "—", "|"],
+      ["C", "|", "—", "—", "—", 13, "—", "—", "—", "|"],
+      ["G", "|", "—", 7, "—", "—", "—", 0, "—", "|"],
     ];
     // Act
     const highGukuleleTab = transposeToHighG(input);
+    removeRedunantDashes(highGukuleleTab);
     // Assert
     expect(highGukuleleTab).toStrictEqual(expectedResult);
   });

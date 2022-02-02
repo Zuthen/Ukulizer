@@ -59,7 +59,7 @@ const findStringOffset = function (higherString, lowerString) {
   );
 };
 
-const createOffestArray = function (strings) {
+const createOffsetArray = function (strings) {
   const stringsOffset = [];
   for (let i = 1; i < strings.length; i++) {
     stringsOffset.push(findStringOffset(strings[0], strings[i]));
@@ -68,12 +68,12 @@ const createOffestArray = function (strings) {
 };
 
 export const removeRedunantDashes = function (strings) {
-  const stringsOffset = createOffestArray(strings);
+  const stringsOffset = createOffsetArray(strings);
   strings.forEach((string) => {
     addAdditionalDashesOnBeggining(string, 20);
     removeAllAsterisks(string);
   });
-  const stringsOffsetAfterRemove = createOffestArray(strings);
+  const stringsOffsetAfterRemove = createOffsetArray(strings);
   for (let i = 1; i < strings.length; i++) {
     let offset = stringsOffsetAfterRemove[i - 1] - stringsOffset[i - 1];
     strings[i].splice(2, offset);

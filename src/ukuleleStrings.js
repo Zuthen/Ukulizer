@@ -8,6 +8,13 @@ export const addTwelve = function (tabLine) {
   }
 };
 
+export const substractTwelve = function (tabLine) {
+  for (let i = 0; i < tabLine.length; i++) {
+    if (typeof tabLine[i] != "number") continue;
+    tabLine[i] = tabLine[i] - 12;
+  }
+};
+
 export const ukuleleBasicOctaveTranspose = function (tabSplittedByStrings) {
   for (let i = 0; i < tabSplittedByStrings.length; i++)
     addTwelve(tabSplittedByStrings[i]);
@@ -18,10 +25,13 @@ export const isTransposeToOtherStingNeededAfterOctaveTranspose = function (
   ukuleleFretLength
 ) {
   let result = false;
-  let aeNotesIndexes = findNotesIndexes(strings[4]).concat(
-    findNotesIndexes(strings[5])
-  );
-  if (aeNotesIndexes.length > 0) return (result = true);
+  if (strings[4] !== undefined && strings[5] !== undefined) {
+    let aeNotesIndexes = findNotesIndexes(strings[4]).concat(
+      findNotesIndexes(strings[5])
+    );
+    if (aeNotesIndexes.length > 0) return (result = true);
+  }
+
   strings.forEach((string) => {
     const allStringNotes = findNotesIndexes(string);
     allStringNotes.forEach((noteIndex) => {
