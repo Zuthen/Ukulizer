@@ -81,14 +81,13 @@ export const findNoteOnOtherString = function (stringNumber, note, noteIndex) {
   }
   return possibleUpMoves.concat(possibleDownMoves);
 };
-
-export const findNotesToTranspose = function (strings) {
-  const transposeStrings = [];
+const findNotesToTransposeWhenNoteBelowZero = function (strings) {
+  const notesBelowZero = [];
   for (let i = 3; i >= 0; i--) {
     let stringsIndexes = findNotesIndexes(strings[i]);
     stringsIndexes.forEach((noteIndex) => {
       if (strings[i][noteIndex] < 0) {
-        transposeStrings.push({
+        notesBelowZero.push({
           stringId: i,
           noteIndex: noteIndex,
           string: strings[i],
@@ -96,19 +95,31 @@ export const findNotesToTranspose = function (strings) {
       }
     });
   }
+  return notesBelowZero;
+};
+
+const findNotesToTransposeWhenNotesOnLowStrings = function (strings) {
+  const notesOnLowStrings = [];
   for (let i = 4; i < 6; i++) {
     let notesIndexes = findNotesIndexes(strings[i]);
     notesIndexes.forEach((noteIndex) => {
       if (typeof strings[i][noteIndex] === "number")
-        transposeStrings.push({
+        notesOnLowStrings.push({
           stringId: i,
           noteIndex: noteIndex,
           string: strings[i],
         });
     });
   }
+  return notesOnLowStrings;
+};
+export const findNotesToTranspose = function (strings) {
+  const notesBelowZero = findNotesToTransposeWhenNoteBelowZero(strings);
+  const notesOnLowStrings = findNotesToTransposeWhenNotesOnLowStrings(strings);
+  const transposeStrings = notesBelowZero.concat(notesOnLowStrings);
   return transposeStrings;
 };
+
 const isArrayElementNumber = function (array, arrayRow, arrayIndex) {
   return typeof array[arrayRow][arrayIndex] === "number" ? true : false;
 };
@@ -120,7 +131,6 @@ const moveToOtherString = function (guitarTab, transposeDataForOneNote) {
     let newString = transposeDataForOneNote[i].stringToMove;
     let noteIndex = transposeDataForOneNote[i].noteIndex;
     let newNote = transposeDataForOneNote[i].newNote;
-    let originalNote = transposeDataForOneNote[i].originalNote;
     if (!isArrayElementNumber(guitarTab, newString, noteIndex)) {
       guitarTab[currentString].splice(noteIndex, 1, "—");
       if (guitarTab[currentString][noteIndex + 1] === "*")
