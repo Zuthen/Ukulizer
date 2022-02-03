@@ -152,29 +152,21 @@ const moveToOtherString = function (guitarTab, transposeDataForOneNote) {
   }
   return movedSuccesfully;
 };
-const findNotesOnOtherString = function (notesToTransform, originalDifference) {
+const findNotesOnOtherString = function (notesToTransform) {
   const transposeData = [];
   notesToTransform.forEach((note) => {
     let noteValue = note.string[note.noteIndex];
-    let data = findNoteOnOtherString(
-      note.stringId,
-      noteValue,
-      note.noteIndex,
-      originalDifference
-    );
+    let data = findNoteOnOtherString(note.stringId, noteValue, note.noteIndex);
     transposeData.push(data);
   });
   return transposeData;
 };
 
-export const transpose = function (guitarTab, originalDifference) {
+export const transpose = function (guitarTab) {
   const tabToTranspose = JSON.parse(JSON.stringify(guitarTab));
   const notesToTranspose = findNotesToTranspose(tabToTranspose);
   const transposeSucceded = [];
-  const transposeData = findNotesOnOtherString(
-    notesToTranspose,
-    originalDifference
-  );
+  const transposeData = findNotesOnOtherString(notesToTranspose);
   transposeData.forEach((data) => {
     transposeSucceded.push(moveToOtherString(tabToTranspose, data));
   });
@@ -191,6 +183,7 @@ export const findNotesToTransposeAfterOctaveTranspose = function (
   strings,
   ukuleleFretLength
 ) {
+  let notesOnLowStrings = [];
   const transposeStrings = [];
   for (let i = 3; i >= 0; i--) {
     let stringsIndexes = findNotesIndexes(strings[i]);
@@ -205,19 +198,9 @@ export const findNotesToTransposeAfterOctaveTranspose = function (
     });
   }
   if (strings.length > 4) {
-    for (let i = 4; i < 6; i++) {
-      let notesIndexes = findNotesIndexes(strings[i]);
-      notesIndexes.forEach((noteIndex) => {
-        if (typeof strings[i][noteIndex] === "number")
-          transposeStrings.push({
-            stringId: i,
-            noteIndex: noteIndex,
-            string: strings[i],
-          });
-      });
-    }
+    notesOnLowStrings = findNotesToTransposeWhenNotesOnLowStrings(strings);
   }
-  return transposeStrings;
+  return transposeStrings.concat(notesOnLowStrings);
 };
 export const transposeOctave = function (guitarTab) {
   ukuleleBasicOctaveTranspose(guitarTab);
@@ -278,7 +261,6 @@ const moveHighGNotes = function () {
 
 export const transposeToHighG = function (ukuleleTab) {
   substractTwelve(ukuleleTab[3]);
-  const highGresult = JSON.parse(JSON.stringify(ukuleleTab));
   let transposeSucceded;
   if (moveTocString(ukuleleTab[3])) {
     const allNotesAllocated = tryMoveNotes(ukuleleTab[3]);
@@ -302,7 +284,6 @@ export const transposeToHighG = function (ukuleleTab) {
 };
 // store original note value before any transpose
 
-// TODO: refactor
 // TODO: fix dashes ending
 // TODO: show errors and warnings on FE
 // TODO: show "transposed by octave" label
