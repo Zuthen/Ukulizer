@@ -7,69 +7,81 @@ import {
 } from "./ukuleleStrings.js";
 
 const ukuleleFretLength = 18; // might be configurable in the future
-export const findNoteOnOtherString = function (
-  stringNumber,
-  note,
-  noteIndex,
-  originalDifference
-) {
-  const stringMap = [
-    { goDown: { stringIndex: 1, noteDifference: +5 } },
-    {
-      goUp: { stringIndex: 0, noteDifference: -5 },
-      goDown: { stringIndex: 2, noteDifference: +4 },
-    },
-    {
-      goUp: { stringIndex: 1, noteDifference: -4 },
-      goDown: { stringIndex: 3, noteDifference: +5 },
-    },
-    { goUp: { stringIndex: 2, noteDifference: -5 } },
-    { goUp: { stringIndex: 3, noteDifference: -5 } },
-    { goUp: { stringIndex: 3, noteDifference: -10 } },
-  ];
-  const mappedString = stringMap[stringNumber];
+const stringMap = [
+  { goDown: { stringIndex: 1, noteDifference: +5 } },
+  {
+    goUp: { stringIndex: 0, noteDifference: -5 },
+    goDown: { stringIndex: 2, noteDifference: +4 },
+  },
+  {
+    goUp: { stringIndex: 1, noteDifference: -4 },
+    goDown: { stringIndex: 3, noteDifference: +5 },
+  },
+  { goUp: { stringIndex: 2, noteDifference: -5 } },
+  { goUp: { stringIndex: 3, noteDifference: -5 } },
+  { goUp: { stringIndex: 3, noteDifference: -10 } },
+];
+
+const addGoUp = function (note, stringNumber, noteIndex) {
   const newNotes = [];
-  const addToNewNotes = function (noteToAdjust, stringMapItem) {
-    newNotes.push({
-      string: stringNumber,
-      noteIndex: noteIndex,
-      stringToMove: stringMapItem.stringIndex,
-      newNote: stringMapItem.noteDifference + noteToAdjust,
-      originalNote: note + originalDifference,
-    });
-  };
+  let currentStringMap = stringMap[stringNumber];
+  let currentNote = note;
+  while (currentStringMap.goUp !== undefined) {
+    if (currentNote + currentStringMap.goUp.noteDifference >= 0)
+      newNotes.push({
+        string: stringNumber,
+        noteIndex: noteIndex,
+        stringToMove: currentStringMap.goUp.stringIndex,
+        newNote: currentStringMap.goUp.noteDifference + currentNote,
+      });
+    if (stringMap[currentStringMap.goUp.stringIndex] === undefined) break;
+    currentNote += currentStringMap.goUp.noteDifference;
+    currentStringMap = stringMap[currentStringMap.goUp.stringIndex];
+  }
+  return newNotes;
+};
+
+const addGoDown = function (note, stringNumber, noteIndex) {
+  const newNotes = [];
+  let currentStringMap = stringMap[stringNumber];
+  let currentNote = note;
+  while (
+    currentNote <= ukuleleFretLength &&
+    currentStringMap.goDown !== undefined
+  ) {
+    if (currentNote + currentStringMap.goDown.noteDifference >= 0)
+      newNotes.push({
+        string: stringNumber,
+        noteIndex: noteIndex,
+        stringToMove: currentStringMap.goDown.stringIndex,
+        newNote: currentStringMap.goDown.noteDifference + currentNote,
+      });
+    if (stringMap[currentStringMap.goDown.stringIndex] === undefined) break;
+    currentNote += currentStringMap.goDown.noteDifference;
+    currentStringMap = stringMap[currentStringMap.goDown.stringIndex];
+  }
+  return newNotes;
+};
+
+export const findNoteOnOtherString = function (stringNumber, note, noteIndex) {
+  const mappedString = stringMap[stringNumber];
+  let possibleUpMoves = [];
+  let possibleDownMoves = [];
   if (
     mappedString.goUp !== undefined &&
     mappedString.goUp.noteDifference + note >= 0
   ) {
-    let currentNote = note;
-    let currentStringMap = stringMap[stringNumber];
-    while (currentStringMap.goUp !== undefined) {
-      if (currentNote + currentStringMap.goUp.noteDifference >= 0)
-        addToNewNotes(currentNote, currentStringMap.goUp);
-      if (stringMap[currentStringMap.goUp.stringIndex] === undefined) break;
-      currentNote += currentStringMap.goUp.noteDifference;
-      currentStringMap = stringMap[currentStringMap.goUp.stringIndex];
-    }
-  } else if (
+    possibleUpMoves = addGoUp(note, stringNumber, noteIndex);
+  }
+  if (
     mappedString.goDown !== undefined &&
     mappedString.goDown.noteDifference + note <= ukuleleFretLength
   ) {
-    let currentNote = note;
-    let currentStringMap = stringMap[stringNumber];
-    while (
-      currentNote <= ukuleleFretLength &&
-      currentStringMap.goDown !== undefined
-    ) {
-      if (currentNote + currentStringMap.goDown.noteDifference >= 0)
-        addToNewNotes(currentNote, currentStringMap.goDown);
-      if (stringMap[currentStringMap.goDown.stringIndex] === undefined) break;
-      currentNote += currentStringMap.goDown.noteDifference;
-      currentStringMap = stringMap[currentStringMap.goDown.stringIndex];
-    }
+    possibleDownMoves = addGoDown(note, stringNumber, noteIndex);
   }
-  return newNotes;
+  return possibleUpMoves.concat(possibleDownMoves);
 };
+
 export const findNotesToTranspose = function (strings) {
   const transposeStrings = [];
   for (let i = 3; i >= 0; i--) {

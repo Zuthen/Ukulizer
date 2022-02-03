@@ -17,6 +17,7 @@ export const convert = function (guitarTab) {
   if (moveToOtherString) {
     lowGresult = transpose(guitarTab, 5);
   } else lowGresult = cutAdditionalStrings(guitarTab);
+
   const highGresult = JSON.parse(JSON.stringify(lowGresult));
   if (!highGresult.includes(null)) {
     removeRedunantDashes(highGresult);
