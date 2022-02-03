@@ -5,8 +5,8 @@ import { prepareForConvert, removeRedunantDashes } from "./strings.js";
 import { addTable } from "./ui.js";
 import { convert } from "./converter.js";
 
-const convertButton = document.getElementById("convert");
 let tabInputText;
+const convertButton = document.getElementById("convert");
 const lowGResultTable = document.getElementById("lowGResult");
 const highGResultTable = document.getElementById("highGResult");
 
@@ -14,10 +14,11 @@ function init() {
   const results = document.querySelectorAll(".result");
   results.forEach((result) => result.classList.add("hidden"));
 }
-
-function showResults() {
-  const results = document.querySelectorAll(".result");
-  results.forEach((result) => result.classList.remove("hidden"));
+function showResult(resultTableUi, result) {
+  if (result) {
+    addTable(resultTableUi, result);
+    resultTableUi.classList.remove("hidden");
+  }
 }
 init();
 convertButton.addEventListener("click", function () {
@@ -25,7 +26,6 @@ convertButton.addEventListener("click", function () {
   const strings = splitGuitarTabByStrings(tabInputText);
   const tabSplittedByNotes = prepareForConvert(strings);
   const result = convert(tabSplittedByNotes);
-  if (result.lowGresult) addTable(lowGResultTable, result.lowGresult);
-  if (result.highGresult) addTable(highGResultTable, result.highGresult);
-  showResults();
+  showResult(lowGResultTable, result.lowGresult);
+  showResult(highGResultTable, result.highGresult);
 });

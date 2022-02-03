@@ -5,22 +5,7 @@ import {
   isTransposeToOtherStingNeededAfterOctaveTranspose,
   substractTwelve,
 } from "./ukuleleStrings.js";
-/*
-  MAP
-  UKULELE low g: 
-  string  index   note
-  0       0       A4
-  1       0       E4
-  2       0       C4
-  3       0       G3
 
-  0       5        A4    
-  1       10       A4    
-  2       14       A4    
-  3       19       A4    
-  4       24       A4    
-  5       29       A4    
-*/
 const ukuleleFretLength = 18; // might be configurable in the future
 export const findNoteOnOtherString = function (
   stringNumber,
@@ -294,10 +279,11 @@ export const transposeToHighG = function (ukuleleTab) {
   } else return ukuleleTab;
 };
 // store original note value before any transpose
-// TODO: fix tests
+
+// TODO: refactor
+// TODO: fix dashes ending
 // TODO: show errors and warnings on FE
 // TODO: show "transposed by octave" label
 // TODO: remove unused parameter: originalNote
-// TODO: fix dashes ending
 // TODO: fretLength as parameter
 // TODO: export to pdf with song and author name
