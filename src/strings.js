@@ -78,34 +78,34 @@ export const removeRedunantDashes = function (strings) {
     let offset = stringsOffsetAfterRemove[i - 1] - stringsOffset[i - 1];
     strings[i].splice(2, offset);
   }
-
   adjustEnd(strings);
   adjustStart(strings);
 };
 
-const lengthDifference = function (length, number) {
-  return length - number;
-};
-
-const adjustEnd = function (tables) {
-  const lastNotes = [];
-  tables.forEach((table) => {
-    const numberIndexes = findNotesIndexes(table);
-    let elementToAdd = verifyIndexes(numberIndexes, numberIndexes.length - 1);
-    lastNotes.push(elementToAdd);
-  });
-  let max = lastNotes[0];
-  lastNotes.forEach((note) => (max = note > max ? note : max));
-  tables.forEach((table) => {
-    let difference = lengthDifference(table.length, max + 1);
-    if (difference > 0) table.splice(max + 1, difference);
-    else {
-      while (difference < 0) {
-        table.push("—");
-        difference = lengthDifference(table.length, max + 1);
-      }
+export const adjustEnd = function (strings) {
+  const firstStringIndexes = findNotesIndexes(strings[0]);
+  let lastIndex = {
+    index: firstStringIndexes[firstStringIndexes.length - 1],
+    string: 0,
+  };
+  for (let i = 1; i < strings.length; i++) {
+    let notes = findNotesIndexes(strings[i]);
+    let lastNoteOnString = notes[notes.length - 1];
+    lastIndex = {
+      index:
+        lastNoteOnString > lastIndex.index ? lastNoteOnString : lastIndex.index,
+      string: lastNoteOnString > lastIndex.index ? i : lastIndex.string,
+    };
+  }
+  let ending = strings[lastIndex.string].length - lastIndex.index - 1;
+  strings.forEach((string) => {
+    while (string.length > lastIndex.index + 1) {
+      string.pop();
     }
-    table.push("—", "|");
+    for (let i = ending - 1; i > 0; i--) {
+      string.push("—");
+    }
+    string.push("|");
   });
 };
 

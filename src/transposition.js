@@ -163,7 +163,7 @@ const findNotesOnOtherString = function (notesToTransform) {
 };
 
 export const transpose = function (guitarTab) {
-  const tabToTranspose = JSON.parse(JSON.stringify(guitarTab));
+  const tabToTranspose = guitarTab.map((item) => Array.from(item));
   const notesToTranspose = findNotesToTranspose(tabToTranspose);
   const transposeSucceded = [];
   const transposeData = findNotesOnOtherString(notesToTranspose);

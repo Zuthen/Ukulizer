@@ -17,16 +17,16 @@ export const convert = function (guitarTab) {
   if (moveToOtherString) {
     lowGresult = transpose(guitarTab, 5);
   } else lowGresult = cutAdditionalStrings(guitarTab);
+  let highGresult;
 
-  const highGresult = JSON.parse(JSON.stringify(lowGresult));
-  if (!highGresult.includes(null)) {
-    removeRedunantDashes(highGresult);
-    transposeToHighG(highGresult);
-    removeRedunantDashes(highGresult);
-    changeStringNames(highGresult);
-    highGResultSucceded = true;
-  }
   if (!lowGresult.includes(undefined)) {
+    highGresult = lowGresult.map((item) => Array.from(item));
+    if (!highGresult.includes(null)) {
+      removeRedunantDashes(highGresult);
+      transposeToHighG(highGresult);
+      changeStringNames(highGresult);
+      highGResultSucceded = true;
+    }
     removeRedunantDashes(lowGresult);
     changeStringNames(lowGresult);
     lowGResultSucceded = true;

@@ -175,9 +175,9 @@ describe("transposition", () => {
       e1String,
     ];
     const eStringConverted = ["e", "|", "—", "—", "—", "—", "—", "—", "—", "|"];
-    const bStringConverted = ["B", "|", "—", "—", 4, "—", "—", "—", "—", "|"];
-    const gStringConverted = ["G", "|", "—", 2, "—", "—", "—", "—", "—", "|"];
-    const dStringConverted = ["D", "|", 2, "—", "—", 5, 1, 12, "—", "|"];
+    const bStringConverted = ["B", "|", "—", "—", 4, "—", "—", "—", "|"];
+    const gStringConverted = ["G", "|", "—", 2, "—", "—", "—", "—", "|"];
+    const dStringConverted = ["D", "|", 2, "—", "—", 5, 1, 12, "|"];
 
     const transposedTab = [
       eStringConverted,
@@ -233,12 +233,12 @@ describe("transposition", () => {
     const strings = [aString, eString, cString, gString, dString, e2String];
 
     const expectedResult = [
-      ["A", "|", "—", "—", 9, "—", 5, "—", "|"],
-      ["E", "|", "—", "—", 11, "—", "—", "—", "|"],
-      ["C", "|", "—", "—", 6, "—", 2, "—", "|"],
-      ["G", "|", "—", 9, 0, 11, 0, "—", "|"],
-      ["D", "|", "—", "—", "—", "—", "—", "—", "|"],
-      ["E", "|", "—", "—", "—", "—", "—", "—", "|"],
+      ["A", "|", "—", "—", 9, "—", 5, "|"],
+      ["E", "|", "—", "—", 11, "—", "—", "|"],
+      ["C", "|", "—", "—", 6, "—", 2, "|"],
+      ["G", "|", "—", 9, 0, 11, 0, "|"],
+      ["D", "|", "—", "—", "—", "—", "—", "|"],
+      ["E", "|", "—", "—", "—", "—", "—", "|"],
     ];
     // Act
     const result = transposeOctave(strings);
@@ -256,10 +256,10 @@ describe("transposition", () => {
     const e2String = ["E", "|", "-", "-", "-", "-"];
     const input = [aString, eString, cString, gString, dString, e2String];
     const expectedResult = [
-      ["A", "|", "—", "-", 13, "-", 14, "—", "|"],
-      ["E", "|", "—", "-", 12, "-", "-", "—", "|"],
-      ["C", "|", "—", "-", "-", "-", 13, "—", "|"],
-      ["G", "|", "—", 9, "-", 11, "-", "—", "|"],
+      ["A", "|", "—", "-", 13, "-", 14, "|"],
+      ["E", "|", "—", "-", 12, "-", "-", "|"],
+      ["C", "|", "—", "-", "-", "-", 13, "|"],
+      ["G", "|", "—", 9, "-", 11, "-", "|"],
     ];
     // Act
     const result = transpose(input);
