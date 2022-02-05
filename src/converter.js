@@ -15,7 +15,7 @@ export const convert = function (guitarTab) {
   ebgdBasicConvert(guitarTab);
   const moveToOtherString = isTransposeToOtherStingNeeded(guitarTab);
   if (moveToOtherString) {
-    lowGresult = transpose(guitarTab, 5);
+    lowGresult = transpose(guitarTab);
   } else lowGresult = cutAdditionalStrings(guitarTab);
   let highGresult;
 

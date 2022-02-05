@@ -616,7 +616,7 @@ describe("transposition", () => {
     // Assert
     expect(result).toStrictEqual(expectedResult);
   });
-  test("transpone from low G to high G tab", () => {
+  test("transpone from low G to high G tab with octave transpose", () => {
     // Arrange
     const aString = ["A", "|", "—", "—", 1, "—", 3, "—", "|"];
     const eString = ["E", "|", "—", "—", "—", "—", 1, "—", "|"];
@@ -628,6 +628,25 @@ describe("transposition", () => {
       ["E", "|", "—", "—", "—", "—", "—", 13, "—", "|"],
       ["C", "|", "—", "—", "—", 13, "—", "—", "—", "|"],
       ["G", "|", "—", 7, "—", "—", "—", 0, "—", "|"],
+    ];
+    // Act
+    const highGukuleleTab = transposeToHighG(input);
+    removeRedunantDashes(highGukuleleTab);
+    // Assert
+    expect(highGukuleleTab).toStrictEqual(expectedResult);
+  });
+  test("transpone from low G to high G without octave transpose", () => {
+    // Arrange
+    const aString = ["A", "|", "—", "—", 1, "—", 3, "—", "|"];
+    const eString = ["E", "|", "—", "—", "—", "—", 1, "—", "|"];
+    const cString = ["C", "|", "—", "—", 1, "—", "—", "—", "|"];
+    const gString = ["G", "|", 17, "—", "—", "—", "—", "—", "|"];
+    const input = [aString, eString, cString, gString];
+    const expectedResult = [
+      ["A", "|", "—", "—", "—", 1, "—", 3, "—", "|"],
+      ["E", "|", "—", "—", "—", "—", "—", 1, "—", "|"],
+      ["C", "|", "—", "—", "—", 1, "—", "—", "—", "|"],
+      ["G", "|", "—", 5, "—", "—", "—", "—", "—", "|"],
     ];
     // Act
     const highGukuleleTab = transposeToHighG(input);
