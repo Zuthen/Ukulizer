@@ -269,13 +269,14 @@ export const transposeToHighG = function (ukuleleTab) {
   );
   if (transposeOctaveNeeded) {
     transposeOctave(ukuleleTab);
-    const moveTocString = moveTocStringNeeded(ukuleleTab[3]);
-    if (moveTocString) {
-      const transposeSucceded = moveHighGNotes(ukuleleTab);
-      if (transposeSucceded) return ukuleleTab;
-      else return Error("Transpose failed");
-    } else return ukuleleTab;
-  } else return ukuleleTab;
+  }
+  const moveTocString = moveTocStringNeeded(ukuleleTab[3]);
+  if (moveTocString) {
+    const transposeSucceded = moveHighGNotes(ukuleleTab);
+    if (transposeSucceded) return ukuleleTab;
+    else return Error("Transpose failed");
+  }
+  return ukuleleTab;
 };
 
 // TODO: show errors and warnings on FE

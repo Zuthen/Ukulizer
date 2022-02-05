@@ -654,4 +654,24 @@ describe("transposition", () => {
     // Assert
     expect(highGukuleleTab).toStrictEqual(expectedResult);
   });
+
+  test("transpone from low G to high G with move to C string", () => {
+    // Arrange
+    const aString = ["A", "|", "—", "—", 1, "—", 3, "—", "|"];
+    const eString = ["E", "|", "—", "—", "—", "—", 1, "—", "|"];
+    const cString = ["C", "|", "—", "—", 1, "—", "—", "—", "|"];
+    const gString = ["G", "|", 32, "—", "—", "—", "—", "—", "|"];
+    const input = [aString, eString, cString, gString];
+    const expectedResult = [
+      ["A", "|", "—", "—", "—", 1, "—", 3, "—", "|"],
+      ["E", "|", "—", "—", "—", "—", "—", 1, "—", "|"],
+      ["C", "|", "—", 15, "—", 1, "—", "—", "—", "|"],
+      ["G", "|", "—", "—", "—", "—", "—", "—", "—", "|"],
+    ];
+    // Act
+    const highGukuleleTab = transposeToHighG(input);
+    removeRedunantDashes(highGukuleleTab);
+    // Assert
+    expect(highGukuleleTab).toStrictEqual(expectedResult);
+  });
 });
