@@ -163,15 +163,20 @@ const findNotesOnOtherString = function (notesToTransform) {
 };
 
 export const transpose = function (guitarTab) {
+  console.log(guitarTab);
   const tabToTranspose = guitarTab.map((item) => Array.from(item));
   const notesToTranspose = findNotesToTranspose(tabToTranspose);
   const transposeSucceded = [];
   const transposeData = findNotesOnOtherString(notesToTranspose);
+
   transposeData.forEach((data) => {
     transposeSucceded.push(moveToOtherString(tabToTranspose, data));
   });
-  if (!transposeSucceded.includes(false)) {
+  const success = !transposeSucceded.includes(false);
+
+  if (success) {
     const result = cutAdditionalStrings(tabToTranspose);
+    console.log(result);
     return result;
   } else {
     const ukuleleTab = transposeOctave(guitarTab);
