@@ -1,8 +1,7 @@
 "use strict";
-import { splitGuitarTabByStrings, ebgdBasicConvert } from "./guitarStrings.js";
-
-import { prepareForConvert, removeRedunantDashes } from "./strings.js";
-import { addTable } from "./ui.js";
+import { splitGuitarTabByStrings } from "./guitarStrings.js";
+import { prepareForConvert } from "./strings.js";
+import { addTable, addTableWarning } from "./ui.js";
 import { convert } from "./converter.js";
 
 let tabInputText;
@@ -16,7 +15,10 @@ function init() {
 }
 function showResult(resultTableUi, result) {
   if (result) {
-    addTable(resultTableUi, result);
+    let tableId = resultTableUi.id;
+    if (result.transposed)
+      addTableWarning(tableId, `⚠️ Transposed by an octave!`);
+    addTable(resultTableUi, result.result);
     resultTableUi.classList.remove("hidden");
   }
 }

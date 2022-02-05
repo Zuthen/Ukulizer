@@ -397,149 +397,152 @@ describe("transposition", () => {
         "|",
       ],
     ];
-    const output = [
-      [
-        "E",
-        "|",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        0,
-        "—",
-        "—",
-        "—",
-        "—",
-        0,
-        "—",
-        2,
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "|",
+    const output = {
+      result: [
+        [
+          "E",
+          "|",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          0,
+          "—",
+          "—",
+          "—",
+          "—",
+          0,
+          "—",
+          2,
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "|",
+        ],
+        [
+          "B",
+          "|",
+          "—",
+          2,
+          "—",
+          3,
+          "—",
+          2,
+          "—",
+          "—",
+          3,
+          "—",
+          "—",
+          "—",
+          3,
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          3,
+          "—",
+          0,
+          "—",
+          0,
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "|",
+        ],
+        [
+          "G",
+          "|",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "|",
+        ],
+        [
+          "D",
+          "|",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          4,
+          "—",
+          "—",
+          "|",
+        ],
       ],
-      [
-        "B",
-        "|",
-        "—",
-        2,
-        "—",
-        3,
-        "—",
-        2,
-        "—",
-        "—",
-        3,
-        "—",
-        "—",
-        "—",
-        3,
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        3,
-        "—",
-        0,
-        "—",
-        0,
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "|",
-      ],
-      [
-        "G",
-        "|",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "|",
-      ],
-      [
-        "D",
-        "|",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        "—",
-        4,
-        "—",
-        "—",
-        "|",
-      ],
-    ];
+      transposed: false,
+    };
     // Act
     let result = transpose(input);
-    removeRedunantDashes(result);
+    removeRedunantDashes(result.result);
     // Assert
-    expect(result.length).toStrictEqual(4);
+    expect(result.result.length).toStrictEqual(4);
     expect(result).toStrictEqual(output);
   });
   test("find notes to transpose after octave transpose", () => {
@@ -604,15 +607,18 @@ describe("transposition", () => {
     const dString = ["D", "|", 2, "-", 4, "-"];
     const e2String = ["E", "|", "-", "-", "-", "-"];
     const input = [aString, eString, cString, gString, dString, e2String];
-    const expectedResult = [
-      ["A", "|", "—", "-", 13, "-", 14, "|"],
-      ["E", "|", "—", "-", 12, "-", "-", "|"],
-      ["C", "|", "—", "-", "-", "-", 13, "|"],
-      ["G", "|", "—", 9, "-", 11, "-", "|"],
-    ];
+    const expectedResult = {
+      result: [
+        ["A", "|", "—", "-", 13, "-", 14, "|"],
+        ["E", "|", "—", "-", 12, "-", "-", "|"],
+        ["C", "|", "—", "-", "-", "-", 13, "|"],
+        ["G", "|", "—", 9, "-", 11, "-", "|"],
+      ],
+      transposed: true,
+    };
     // Act
     const result = transpose(input);
-    removeRedunantDashes(result);
+    removeRedunantDashes(result.result);
     // Assert
     expect(result).toStrictEqual(expectedResult);
   });
@@ -623,15 +629,18 @@ describe("transposition", () => {
     const cString = ["C", "|", "—", "—", 1, "—", "—", "—", "|"];
     const gString = ["G", "|", 7, "—", "—", "—", 0, "—", "|"];
     const input = [aString, eString, cString, gString];
-    const expectedResult = [
-      ["A", "|", "—", "—", "—", 13, "—", 15, "—", "|"],
-      ["E", "|", "—", "—", "—", "—", "—", 13, "—", "|"],
-      ["C", "|", "—", "—", "—", 13, "—", "—", "—", "|"],
-      ["G", "|", "—", 7, "—", "—", "—", 0, "—", "|"],
-    ];
+    const expectedResult = {
+      result: [
+        ["A", "|", "—", "—", "—", 13, "—", 15, "—", "|"],
+        ["E", "|", "—", "—", "—", "—", "—", 13, "—", "|"],
+        ["C", "|", "—", "—", "—", 13, "—", "—", "—", "|"],
+        ["G", "|", "—", 7, "—", "—", "—", 0, "—", "|"],
+      ],
+      transposed: true,
+    };
     // Act
     const highGukuleleTab = transposeToHighG(input);
-    removeRedunantDashes(highGukuleleTab);
+    removeRedunantDashes(highGukuleleTab.result);
     // Assert
     expect(highGukuleleTab).toStrictEqual(expectedResult);
   });
@@ -642,15 +651,18 @@ describe("transposition", () => {
     const cString = ["C", "|", "—", "—", 1, "—", "—", "—", "|"];
     const gString = ["G", "|", 17, "—", "—", "—", "—", "—", "|"];
     const input = [aString, eString, cString, gString];
-    const expectedResult = [
-      ["A", "|", "—", "—", "—", 1, "—", 3, "—", "|"],
-      ["E", "|", "—", "—", "—", "—", "—", 1, "—", "|"],
-      ["C", "|", "—", "—", "—", 1, "—", "—", "—", "|"],
-      ["G", "|", "—", 5, "—", "—", "—", "—", "—", "|"],
-    ];
+    const expectedResult = {
+      result: [
+        ["A", "|", "—", "—", "—", 1, "—", 3, "—", "|"],
+        ["E", "|", "—", "—", "—", "—", "—", 1, "—", "|"],
+        ["C", "|", "—", "—", "—", 1, "—", "—", "—", "|"],
+        ["G", "|", "—", 5, "—", "—", "—", "—", "—", "|"],
+      ],
+      transposed: false,
+    };
     // Act
     const highGukuleleTab = transposeToHighG(input);
-    removeRedunantDashes(highGukuleleTab);
+    removeRedunantDashes(highGukuleleTab.result);
     // Assert
     expect(highGukuleleTab).toStrictEqual(expectedResult);
   });
@@ -662,15 +674,18 @@ describe("transposition", () => {
     const cString = ["C", "|", "—", "—", 1, "—", "—", "—", "|"];
     const gString = ["G", "|", 32, "—", "—", "—", "—", "—", "|"];
     const input = [aString, eString, cString, gString];
-    const expectedResult = [
-      ["A", "|", "—", "—", "—", 1, "—", 3, "—", "|"],
-      ["E", "|", "—", "—", "—", "—", "—", 1, "—", "|"],
-      ["C", "|", "—", 15, "—", 1, "—", "—", "—", "|"],
-      ["G", "|", "—", "—", "—", "—", "—", "—", "—", "|"],
-    ];
+    const expectedResult = {
+      result: [
+        ["A", "|", "—", "—", "—", 1, "—", 3, "—", "|"],
+        ["E", "|", "—", "—", "—", "—", "—", 1, "—", "|"],
+        ["C", "|", "—", 15, "—", 1, "—", "—", "—", "|"],
+        ["G", "|", "—", "—", "—", "—", "—", "—", "—", "|"],
+      ],
+      transposed: false,
+    };
     // Act
     const highGukuleleTab = transposeToHighG(input);
-    removeRedunantDashes(highGukuleleTab);
+    removeRedunantDashes(highGukuleleTab.result);
     // Assert
     expect(highGukuleleTab).toStrictEqual(expectedResult);
   });

@@ -109,7 +109,7 @@ export const adjustEnd = function (strings) {
   });
 };
 
-const adjustStart = function (tables) {
+export const adjustStart = function (tables) {
   const firstNotes = [];
   tables.forEach((table) => {
     const numberIndexes = findNotesIndexes(table);

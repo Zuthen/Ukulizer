@@ -19,3 +19,10 @@ export function addTable(resultTable, stringLines) {
   }
   resultTable.appendChild(table);
 }
+export function addTableWarning(tableId, headerText) {
+  let warning = document.createElement("p");
+  let text = document.createTextNode(headerText);
+  warning.appendChild(text);
+  let element = document.getElementById(tableId);
+  element.appendChild(warning);
+}

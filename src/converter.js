@@ -4,6 +4,8 @@ import {
   removeRedunantDashes,
   cutAdditionalStrings,
   isTransposeToOtherStingNeeded,
+  adjustEnd,
+  adjustStart,
 } from "./strings.js";
 import { transpose as transpose, transposeToHighG } from "./transposition.js";
 import { ebgdBasicConvert } from "./guitarStrings.js";
@@ -16,19 +18,21 @@ export const convert = function (guitarTab) {
   const moveToOtherString = isTransposeToOtherStingNeeded(guitarTab);
   if (moveToOtherString) {
     lowGresult = transpose(guitarTab);
-  } else lowGresult = cutAdditionalStrings(guitarTab);
+  } else {
+    lowGresult = { result: cutAdditionalStrings(guitarTab), transposed: false };
+  }
+  let highGtab;
   let highGresult;
-
-  if (!lowGresult.includes(undefined)) {
-    highGresult = lowGresult.map((item) => Array.from(item));
-    if (!highGresult.includes(null)) {
-      removeRedunantDashes(highGresult);
-      transposeToHighG(highGresult);
-      changeStringNames(highGresult);
+  if (!lowGresult.result.includes(undefined)) {
+    highGtab = lowGresult.result.map((item) => Array.from(item));
+    if (!highGtab.includes(null)) {
+      highGresult = transposeToHighG(highGtab);
+      removeRedunantDashes(highGresult.result);
+      changeStringNames(highGresult.result);
       highGResultSucceded = true;
     }
-    removeRedunantDashes(lowGresult);
-    changeStringNames(lowGresult);
+    removeRedunantDashes(lowGresult.result);
+    changeStringNames(lowGresult.result);
     lowGResultSucceded = true;
   }
   if (highGResultSucceded || lowGResultSucceded) {

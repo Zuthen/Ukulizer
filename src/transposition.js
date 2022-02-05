@@ -167,7 +167,6 @@ export const transpose = function (guitarTab) {
   const notesToTranspose = findNotesToTranspose(tabToTranspose);
   const transposeSucceded = [];
   const transposeData = findNotesOnOtherString(notesToTranspose);
-
   transposeData.forEach((data) => {
     transposeSucceded.push(moveToOtherString(tabToTranspose, data));
   });
@@ -175,11 +174,11 @@ export const transpose = function (guitarTab) {
 
   if (success) {
     const result = cutAdditionalStrings(tabToTranspose);
-    return result;
+    return { result: result, transposed: false };
   } else {
     const ukuleleTab = transposeOctave(guitarTab);
     const result = cutAdditionalStrings(ukuleleTab);
-    return result;
+    return { result: result, transposed: true };
   }
 };
 export const findNotesToTransposeAfterOctaveTranspose = function (
@@ -261,6 +260,7 @@ const transposeOctaveNeededForHighG = function (notesIndexes, string) {
   return transposeOctaveNeeded;
 };
 export const transposeToHighG = function (ukuleleTab) {
+  let transposed = false;
   substractTwelve(ukuleleTab[3]);
   const notesIndexes = findNotesIndexes(ukuleleTab[3]);
   const transposeOctaveNeeded = transposeOctaveNeededForHighG(
@@ -269,14 +269,16 @@ export const transposeToHighG = function (ukuleleTab) {
   );
   if (transposeOctaveNeeded) {
     transposeOctave(ukuleleTab);
+    transposed = true;
   }
   const moveTocString = moveTocStringNeeded(ukuleleTab[3]);
   if (moveTocString) {
     const transposeSucceded = moveHighGNotes(ukuleleTab);
-    if (transposeSucceded) return ukuleleTab;
+    if (transposeSucceded)
+      return { result: ukuleleTab, transposed: transposed };
     else return Error("Transpose failed");
   }
-  return ukuleleTab;
+  return { result: ukuleleTab, transposed: transposed };
 };
 
 // TODO: show errors and warnings on FE

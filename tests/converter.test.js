@@ -34,15 +34,18 @@ describe("Converter tests", () => {
     const dString = ["D", "|", 2, "—", 4, "—"];
     const e2String = ["E", "|", "—", "—", "—", "—"];
     const input = [aString, eString, cString, gString, dString, e2String];
-    const expectedResult = [
-      ["A", "|", "—", "—", 8, "—", 9, "|"],
-      ["E", "|", "—", "—", 7, "—", "—", "|"],
-      ["C", "|", "—", "—", "—", "—", 8, "|"],
-      ["G", "|", "—", 4, "—", 6, "—", "|"],
-    ];
+    const expectedResult = {
+      result: [
+        ["A", "|", "—", "—", 8, "—", 9, "|"],
+        ["E", "|", "—", "—", 7, "—", "—", "|"],
+        ["C", "|", "—", "—", "—", "—", 8, "|"],
+        ["G", "|", "—", 4, "—", 6, "—", "|"],
+      ],
+      transposed: true,
+    };
     // Act
     const result = convert(input);
-    removeRedunantDashes(result.lowGresult);
+    removeRedunantDashes(result.lowGresult.result);
     // Assert
     expect(result.lowGresult).toStrictEqual(expectedResult);
   });
