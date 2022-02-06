@@ -282,7 +282,5 @@ export const transposeToHighG = function (ukuleleTab) {
 };
 
 // TODO: show errors and warnings on FE
-// TODO: show "transposed by octave" label
-
 // TODO: fretLength as parameter
 // TODO: export to pdf with song and author name
