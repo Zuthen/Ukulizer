@@ -23,7 +23,7 @@ export const convertToLowG = function (tabStrings) {
   let result;
   if (moveToOtherString) {
     result = transpose(tab);
-  } else result = { result: tab, transposed: false };
+  } else result = { result: cutAdditionalStrings(tab), transposed: false };
   if (result.result.includes(undefined)) {
     transposeSucceded = false;
     console.error("transpostiton for low g failed");
