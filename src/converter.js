@@ -15,7 +15,7 @@ const formatResult = function (tab) {
   changeStringNames(tab);
 };
 
-export const convertToLowG = function (tabStrings) {
+export const convertToLowG = function (tabStrings, fretLength) {
   const tab = prepareForConvert(tabStrings);
   ebgdBasicConvert(tab);
   const moveToOtherString = isTransposeToOtherStingNeeded(tab);
@@ -32,14 +32,14 @@ export const convertToLowG = function (tabStrings) {
     return result;
   }
 };
-export const convertToHighG = function (tabStrings) {
-  const lowG = convertToLowG(tabStrings);
+export const convertToHighG = function (tabStrings, fretLength) {
+  const lowG = convertToLowG(tabStrings, fretLength);
   let result;
   if (lowG === undefined) {
     console.error("transpostiton for low g failed");
     return;
   } else {
-    result = transposeToHighG(lowG.result);
+    result = transposeToHighG(lowG.result, fretLength);
     if (result.result !== undefined) {
       formatResult(result.result);
       return result;

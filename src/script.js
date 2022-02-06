@@ -7,6 +7,7 @@ let tabInputText;
 const convertButton = document.getElementById("convert");
 const lowGResultTable = document.getElementById("lowGResult");
 const highGResultTable = document.getElementById("highGResult");
+const fretLengthInput = document.getElementById("fretLength");
 
 function init() {
   const results = document.querySelectorAll(".result");
@@ -21,12 +22,20 @@ function showResult(resultTableUi, result) {
     resultTableUi.classList.remove("hidden");
   }
 }
+export function getFretLength() {
+  let result = Number(fretLengthInput.value);
+  if (Number(result) === 0) return 18;
+  else return result;
+}
+
 init();
 convertButton.addEventListener("click", function () {
   tabInputText = document.getElementById("guitar-tab").value;
   const strings = splitGuitarTabByStrings(tabInputText);
-  const lowGresult = convertToLowG(strings);
+  const fretLength = getFretLength();
+  const lowGresult = convertToLowG(strings, fretLength);
   showResult(lowGResultTable, lowGresult);
-  const higGresult = convertToHighG(strings);
+
+  const higGresult = convertToHighG(strings, fretLength);
   showResult(highGResultTable, higGresult);
 });

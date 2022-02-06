@@ -153,7 +153,8 @@ describe("transposition", () => {
         data.string,
         data.note,
         data.noteIndex,
-        1
+        1,
+        18
       );
       expect(result).toStrictEqual(data.expectedResult);
     });
@@ -539,7 +540,7 @@ describe("transposition", () => {
       transposed: false,
     };
     // Act
-    let result = transpose(input);
+    let result = transpose(input, 18);
     removeRedunantDashes(result.result);
     // Assert
     expect(result.result.length).toStrictEqual(4);
@@ -684,7 +685,7 @@ describe("transposition", () => {
       transposed: false,
     };
     // Act
-    const highGukuleleTab = transposeToHighG(input);
+    const highGukuleleTab = transposeToHighG(input, 18);
     removeRedunantDashes(highGukuleleTab.result);
     // Assert
     expect(highGukuleleTab).toStrictEqual(expectedResult);
