@@ -83,19 +83,32 @@ export const removeRedunantDashes = function (strings) {
 };
 
 export const adjustEnd = function (strings) {
-  const firstStringIndexes = findNotesIndexes(strings[0]);
+  let lastNoteIndex;
+  let stringIndex;
+  strings.forEach((string) => {
+    let indexes = findNotesIndexes(string);
+    if (indexes.length > 0) {
+      lastNoteIndex = indexes[indexes.length - 1];
+      stringIndex = strings.indexOf(string);
+    }
+  });
   let lastIndex = {
-    index: firstStringIndexes[firstStringIndexes.length - 1],
-    string: 0,
+    index: lastNoteIndex,
+    string: stringIndex,
   };
-  for (let i = 1; i < strings.length; i++) {
+  let lastNoteOnString;
+  for (let i = 0; i < strings.length; i++) {
     let notes = findNotesIndexes(strings[i]);
-    let lastNoteOnString = notes[notes.length - 1];
-    lastIndex = {
-      index:
-        lastNoteOnString > lastIndex.index ? lastNoteOnString : lastIndex.index,
-      string: lastNoteOnString > lastIndex.index ? i : lastIndex.string,
-    };
+    if (notes.length > 0) {
+      lastNoteOnString = notes[notes.length - 1];
+      lastIndex = {
+        index:
+          lastNoteOnString > lastIndex.index
+            ? lastNoteOnString
+            : lastIndex.index,
+        string: lastNoteOnString > lastIndex.index ? i : lastIndex.string,
+      };
+    }
   }
   let ending = strings[lastIndex.string].length - lastIndex.index - 1;
   strings.forEach((string) => {

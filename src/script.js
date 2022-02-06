@@ -1,8 +1,7 @@
 "use strict";
 import { splitGuitarTabByStrings } from "./guitarStrings.js";
-import { prepareForConvert } from "./strings.js";
 import { addTable, addTableWarning } from "./ui.js";
-import { convert } from "./converter.js";
+import { convertToLowG, convertToHighG } from "./converter.js";
 
 let tabInputText;
 const convertButton = document.getElementById("convert");
@@ -26,8 +25,8 @@ init();
 convertButton.addEventListener("click", function () {
   tabInputText = document.getElementById("guitar-tab").value;
   const strings = splitGuitarTabByStrings(tabInputText);
-  const tabSplittedByNotes = prepareForConvert(strings);
-  const result = convert(tabSplittedByNotes);
-  showResult(lowGResultTable, result.lowGresult);
-  showResult(highGResultTable, result.highGresult);
+  const lowGresult = convertToLowG(strings);
+  showResult(lowGResultTable, lowGresult);
+  const higGresult = convertToHighG(strings);
+  showResult(highGResultTable, higGresult);
 });

@@ -4,38 +4,45 @@ import {
   removeRedunantDashes,
   cutAdditionalStrings,
   isTransposeToOtherStingNeeded,
-  adjustEnd,
-  adjustStart,
+  prepareForConvert,
 } from "./strings.js";
 import { transpose as transpose, transposeToHighG } from "./transposition.js";
 import { ebgdBasicConvert } from "./guitarStrings.js";
 
-export const convert = function (guitarTab) {
-  let lowGresult = [];
-  let lowGResultSucceded = false;
-  let highGResultSucceded = false;
-  ebgdBasicConvert(guitarTab);
-  const moveToOtherString = isTransposeToOtherStingNeeded(guitarTab);
+const formatResult = function (tab) {
+  cutAdditionalStrings(tab);
+  removeRedunantDashes(tab);
+  changeStringNames(tab);
+};
+
+export const convertToLowG = function (tabStrings) {
+  const tab = prepareForConvert(tabStrings);
+  ebgdBasicConvert(tab);
+  const moveToOtherString = isTransposeToOtherStingNeeded(tab);
+  let transposeSucceded = true;
+  let result;
   if (moveToOtherString) {
-    lowGresult = transpose(guitarTab);
+    result = transpose(tab);
+  } else result = { result: tab, transposed: false };
+  if (result.result.includes(undefined)) {
+    transposeSucceded = false;
+    console.error("transpostiton for low g failed");
   } else {
-    lowGresult = { result: cutAdditionalStrings(guitarTab), transposed: false };
+    formatResult(result.result);
+    return result;
   }
-  let highGtab;
-  let highGresult;
-  if (!lowGresult.result.includes(undefined)) {
-    highGtab = lowGresult.result.map((item) => Array.from(item));
-    if (!highGtab.includes(null)) {
-      highGresult = transposeToHighG(highGtab);
-      removeRedunantDashes(highGresult.result);
-      changeStringNames(highGresult.result);
-      highGResultSucceded = true;
-    }
-    removeRedunantDashes(lowGresult.result);
-    changeStringNames(lowGresult.result);
-    lowGResultSucceded = true;
+};
+export const convertToHighG = function (tabStrings) {
+  const lowG = convertToLowG(tabStrings);
+  let result;
+  if (lowG === undefined) {
+    console.error("transpostiton for low g failed");
+    return;
+  } else {
+    result = transposeToHighG(lowG.result);
+    if (result.result !== undefined) {
+      formatResult(result.result);
+      return result;
+    } else console.error("transpostition to high G failed");
   }
-  if (highGResultSucceded || lowGResultSucceded) {
-    return { lowGresult, highGresult };
-  } else return Error(`Transpose failed for both low and high g result`);
 };
