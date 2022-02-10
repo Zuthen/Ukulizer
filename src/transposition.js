@@ -55,7 +55,6 @@ const addGoDown = function (note, stringNumber, noteIndex, ukuleleFretLength) {
         stringToMove: currentStringMap.goDown.stringIndex,
         newNote: currentStringMap.goDown.noteDifference + currentNote,
       });
-    console.log(stringMap[currentStringMap.goDown.stringIndex]);
     if (stringMap[currentStringMap.goDown.stringIndex] === undefined) break;
     currentNote += currentStringMap.goDown.noteDifference;
     currentStringMap = stringMap[currentStringMap.goDown.stringIndex];
@@ -69,7 +68,6 @@ export const findNoteOnOtherString = function (
   noteIndex,
   fretLength
 ) {
-  console.log(stringNumber, note);
   const mappedString = stringMap[stringNumber];
   let possibleUpMoves = [];
   let possibleDownMoves = [];
@@ -84,7 +82,6 @@ export const findNoteOnOtherString = function (
     mappedString.goDown.noteDifference + note <= fretLength
   ) {
     possibleDownMoves = addGoDown(note, stringNumber, noteIndex, fretLength);
-    console.log(possibleDownMoves);
   }
   return possibleUpMoves.concat(possibleDownMoves);
 };
@@ -244,7 +241,7 @@ const findNotesToMoveForGString = function (ukuleleTabLine, fretLength) {
   const notes = findNotesIndexes(ukuleleTabLine);
   const notesToMove = [];
   notes.forEach((note) => {
-    if (ukuleleTabLine[note] > fretLength || ukuleleTabLine[note] < 0) {
+    if (ukuleleTabLine[note] >= fretLength || ukuleleTabLine[note] < 0) {
       notesToMove.push(
         findNoteOnOtherString(3, ukuleleTabLine[note], note, fretLength)
       );
@@ -299,6 +296,4 @@ export const transposeToHighG = function (ukuleleTab, ukuleleFretLength) {
 };
 
 // TODO: show errors and warnings on FE
-
-// TODO: fretLength as parameter
 // TODO: export to pdf with song and author name

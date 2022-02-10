@@ -5,5 +5,8 @@
   },
   "devDependencies": {
     "jest": "^27.4.7"
+  },
+  "dependencies": {
+    "jspdf": "^2.5.1"
   }
 }

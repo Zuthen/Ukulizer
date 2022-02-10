@@ -7,9 +7,12 @@ body {
 textarea {
   box-sizing: border-box;
   width: 90%;
-  height: 100px;
+  height: 110px;
   resize: none;
   left: 2%;
+  border-width: 5px;
+  border-color: #111;
+  border-radius: 4px;
 }
 
 table {
@@ -41,14 +44,18 @@ h2 {
 
 label {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-  font-size: small;
+  font-size: medium;
 }
 
+#generate-pdf {
+  left: 80%;
+}
 #fretLength {
   height: 20px;
   width: 20px;
   margin: 5px;
   justify-content: center;
+  font-size: medium;
 }
 
 .hidden {
@@ -118,4 +125,8 @@ label {
   .button {
     padding: 0 40px;
   }
+}
+
+::placeholder {
+  font-size: 18px;
 }

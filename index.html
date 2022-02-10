@@ -17,7 +17,6 @@
       <span>
         <label>Ukulele frets count:</label>
         <input id="fretLength" placeholder="18"></input>
-        <label>(optional, set to 18 by default)</label>
       </span></br>
     </br>
       </span>
@@ -27,19 +26,19 @@
       </div>
       </br>
     <button id="convert" class="button">Convert to ukulele tab</button>
-
 </br>
-
-<div  class="result hidden" id="lowGResult">
+<div id="html-template">
+  <button id="generate-pdf" class="button">Download pdf</button>
+<div class="result hidden" id="lowGResult">
 <h2 >Low G ukulele tab</h3>
 <div  class="row">
     </div>
 </div>
-
 <div class="result hidden" id="highGResult" >
     <h2>High G ukulele tab</h3>
     <div class="row">
         </div>
+</div>
 </div>
     <script type="module" src="testing.js" ></script>
     <script type="module" src="src/script.js" ></script>

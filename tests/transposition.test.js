@@ -153,7 +153,6 @@ describe("transposition", () => {
         data.string,
         data.note,
         data.noteIndex,
-        1,
         18
       );
       expect(result).toStrictEqual(data.expectedResult);

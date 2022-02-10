@@ -8,10 +8,12 @@ const convertButton = document.getElementById("convert");
 const lowGResultTable = document.getElementById("lowGResult");
 const highGResultTable = document.getElementById("highGResult");
 const fretLengthInput = document.getElementById("fretLength");
+const generatePdfButton = document.getElementById("generate-pdf");
 
 function init() {
   const results = document.querySelectorAll(".result");
   results.forEach((result) => result.classList.add("hidden"));
+  generatePdfButton.classList.add("hidden");
 }
 function showResult(resultTableUi, result) {
   if (result) {
