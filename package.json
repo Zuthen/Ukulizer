@@ -7,6 +7,7 @@
     "jest": "^27.4.7"
   },
   "dependencies": {
-    "jspdf": "^2.5.1"
+    "jspdf": "^2.5.1",
+    "pdfmake": "^0.2.4"
   }
 }

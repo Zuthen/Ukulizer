@@ -8,6 +8,7 @@ import {
 } from "./strings.js";
 import { transpose as transpose, transposeToHighG } from "./transposition.js";
 import { ebgdBasicConvert } from "./guitarStrings.js";
+import { Toast } from "./toasts.js";
 
 const formatResult = function (tab) {
   cutAdditionalStrings(tab);
@@ -26,7 +27,12 @@ export const convertToLowG = function (tabStrings, fretLength) {
   } else result = { result: cutAdditionalStrings(tab), transposed: false };
   if (result.result.includes(undefined)) {
     transposeSucceded = false;
-    console.error("transpostiton for low g failed");
+    new Toast({
+      message:
+        "Transposition for Low G failed. Tab is unconvertible or this solution is not good enough ",
+      type: "warning",
+    });
+    throw `Transpose for Low G failed`;
   } else {
     formatResult(result.result);
     return result;
@@ -36,13 +42,20 @@ export const convertToHighG = function (tabStrings, fretLength) {
   const lowG = convertToLowG(tabStrings, fretLength);
   let result;
   if (lowG === undefined) {
-    console.error("transpostiton for low g failed");
+    throw `convertToHighG: Transpose for Low G failed`;
     return;
   } else {
     result = transposeToHighG(lowG.result, fretLength);
     if (result.result !== undefined) {
       formatResult(result.result);
       return result;
-    } else console.error("transpostition to high G failed");
+    } else {
+      new Toast({
+        message:
+          "Transposition for High G failed. Tab is unconvertible or this solution is not good enough ",
+        type: "warning",
+      });
+      throw `Transpose for High G failed`;
+    }
   }
 };

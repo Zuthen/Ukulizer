@@ -5,6 +5,7 @@ import {
   isTransposeToOtherStingNeededAfterOctaveTranspose,
   substractTwelve,
 } from "./ukuleleStrings.js";
+import { Toast } from "./toasts.js";
 
 const stringMap = [
   { goDown: { stringIndex: 1, noteDifference: +5 } },
@@ -234,7 +235,14 @@ export const transposeOctave = function (guitarTab, ukuleleFretLength) {
     });
     if (!transposeSucceded.includes(false)) {
       return guitarTab;
-    } else return Error(`Transpose failed`);
+    } else {
+      new Toast({
+        message:
+          "Transposition failed. Tab is unconvertible or this solution is not good enough ",
+        type: "danger",
+      });
+      throw `Transpose failed`;
+    }
   } else return guitarTab;
 };
 const findNotesToMoveForGString = function (ukuleleTabLine, fretLength) {
@@ -290,10 +298,16 @@ export const transposeToHighG = function (ukuleleTab, ukuleleFretLength) {
     const transposeSucceded = moveHighGNotes(ukuleleTab, ukuleleFretLength);
     if (transposeSucceded)
       return { result: ukuleleTab, transposed: transposed };
-    else return Error("Transpose failed");
+    else {
+      new Toast({
+        message:
+          "Transposition failed. Tab is unconvertible or this solution is not good enough ",
+        type: "danger",
+      });
+      throw `Transpose failed`;
+    }
   }
   return { result: ukuleleTab, transposed: transposed };
 };
 
-// TODO: show errors and warnings on FE
 // TODO: export to pdf with song and author name
