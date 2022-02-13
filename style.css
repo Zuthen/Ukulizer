@@ -57,7 +57,7 @@ span {
 }
 
 input {
-  height: 20px;
+  height: 30px;
   font-size: medium;
   width: 240px;
   margin: 15px;
@@ -72,7 +72,7 @@ input {
 }
 
 #fretLength {
-  width: 20px;
+  width: 30px;
   justify-content: center;
 }
 
@@ -157,12 +157,12 @@ input {
 .toastjs-container {
   position: absolute; /* Fallback */
   position: fixed;
-  bottom: 30px;
-  left: 30px;
+  top: 30px;
+  right: 30px;
   width: calc(100% - 60px);
   max-width: 400px;
 
-  transform: translateX(-150%);
+  transform: translateX(150%);
   transition: transform 1s;
 
   z-index: 100; /* */
