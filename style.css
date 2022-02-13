@@ -63,6 +63,14 @@ input {
   margin: 15px;
 }
 
+#instructions1,
+#instructions2 {
+  width: 800px;
+  text-align: left;
+  vertical-align: top;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
 #fretLength {
   width: 20px;
   justify-content: center;

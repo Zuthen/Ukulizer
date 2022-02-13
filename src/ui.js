@@ -21,6 +21,7 @@ export function addTable(resultTable, stringLines) {
 }
 export function addTableWarning(tableId, headerText) {
   let warning = document.createElement("p");
+  warning.classList.add("print-exclude");
   let text = document.createTextNode(headerText);
   warning.appendChild(text);
   let element = document.getElementById(tableId);
@@ -39,13 +40,14 @@ export function instructions() {
   ⭐ make sure that each string notations starts with exactly one letter and one "|" sign 
   For example string like 
     D|-12-10--|  will work properly ✔️
-     but 
+       but 
     D4-||------| won't ❌
 
-  ⭐ make sure that each string notations ends with | sign. All other endings may affect the rhythmics
+  ⭐ make sure that each string notations ends with "|" sign. All other endings may affect the rhythmics
   For example string like 
-    e|-12-12-12-| will work properly ✔️
-    but D|------|- won't ❌`;
+   e|-12-12-12-| will work properly ✔️
+     but 
+    D|------|- won't ❌`;
   const instructions1 = document.getElementById("instructions1");
   instructions1.innerText = text1;
   const instructions2 = document.getElementById("instructions2");

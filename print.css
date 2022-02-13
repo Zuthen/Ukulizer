@@ -1,5 +1,4 @@
 @media print {
-
   .print-exclude {
     display: none;
   }
@@ -8,38 +7,45 @@
     display: block;
   }
 
+  @page {
+    size: A4;
+    margin: 3mm;
+  }
+
   footer {
-      position: fixed;
-      bottom: 0;
-      text-align: center;
-      font-size: 9px;
-      color: rgb(80, 75, 75);
-    }
-    body {
-      font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
-    }
-    table {
-      width: 90%;
-      font: 17px;
-      margin: 25px;
-    }
-    table,
-    th,
-    td {
-      border: none;
-    }
-    #pdf-artist {
-      font-style: italic;
-      font-size: 18px;
-    }
-    #pdf-song-title {
-      font-size: 22px;
-    }
-    h2 {
-      font-size: 18px;
-    }
-    #pdf-song-title,
-    #pdf-artist {
-      text-align: center;
-    }
+    position: fixed;
+    bottom: 0;
+    text-align: center;
+    font-size: 9px;
+    color: rgb(80, 75, 75);
+    vertical-align: middle;
+  }
+  body {
+    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  }
+  table {
+    width: 90%;
+    font: 17px;
+    margin: 25px;
+  }
+  table,
+  th,
+  td {
+    border: none;
+  }
+  #pdf-artist {
+    font-style: italic;
+    font-size: 18px;
+  }
+  #pdf-song-title {
+    font-size: 22px;
+  }
+  h2 {
+    font-size: 18px;
+  }
+  #pdf-song-title,
+  #pdf-artist {
+    text-align: center;
+    margin: 5px;
+  }
 }
