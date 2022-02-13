@@ -40,5 +40,9 @@ convertButton.addEventListener("click", function () {
   showResult(lowGResultTable, lowGresult);
   const higGresult = convertToHighG(strings, fretLength);
   showResult(highGResultTable, higGresult);
+  const songTitle = document.getElementById("song-title").value;
+  const artist = document.getElementById("artist").value;
+  document.getElementById("pdf-song-title").textContent = songTitle;
+  document.getElementById("pdf-artist").textContent = artist;
 });
 generatePdfButton.addEventListener("click", createPDF);
