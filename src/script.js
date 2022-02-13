@@ -1,6 +1,6 @@
 "use strict";
 import { splitGuitarTabByStrings } from "./guitarStrings.js";
-import { addTable, addTableWarning } from "./ui.js";
+import { addTable, addTableWarning, instructions } from "./ui.js";
 import { convertToLowG, convertToHighG } from "./converter.js";
 import { createPDF } from "./pdfCreator.js";
 
@@ -15,6 +15,7 @@ function init() {
   const results = document.querySelectorAll(".result");
   results.forEach((result) => result.classList.add("hidden"));
   generatePdfButton.classList.add("hidden");
+  instructions();
 }
 function showResult(resultTableUi, result) {
   if (result) {
@@ -40,9 +41,5 @@ convertButton.addEventListener("click", function () {
   showResult(lowGResultTable, lowGresult);
   const higGresult = convertToHighG(strings, fretLength);
   showResult(highGResultTable, higGresult);
-  const songTitle = document.getElementById("song-title").value;
-  const artist = document.getElementById("artist").value;
-  document.getElementById("pdf-song-title").textContent = songTitle;
-  document.getElementById("pdf-artist").textContent = artist;
 });
 generatePdfButton.addEventListener("click", createPDF);

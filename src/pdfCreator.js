@@ -48,6 +48,10 @@ footer {
 </style>`;
 
 export function createPDF() {
+  const songTitle = document.getElementById("song-title").value;
+  const artist = document.getElementById("artist").value;
+  document.getElementById("pdf-song-title").textContent = songTitle;
+  document.getElementById("pdf-artist").textContent = artist;
   const printContent = document.getElementById("html-template").innerHTML;
   const file = window.open("");
   if (file) {

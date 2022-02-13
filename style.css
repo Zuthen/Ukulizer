@@ -42,7 +42,8 @@ h2 {
   margin-top: 45px;
 }
 
-label {
+label,
+span {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-size: medium;
 }
@@ -53,7 +54,12 @@ input {
   width: 240px;
   margin: 15px;
 }
-
+#instructions1,
+#instructions2 {
+  width: 50%;
+  text-align: left;
+  vertical-align: top;
+}
 #generate-pdf {
   left: 80%;
 }
