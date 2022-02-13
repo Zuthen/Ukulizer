@@ -15,6 +15,14 @@ textarea {
   border-radius: 4px;
 }
 
+.print-exclude {
+  display: block;
+}
+
+.print-only {
+  display: none;
+}
+
 table {
   border: none;
   margin: 25px;
@@ -54,10 +62,6 @@ input {
   margin: 15px;
 }
 
-#generate-pdf {
-  left: 80%;
-}
-
 #fretLength {
   width: 20px;
   justify-content: center;
@@ -73,9 +77,14 @@ input {
   margin-right: auto;
 }
 
+.buttons {
+  display: flex;
+}
+
 /* CSS */
 .button {
   align-items: center;
+  margin-right: 1rem;
   background-color: #fee6e3;
   border: 2px solid #111;
   border-radius: 8px;
