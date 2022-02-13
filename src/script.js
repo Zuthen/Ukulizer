@@ -2,6 +2,7 @@
 import { splitGuitarTabByStrings } from "./guitarStrings.js";
 import { addTable, addTableWarning } from "./ui.js";
 import { convertToLowG, convertToHighG } from "./converter.js";
+import { createPDF } from "./pdfCreator/pdfCreator.js";
 
 let tabInputText;
 const convertButton = document.getElementById("convert");
@@ -37,7 +38,7 @@ convertButton.addEventListener("click", function () {
   const fretLength = getFretLength();
   const lowGresult = convertToLowG(strings, fretLength);
   showResult(lowGResultTable, lowGresult);
-
   const higGresult = convertToHighG(strings, fretLength);
   showResult(highGResultTable, higGresult);
 });
+generatePdfButton.addEventListener("click", createPDF);
