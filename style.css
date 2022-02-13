@@ -50,7 +50,8 @@ h2 {
   margin-top: 45px;
 }
 
-label {
+label,
+span {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-size: medium;
 }

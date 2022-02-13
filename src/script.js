@@ -1,6 +1,6 @@
 "use strict";
 import { splitGuitarTabByStrings } from "./guitarStrings.js";
-import { addTable, addTableWarning } from "./ui.js";
+import { addTable, addTableWarning, instructions } from "./ui.js";
 import { convertToLowG, convertToHighG } from "./converter.js";
 
 let tabInputText;
@@ -15,6 +15,7 @@ function init() {
   const results = document.querySelectorAll(".result");
   results.forEach((result) => result.classList.add("hidden"));
   generatePdfButton.classList.add("hidden");
+  instructions();
 }
 function showResult(resultTableUi, result) {
   if (result) {
@@ -46,4 +47,7 @@ convertButton.addEventListener("click", () => {
   document.getElementById("pdf-artist").textContent = artist;
   isConverted = true;
 });
-generatePdfButton.addEventListener("click", () => isConverted && window.print(""));
+generatePdfButton.addEventListener(
+  "click",
+  () => isConverted && window.print("")
+);
