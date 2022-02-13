@@ -2,7 +2,7 @@
 import { splitGuitarTabByStrings } from "./guitarStrings.js";
 import { addTable, addTableWarning } from "./ui.js";
 import { convertToLowG, convertToHighG } from "./converter.js";
-import { createPDF } from "./pdfCreator/pdfCreator.js";
+import { createPDF } from "./pdfCreator.js";
 
 let tabInputText;
 const convertButton = document.getElementById("convert");
