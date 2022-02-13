@@ -2,9 +2,9 @@
 import { splitGuitarTabByStrings } from "./guitarStrings.js";
 import { addTable, addTableWarning, instructions } from "./ui.js";
 import { convertToLowG, convertToHighG } from "./converter.js";
-import { createPDF } from "./pdfCreator.js";
 
 let tabInputText;
+let isConverted;
 const convertButton = document.getElementById("convert");
 const lowGResultTable = document.getElementById("lowGResult");
 const highGResultTable = document.getElementById("highGResult");
@@ -33,7 +33,7 @@ export function getFretLength() {
 }
 
 init();
-convertButton.addEventListener("click", function () {
+convertButton.addEventListener("click", () => {
   tabInputText = document.getElementById("guitar-tab").value;
   const strings = splitGuitarTabByStrings(tabInputText);
   const fretLength = getFretLength();
@@ -41,5 +41,13 @@ convertButton.addEventListener("click", function () {
   showResult(lowGResultTable, lowGresult);
   const higGresult = convertToHighG(strings, fretLength);
   showResult(highGResultTable, higGresult);
+  const songTitle = document.getElementById("song-title").value;
+  const artist = document.getElementById("artist").value;
+  document.getElementById("pdf-song-title").textContent = songTitle;
+  document.getElementById("pdf-artist").textContent = artist;
+  isConverted = true;
 });
-generatePdfButton.addEventListener("click", createPDF);
+generatePdfButton.addEventListener(
+  "click",
+  () => isConverted && window.print("")
+);
