@@ -42,10 +42,10 @@
   }
   h2 {
     font-size: 18px;
+    margin-top: 10px;
   }
   #pdf-song-title,
   #pdf-artist {
     text-align: center;
-    margin: 5px;
   }
 }
