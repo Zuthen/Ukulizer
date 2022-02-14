@@ -27,32 +27,3 @@ export function addTableWarning(tableId, headerText) {
   let element = document.getElementById(tableId);
   element.appendChild(warning);
 }
-export function instructions() {
-  const text1 = `        ❔ How to use that tool? It's simple!
-  ➖ Paste a guitar tab into field below
-  ➖ You can change the number of frets on the neck if it is different from 18 
-  ➖ Click Convert to ukulele tab button
-  ➖ If everything is fine result should appear below.
-  ➖ If your tab consists of multiple lines just repeat the process for each line. They will appear will appear one under the other
-  ➖ If You want to export result to pdf file just click on Download pdf button 
-  (You can set the song title and/or artist name in the corresponding field)
-`;
-  const text2 = `  ℹ️ For best results 
-  ⭐ make sure that each string notations starts with exactly one letter and one "|" sign 
-  For example string like 
-    D|-12-10--|  will work properly ✔️
-       but 
-    D4-||------| won't ❌
-
-  ⭐ make sure that each string notations ends with "|" sign. All other endings may affect the rhythmics
-  For example string like 
-   e|-12-12-12-| will work properly ✔️
-     but 
-    D|------|- won't ❌
-
-  ⭐ avoid x2 notation. Just type the line to the input field and click convert button twice`;
-  const instructions1 = document.getElementById("instructions1");
-  instructions1.innerText = text1;
-  const instructions2 = document.getElementById("instructions2");
-  instructions2.innerText = text2;
-}

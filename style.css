@@ -50,11 +50,16 @@ h1 {
 h2 {
   margin-top: 45px;
 }
+h3 {
+  font-size: small;
+  font-style: bold;
+  margin-bottom: 3px;
+}
 
 label,
 span {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-  font-size: medium;
+  font-size: small;
 }
 
 input {
@@ -62,6 +67,17 @@ input {
   font-size: medium;
   width: 240px;
   margin: 15px;
+}
+
+ol,
+ul {
+  font-size: small;
+  padding: 5px;
+  margin-left: 25px;
+}
+
+li {
+  margin-bottom: 10px;
 }
 
 #instructions1,
