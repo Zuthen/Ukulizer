@@ -1,6 +1,7 @@
 "use strict";
 import { splitGuitarTabByStrings } from "./guitarStrings.js";
 import { convertToLowG, convertToHighG } from "./converter.js";
+import { addTableWarning, addTable } from "./ui.js";
 
 let tabInputText;
 let isConverted;
