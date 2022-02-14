@@ -33,6 +33,7 @@ export function instructions() {
   ➖ You can change the number of frets on the neck if it is different from 18 
   ➖ Click Convert to ukulele tab button
   ➖ If everything is fine result should appear below.
+  ➖ If your tab consists of multiple lines just repeat the process for each line. They will appear will appear one under the other
   ➖ If You want to export result to pdf file just click on Download pdf button 
   (You can set the song title and/or artist name in the corresponding field)
 `;
@@ -47,7 +48,9 @@ export function instructions() {
   For example string like 
    e|-12-12-12-| will work properly ✔️
      but 
-    D|------|- won't ❌`;
+    D|------|- won't ❌
+
+  ⭐ avoid x2 notation. Just type the line to the input field and click convert button twice`;
   const instructions1 = document.getElementById("instructions1");
   instructions1.innerText = text1;
   const instructions2 = document.getElementById("instructions2");
