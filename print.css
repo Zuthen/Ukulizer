@@ -20,19 +20,28 @@
     color: rgb(80, 75, 75);
     vertical-align: middle;
   }
+
   body {
+    size: A4;
     font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   }
+
   table {
-    width: 90%;
-    font: 17px;
     margin: 25px;
   }
   table,
   th,
   td {
     border: none;
+    max-width: 10;
+    font-size: x-small;
   }
+
+  h2 {
+    font-size: 18px;
+    margin-top: 10px;
+  }
+
   #pdf-artist {
     font-style: italic;
     font-size: 18px;
@@ -40,10 +49,7 @@
   #pdf-song-title {
     font-size: 22px;
   }
-  h2 {
-    font-size: 18px;
-    margin-top: 10px;
-  }
+
   #pdf-song-title,
   #pdf-artist {
     text-align: center;
