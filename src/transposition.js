@@ -22,11 +22,11 @@ const stringMap = [
   { goUp: { stringIndex: 3, noteDifference: -10 } },
 ];
 
-const addGoUp = function (note, stringNumber, noteIndex) {
+const addGoUp = function (note, stringNumber, noteIndex, fretLength) {
   const newNotes = [];
   let currentStringMap = stringMap[stringNumber];
   let currentNote = note;
-  while (currentStringMap.goUp !== undefined) {
+  while (currentStringMap.goUp !== undefined && currentNote >= fretLength) {
     if (currentNote + currentStringMap.goUp.noteDifference >= 0)
       newNotes.push({
         string: stringNumber,
@@ -76,7 +76,7 @@ export const findNoteOnOtherString = function (
     mappedString.goUp !== undefined &&
     mappedString.goUp.noteDifference + note >= 0
   ) {
-    possibleUpMoves = addGoUp(note, stringNumber, noteIndex);
+    possibleUpMoves = addGoUp(note, stringNumber, noteIndex, fretLength);
   }
   if (
     mappedString.goDown !== undefined &&
@@ -245,7 +245,7 @@ export const transposeOctave = function (guitarTab, ukuleleFretLength) {
     }
   } else return guitarTab;
 };
-const findNotesToMoveForGString = function (ukuleleTabLine, fretLength) {
+export const findNotesToMoveForGString = function (ukuleleTabLine, fretLength) {
   const notes = findNotesIndexes(ukuleleTabLine);
   const notesToMove = [];
   notes.forEach((note) => {
@@ -255,7 +255,17 @@ const findNotesToMoveForGString = function (ukuleleTabLine, fretLength) {
       );
     }
   });
-  return notesToMove;
+  const validateOtherStringsNotes = function () {
+    notesToMove.forEach((noteMaps) => {
+      noteMaps.forEach((noteMap) => {
+        if (noteMap.newNote > fretLength)
+          notesToMove.splice(notesToMove.indexOf(noteMaps), 1);
+      });
+    });
+  };
+  validateOtherStringsNotes();
+  if (notesToMove.length > 0) return notesToMove;
+  else throw "transposition failed";
 };
 const moveTocStringNeeded = function (ukuleleTabLine, ukuleleFretLength) {
   let result = false;
@@ -265,10 +275,11 @@ const moveTocStringNeeded = function (ukuleleTabLine, ukuleleFretLength) {
   });
   return result;
 };
-const moveHighGNotes = function (ukuleleTab, fretLength) {
+export const moveHighGNotes = function (ukuleleTab, fretLength) {
   const moveNotes = findNotesToMoveForGString(ukuleleTab[3], fretLength);
   const transposeSucceded = [];
   moveNotes.forEach((note) => {
+    moveToOtherString(ukuleleTab, note);
     transposeSucceded.push(moveToOtherString(ukuleleTab, note));
   });
   return transposeSucceded;
@@ -290,7 +301,7 @@ export const transposeToHighG = function (ukuleleTab, ukuleleFretLength) {
     ukuleleTab[3]
   );
   if (transposeOctaveNeeded) {
-    transposeOctave(ukuleleTab);
+    transposeOctave(ukuleleTab, ukuleleFretLength);
     transposed = true;
   }
   const moveTocString = moveTocStringNeeded(ukuleleTab[3], ukuleleFretLength);
@@ -309,5 +320,3 @@ export const transposeToHighG = function (ukuleleTab, ukuleleFretLength) {
   }
   return { result: ukuleleTab, transposed: transposed };
 };
-
-// TODO: export to pdf with song and author name

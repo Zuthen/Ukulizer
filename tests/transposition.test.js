@@ -5,6 +5,8 @@ import {
   transpose as transpose,
   transposeOctave,
   transposeToHighG,
+  moveHighGNotes,
+  findNotesToMoveForGString,
 } from "../src/transposition";
 describe("transposition", () => {
   test("find note on other string", () => {
@@ -673,7 +675,7 @@ describe("transposition", () => {
     const eString = ["E", "|", "—", "—", "—", "—", 1, "—", "|"];
     const cString = ["C", "|", "—", "—", 1, "—", "—", "—", "|"];
     const gString = ["G", "|", 32, "—", "—", "—", "—", "—", "|"];
-    const input = [aString, eString, cString, gString];
+    const input1 = [aString, eString, cString, gString];
     const expectedResult = {
       result: [
         ["A", "|", "—", "—", "—", 1, "—", 3, "—", "|"],
@@ -684,9 +686,54 @@ describe("transposition", () => {
       transposed: false,
     };
     // Act
-    const highGukuleleTab = transposeToHighG(input, 18);
+    const highGukuleleTab = transposeToHighG(input1, 18);
     removeRedunantDashes(highGukuleleTab.result);
     // Assert
     expect(highGukuleleTab).toStrictEqual(expectedResult);
+  });
+
+  test("move high G notes", () => {
+    // Arrange
+    const aString = ["A", "|", "—", "—", 1, "—", 3, "—", "|"];
+    const eString = ["E", "|", "—", "—", "—", "—", 1, "—", "|"];
+    const cString = ["C", "|", "—", "—", 1, "—", "—", "—", "|"];
+    const gString = ["G", "|", 32, "—", "—", "—", "—", "—", "|"];
+
+    const tab = [aString, eString, cString, gString];
+
+    // Act
+    let result = moveHighGNotes(tab, 18);
+    // Assert
+    expect(result).toStrictEqual([true]);
+  });
+
+  test("find notes to move for G string with success", () => {
+    // Arrange
+    const gString = ["G", "|", 22, "—", "—", "—", "—", "—", "|"];
+    const ukuleleFretLength = 18;
+    const expectedResult = [
+      [{ string: 3, noteIndex: 2, stringToMove: 2, newNote: 17 }],
+    ];
+    // Act
+    const result = findNotesToMoveForGString(gString, ukuleleFretLength);
+
+    // Assert
+    expect(result).toStrictEqual(expectedResult);
+  });
+
+  test("find notes to move for G string with fail", () => {
+    // Arrange
+    const gString = ["G", "|", 32, "—", "—", "—", "—", "—", "|"];
+    const ukuleleFretLength = 18;
+    const expectedResult = [
+      [{ string: 3, noteIndex: 2, stringToMove: 2, newNote: 17 }],
+    ];
+    // Act
+    const result = function () {
+      findNotesToMoveForGString(gString, ukuleleFretLength);
+    };
+
+    // Assert
+    expect(result).toThrow("transposition failed");
   });
 });

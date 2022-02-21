@@ -900,4 +900,18 @@ describe("converters tests", () => {
     expect(result.result).toStrictEqual(expectedResult);
     expect(result.transposed).toStrictEqual(false);
   });
+  test("The Alejandro test", () => {
+    // Arrange
+    const alejandroTab = [
+      "e|---------------------------------------------------------------------|",
+      "B|--------------5/7--3--3--5--3--2--8-------------2--5--5--3-----1/2---|",
+      "G|---------------------------------------------3--------------3--------|",
+      "D|--4--5/7/5--4-----------------------5--5--4--------------------------|",
+      "A|---------------------------------------------------------------------|",
+      "E|---------------------------------------------------------------------|",
+    ];
+    const expectedResult = undefined;
+    // Assert
+    expect(convertToHighG(alejandroTab)).toThrow();
+  });
 });

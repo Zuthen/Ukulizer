@@ -17,7 +17,6 @@ const formatResult = function (tab) {
 };
 
 export const convertToLowG = function (tabStrings, fretLength) {
-  console.log(tabStrings);
   const tab = prepareForConvert(tabStrings);
   ebgdBasicConvert(tab);
   const moveToOtherString = isTransposeToOtherStingNeeded(tab);
@@ -36,7 +35,6 @@ export const convertToLowG = function (tabStrings, fretLength) {
     throw `Transpose for Low G failed`;
   } else {
     formatResult(result.result);
-    console.log("RESULT", result);
     return result;
   }
 };
