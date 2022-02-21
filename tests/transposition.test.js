@@ -76,12 +76,6 @@ describe("transposition", () => {
       },
       {
         string: 2,
-        note: -8,
-        noteIndex: 7,
-        expectedResult: [],
-      },
-      {
-        string: 2,
         note: -1,
         noteIndex: 5,
         expectedResult: [
@@ -92,18 +86,6 @@ describe("transposition", () => {
             newNote: 4,
           },
         ],
-      },
-      {
-        string: 3,
-        note: -3,
-        noteIndex: 9,
-        expectedResult: [],
-      },
-      {
-        string: 4,
-        note: -1,
-        noteIndex: 6,
-        expectedResult: [],
       },
       {
         string: 4,
@@ -143,12 +125,6 @@ describe("transposition", () => {
           },
         ],
       },
-      {
-        string: 5,
-        note: -1,
-        noteIndex: 6,
-        expectedResult: [],
-      },
     ];
     testData.forEach((data) => {
       const result = findNoteOnOtherString(
@@ -159,6 +135,63 @@ describe("transposition", () => {
       );
       expect(result).toStrictEqual(data.expectedResult);
     });
+  });
+
+  test("when find notes on other string is empty, throw an error", () => {
+    // Arrange
+    const testData = [
+      {
+        string: 2,
+        note: -8,
+        noteIndex: 7,
+      },
+      {
+        string: 3,
+        note: -3,
+        noteIndex: 9,
+      },
+      {
+        string: 4,
+        note: -1,
+        noteIndex: 6,
+      },
+      {
+        string: 5,
+        note: -1,
+        noteIndex: 6,
+      },
+    ];
+
+    // Act
+    testData.forEach((data) => {
+      const tryMove = function () {
+        findNoteOnOtherString(data.string, data.note, data.noteIndex, 18);
+      };
+      // Assert
+      expect(tryMove).toThrow(`Move to other string failed`);
+    });
+  });
+  test("find note on other string should return notes lower than fret length only", () => {
+    // Arrange
+    const noteToMove = { string: 5, note: 40, noteIndex: 12 };
+    const expectedResult = [
+      {
+        string: 5,
+        noteIndex: 12,
+        stringToMove: 0,
+        newNote: 16,
+      },
+    ];
+    const fretLength = 17;
+    // Act
+    const result = findNoteOnOtherString(
+      noteToMove.string,
+      noteToMove.note,
+      noteToMove.noteIndex,
+      fretLength
+    );
+    // Assert
+    expect(result).toStrictEqual(expectedResult);
   });
   test("transpose", () => {
     // Arrange

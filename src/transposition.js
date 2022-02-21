@@ -63,6 +63,15 @@ const addGoDown = function (note, stringNumber, noteIndex, ukuleleFretLength) {
   return newNotes;
 };
 
+const removeHigherThanFret = function (possibleMoves, fretLength) {
+  function isLowEnough(move) {
+    return move.newNote < fretLength;
+  }
+  const validMoves = possibleMoves.filter(isLowEnough);
+  if (validMoves.length === 0) throw `Move to other string failed`;
+  else return validMoves;
+};
+
 export const findNoteOnOtherString = function (
   stringNumber,
   note,
@@ -84,7 +93,9 @@ export const findNoteOnOtherString = function (
   ) {
     possibleDownMoves = addGoDown(note, stringNumber, noteIndex, fretLength);
   }
-  return possibleUpMoves.concat(possibleDownMoves);
+  const allMoves = possibleUpMoves.concat(possibleDownMoves);
+  const validMoves = removeHigherThanFret(allMoves, fretLength);
+  return validMoves;
 };
 const findNotesToTransposeWhenNoteBelowZero = function (strings) {
   const notesBelowZero = [];
