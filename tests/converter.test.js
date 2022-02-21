@@ -900,7 +900,7 @@ describe("converters tests", () => {
     expect(result.result).toStrictEqual(expectedResult);
     expect(result.transposed).toStrictEqual(false);
   });
-  test("The Alejandro test", () => {
+  test("Fails high G when fretlength too short", () => {
     // Arrange
     const alejandroTab = [
       "e|---------------------------------------------------------------------|",
@@ -910,8 +910,11 @@ describe("converters tests", () => {
       "A|---------------------------------------------------------------------|",
       "E|---------------------------------------------------------------------|",
     ];
-    const expectedResult = undefined;
+    // Act
+    const convert = function () {
+      convertToHighG(alejandroTab);
+    };
     // Assert
-    expect(convertToHighG(alejandroTab)).toThrow();
+    expect(convert).toThrow();
   });
 });

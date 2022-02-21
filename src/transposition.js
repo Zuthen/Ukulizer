@@ -26,7 +26,7 @@ const addGoUp = function (note, stringNumber, noteIndex, fretLength) {
   const newNotes = [];
   let currentStringMap = stringMap[stringNumber];
   let currentNote = note;
-  while (currentStringMap.goUp !== undefined && currentNote >= fretLength) {
+  while (currentStringMap.goUp !== undefined) {
     if (currentNote + currentStringMap.goUp.noteDifference >= 0)
       newNotes.push({
         string: stringNumber,
@@ -189,7 +189,7 @@ export const transpose = function (guitarTab, ukuleleFretLength) {
     const result = cutAdditionalStrings(tabToTranspose);
     return { result: result, transposed: false };
   } else {
-    const ukuleleTab = transposeOctave(guitarTab, ukuleleFretLength);
+    const ukuleleTab = transposeOctave(guitarTab, ukuleleFretLength, "low G");
     const result = cutAdditionalStrings(ukuleleTab);
     return { result: result, transposed: true };
   }
@@ -217,7 +217,11 @@ export const findNotesToTransposeAfterOctaveTranspose = function (
   }
   return transposeStrings.concat(notesOnLowStrings);
 };
-export const transposeOctave = function (guitarTab, ukuleleFretLength) {
+export const transposeOctave = function (
+  guitarTab,
+  ukuleleFretLength,
+  tuningError
+) {
   ukuleleBasicOctaveTranspose(guitarTab);
   const moveToOtherStrings = isTransposeToOtherStingNeededAfterOctaveTranspose(
     guitarTab,
@@ -237,14 +241,14 @@ export const transposeOctave = function (guitarTab, ukuleleFretLength) {
       return guitarTab;
     } else {
       new Toast({
-        message:
-          "Transposition failed. Tab is unconvertible or this solution is not good enough ",
+        message: `Transposition for ${tuningError} failed. Tab is unconvertible or this solution is not good enough `,
         type: "danger",
       });
       throw `Transpose failed`;
     }
   } else return guitarTab;
 };
+
 export const findNotesToMoveForGString = function (ukuleleTabLine, fretLength) {
   const notes = findNotesIndexes(ukuleleTabLine);
   const notesToMove = [];
@@ -255,15 +259,6 @@ export const findNotesToMoveForGString = function (ukuleleTabLine, fretLength) {
       );
     }
   });
-  const validateOtherStringsNotes = function () {
-    notesToMove.forEach((noteMaps) => {
-      noteMaps.forEach((noteMap) => {
-        if (noteMap.newNote > fretLength)
-          notesToMove.splice(notesToMove.indexOf(noteMaps), 1);
-      });
-    });
-  };
-  validateOtherStringsNotes();
   if (notesToMove.length > 0) return notesToMove;
   else throw "transposition failed";
 };
@@ -279,7 +274,6 @@ export const moveHighGNotes = function (ukuleleTab, fretLength) {
   const moveNotes = findNotesToMoveForGString(ukuleleTab[3], fretLength);
   const transposeSucceded = [];
   moveNotes.forEach((note) => {
-    moveToOtherString(ukuleleTab, note);
     transposeSucceded.push(moveToOtherString(ukuleleTab, note));
   });
   return transposeSucceded;
@@ -301,7 +295,7 @@ export const transposeToHighG = function (ukuleleTab, ukuleleFretLength) {
     ukuleleTab[3]
   );
   if (transposeOctaveNeeded) {
-    transposeOctave(ukuleleTab, ukuleleFretLength);
+    transposeOctave(ukuleleTab, ukuleleFretLength, "high G");
     transposed = true;
   }
   const moveTocString = moveTocStringNeeded(ukuleleTab[3], ukuleleFretLength);

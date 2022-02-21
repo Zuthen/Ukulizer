@@ -669,24 +669,24 @@ describe("transposition", () => {
     expect(highGukuleleTab).toStrictEqual(expectedResult);
   });
 
-  test("transpone from low G to high G with move to C string", () => {
+  test("transpone from low G to high G with move from G string", () => {
     // Arrange
     const aString = ["A", "|", "—", "—", 1, "—", 3, "—", "|"];
     const eString = ["E", "|", "—", "—", "—", "—", 1, "—", "|"];
     const cString = ["C", "|", "—", "—", 1, "—", "—", "—", "|"];
-    const gString = ["G", "|", 32, "—", "—", "—", "—", "—", "|"];
-    const input1 = [aString, eString, cString, gString];
+    const gString = ["G", "|", "—", 20, "—", "—", "—", "—", "|"];
+    const input = [aString, eString, cString, gString];
     const expectedResult = {
       result: [
-        ["A", "|", "—", "—", "—", 1, "—", 3, "—", "|"],
-        ["E", "|", "—", "—", "—", "—", "—", 1, "—", "|"],
-        ["C", "|", "—", 15, "—", 1, "—", "—", "—", "|"],
-        ["G", "|", "—", "—", "—", "—", "—", "—", "—", "|"],
+        ["A", "|", "—", "—", 1, "—", 3, "—", "|"],
+        ["E", "|", "—", "—", "—", "—", 1, "—", "|"],
+        ["C", "|", "—", "—", 1, "—", "—", "—", "|"],
+        ["G", "|", "—", 8, "—", "—", "—", "—", "|"],
       ],
       transposed: false,
     };
     // Act
-    const highGukuleleTab = transposeToHighG(input1, 18);
+    const highGukuleleTab = transposeToHighG(input, 18);
     removeRedunantDashes(highGukuleleTab.result);
     // Assert
     expect(highGukuleleTab).toStrictEqual(expectedResult);
@@ -697,14 +697,19 @@ describe("transposition", () => {
     const aString = ["A", "|", "—", "—", 1, "—", 3, "—", "|"];
     const eString = ["E", "|", "—", "—", "—", "—", 1, "—", "|"];
     const cString = ["C", "|", "—", "—", 1, "—", "—", "—", "|"];
-    const gString = ["G", "|", 32, "—", "—", "—", "—", "—", "|"];
+    const gString = ["G", "|", 22, "—", "—", "—", "—", "—", "|"];
 
     const tab = [aString, eString, cString, gString];
-
+    const transposedTab = [
+      ["A", "|", "—", "—", 1, "—", 3, "—", "|"],
+      ["E", "|", "—", "—", "—", "—", 1, "—", "|"],
+      ["C", "|", 17, "—", 1, "—", "—", "—", "|"],
+      ["G", "|", "—", "—", "—", "—", "—", "—", "|"],
+    ];
     // Act
-    let result = moveHighGNotes(tab, 18);
+    moveHighGNotes(tab, 18);
     // Assert
-    expect(result).toStrictEqual([true]);
+    expect(tab).toStrictEqual(transposedTab);
   });
 
   test("find notes to move for G string with success", () => {
@@ -712,7 +717,21 @@ describe("transposition", () => {
     const gString = ["G", "|", 22, "—", "—", "—", "—", "—", "|"];
     const ukuleleFretLength = 18;
     const expectedResult = [
-      [{ string: 3, noteIndex: 2, stringToMove: 2, newNote: 17 }],
+      [
+        { string: 3, noteIndex: 2, stringToMove: 2, newNote: 17 },
+        {
+          newNote: 13,
+          noteIndex: 2,
+          string: 3,
+          stringToMove: 1,
+        },
+        {
+          newNote: 8,
+          noteIndex: 2,
+          string: 3,
+          stringToMove: 0,
+        },
+      ],
     ];
     // Act
     const result = findNotesToMoveForGString(gString, ukuleleFretLength);
@@ -732,7 +751,6 @@ describe("transposition", () => {
     const result = function () {
       findNotesToMoveForGString(gString, ukuleleFretLength);
     };
-
     // Assert
     expect(result).toThrow("transposition failed");
   });
