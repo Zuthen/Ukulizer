@@ -27,7 +27,6 @@ export const convertToLowG = function (tabStrings, fretLength) {
       result = transpose(strings, fretLength);
       formatResult(result.result);
     } catch (error) {
-      console.log("throw");
       throwErrorWithToast("convert to Low G failed");
     } finally {
     }
@@ -48,7 +47,6 @@ export const convertToHighG = function (tabStrings, fretLength) {
     } finally {
     }
   } catch {
-    console.log("throw");
     throwErrorWithToast(
       "Transposition for High G failed. Tab is unconvertible or this solution is not good enough "
     );
