@@ -1,17 +1,13 @@
 "use strict";
-import { Toast } from "./toasts.js";
+import { throwWarningToast } from "./errors.js";
 
 export function splitGuitarTabByStrings(guitarTab) {
   let newstrings = guitarTab.split("\n");
   if (newstrings.length !== 6) {
-    new Toast({
-      message: `Unexpected lines count: ${newstrings.length} lines.
-      Guitar tab should consist of exactly 6 lines.
-      Make sure the tab is correct and try again.
-      `,
-      type: "warning",
-    });
-    throw `Unexpected lines count: ${newstrings.length}`;
+    throwWarningToast(`Unexpected lines count: ${newstrings.length} lines.
+    Guitar tab should consist of exactly 6 lines.
+    Make sure the tab is correct and try again.
+    `);
   } else return newstrings;
 }
 export const substractFive = function (tabLine) {

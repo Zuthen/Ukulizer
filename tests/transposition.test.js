@@ -1,10 +1,12 @@
-import { removeRedunantDashes } from "../src/strings";
+import { findNotesIndexes, removeRedunantDashes } from "../src/strings";
 import {
   findNoteOnOtherString,
-  findNotesToTransposeAfterOctaveTranspose,
   transpose as transpose,
   transposeOctave,
   transposeToHighG,
+  moveHighGNotes,
+  findNotesToMoveForGString,
+  findNotesToTranspose,
 } from "../src/transposition";
 describe("transposition", () => {
   test("find note on other string", () => {
@@ -74,12 +76,6 @@ describe("transposition", () => {
       },
       {
         string: 2,
-        note: -8,
-        noteIndex: 7,
-        expectedResult: [],
-      },
-      {
-        string: 2,
         note: -1,
         noteIndex: 5,
         expectedResult: [
@@ -90,18 +86,6 @@ describe("transposition", () => {
             newNote: 4,
           },
         ],
-      },
-      {
-        string: 3,
-        note: -3,
-        noteIndex: 9,
-        expectedResult: [],
-      },
-      {
-        string: 4,
-        note: -1,
-        noteIndex: 6,
-        expectedResult: [],
       },
       {
         string: 4,
@@ -141,12 +125,6 @@ describe("transposition", () => {
           },
         ],
       },
-      {
-        string: 5,
-        note: -1,
-        noteIndex: 6,
-        expectedResult: [],
-      },
     ];
     testData.forEach((data) => {
       const result = findNoteOnOtherString(
@@ -157,6 +135,63 @@ describe("transposition", () => {
       );
       expect(result).toStrictEqual(data.expectedResult);
     });
+  });
+
+  test("when find notes on other string is empty, throw an error", () => {
+    // Arrange
+    const testData = [
+      {
+        string: 2,
+        note: -8,
+        noteIndex: 7,
+      },
+      {
+        string: 3,
+        note: -3,
+        noteIndex: 9,
+      },
+      {
+        string: 4,
+        note: -1,
+        noteIndex: 6,
+      },
+      {
+        string: 5,
+        note: -1,
+        noteIndex: 6,
+      },
+    ];
+
+    // Act
+    testData.forEach((data) => {
+      const tryMove = function () {
+        findNoteOnOtherString(data.string, data.note, data.noteIndex, 18);
+      };
+      // Assert
+      expect(tryMove).toThrow(`Find note on other string failed`);
+    });
+  });
+  test("find note on other string should return notes lower than fret length only", () => {
+    // Arrange
+    const noteToMove = { string: 5, note: 40, noteIndex: 12 };
+    const expectedResult = [
+      {
+        string: 5,
+        noteIndex: 12,
+        stringToMove: 0,
+        newNote: 16,
+      },
+    ];
+    const fretLength = 17;
+    // Act
+    const result = findNoteOnOtherString(
+      noteToMove.string,
+      noteToMove.note,
+      noteToMove.noteIndex,
+      fretLength
+    );
+    // Assert
+    expect(result).toStrictEqual(expectedResult);
   });
   test("transpose", () => {
     // Arrange
@@ -535,15 +570,86 @@ describe("transposition", () => {
           "—",
           "|",
         ],
+        [
+          "A",
+          "|",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "|",
+        ],
+        [
+          "E",
+          "|",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "—",
+          "|",
+        ],
       ],
-      transposed: false,
+      transposed: true,
     };
     // Act
     let result = transpose(input, 18);
     removeRedunantDashes(result.result);
+    let aReturnedString = findNotesIndexes(result.result[4]);
+    let eReturnedString = findNotesIndexes(result.result[5]);
     // Assert
-    expect(result.result.length).toStrictEqual(4);
     expect(result).toStrictEqual(output);
+    expect(aReturnedString.length).toStrictEqual(0);
+    expect(eReturnedString.length).toStrictEqual(0);
   });
   test("find notes to transpose after octave transpose", () => {
     // Arrange
@@ -567,10 +673,7 @@ describe("transposition", () => {
       { stringId: 0, noteIndex: 5, string: aString },
     ];
     // Act
-    const result = findNotesToTransposeAfterOctaveTranspose(
-      strings,
-      ukuleleFretLength
-    );
+    const result = findNotesToTranspose(strings, ukuleleFretLength);
     // Assert
     expect(result).toStrictEqual(expectedResult);
   });
@@ -580,20 +683,20 @@ describe("transposition", () => {
     const eString = ["E", "|", "—", -1, "—", "—"];
     const cString = ["C", "|", "—", -6, "—", -10];
     const gString = ["G", "|", "—", "—", "—", "—"];
-    const dString = ["D", "|", 2, "—", 4, "—"];
-    const e2String = ["E", "|", "—", -2, "—", -2];
+    const dString = ["D", "|", 2, "—", 0, "—"];
+    const e2String = ["E", "|", "—", 12, "—", 10];
     const strings = [aString, eString, cString, gString, dString, e2String];
 
     const expectedResult = [
       ["A", "|", "—", "—", 9, "—", 5, "|"],
       ["E", "|", "—", "—", 11, "—", "—", "|"],
       ["C", "|", "—", "—", 6, "—", 2, "|"],
-      ["G", "|", "—", 9, 0, 11, 0, "|"],
+      ["G", "|", "—", 9, 14, 7, 12, "|"],
       ["D", "|", "—", "—", "—", "—", "—", "|"],
       ["E", "|", "—", "—", "—", "—", "—", "|"],
     ];
     // Act
-    const result = transposeOctave(strings);
+    const result = transposeOctave(strings, 18, "transpose octave test");
     removeRedunantDashes(result);
     // Assert
     expect(result).toStrictEqual(expectedResult);
@@ -604,7 +707,7 @@ describe("transposition", () => {
     const eString = ["E", "|", "-", 0, "-", "-"];
     const cString = ["C", "|", "-", "-", "-", 1];
     const gString = ["G", "|", "-", "-", "-", "-"];
-    const dString = ["D", "|", 2, "-", 4, "-"];
+    const dString = ["D", "|", 7, "-", 4, "-"];
     const e2String = ["E", "|", "-", "-", "-", "-"];
     const input = [aString, eString, cString, gString, dString, e2String];
     const expectedResult = {
@@ -612,12 +715,14 @@ describe("transposition", () => {
         ["A", "|", "—", "-", 13, "-", 14, "|"],
         ["E", "|", "—", "-", 12, "-", "-", "|"],
         ["C", "|", "—", "-", "-", "-", 13, "|"],
-        ["G", "|", "—", 9, "-", 11, "-", "|"],
+        ["G", "|", "—", 14, "-", 11, "-", "|"],
+        ["D", "|", "—", "—", "-", "—", "-", "|"],
+        ["E", "|", "—", "-", "-", "-", "-", "|"],
       ],
       transposed: true,
     };
     // Act
-    const result = transpose(input);
+    const result = transpose(input, 20);
     removeRedunantDashes(result.result);
     // Assert
     expect(result).toStrictEqual(expectedResult);
@@ -667,19 +772,19 @@ describe("transposition", () => {
     expect(highGukuleleTab).toStrictEqual(expectedResult);
   });
 
-  test("transpone from low G to high G with move to C string", () => {
+  test("transpone from low G to high G with move from G string", () => {
     // Arrange
     const aString = ["A", "|", "—", "—", 1, "—", 3, "—", "|"];
     const eString = ["E", "|", "—", "—", "—", "—", 1, "—", "|"];
     const cString = ["C", "|", "—", "—", 1, "—", "—", "—", "|"];
-    const gString = ["G", "|", 32, "—", "—", "—", "—", "—", "|"];
+    const gString = ["G", "|", "—", 20, "—", "—", "—", "—", "|"];
     const input = [aString, eString, cString, gString];
     const expectedResult = {
       result: [
-        ["A", "|", "—", "—", "—", 1, "—", 3, "—", "|"],
-        ["E", "|", "—", "—", "—", "—", "—", 1, "—", "|"],
-        ["C", "|", "—", 15, "—", 1, "—", "—", "—", "|"],
-        ["G", "|", "—", "—", "—", "—", "—", "—", "—", "|"],
+        ["A", "|", "—", "—", 1, "—", 3, "—", "|"],
+        ["E", "|", "—", "—", "—", "—", 1, "—", "|"],
+        ["C", "|", "—", "—", 1, "—", "—", "—", "|"],
+        ["G", "|", "—", 8, "—", "—", "—", "—", "|"],
       ],
       transposed: false,
     };
@@ -688,5 +793,68 @@ describe("transposition", () => {
     removeRedunantDashes(highGukuleleTab.result);
     // Assert
     expect(highGukuleleTab).toStrictEqual(expectedResult);
+  });
+
+  test("move high G notes", () => {
+    // Arrange
+    const aString = ["A", "|", "—", "—", 1, "—", 3, "—", "|"];
+    const eString = ["E", "|", "—", "—", "—", "—", 1, "—", "|"];
+    const cString = ["C", "|", "—", "—", 1, "—", "—", "—", "|"];
+    const gString = ["G", "|", 22, "—", "—", "—", "—", "—", "|"];
+
+    const tab = [aString, eString, cString, gString];
+    const transposedTab = [
+      ["A", "|", "—", "—", 1, "—", 3, "—", "|"],
+      ["E", "|", "—", "—", "—", "—", 1, "—", "|"],
+      ["C", "|", 17, "—", 1, "—", "—", "—", "|"],
+      ["G", "|", "—", "—", "—", "—", "—", "—", "|"],
+    ];
+    // Act
+    moveHighGNotes(tab, 18);
+    // Assert
+    expect(tab).toStrictEqual(transposedTab);
+  });
+
+  test("find notes to move for G string with success", () => {
+    // Arrange
+    const gString = ["G", "|", 22, "—", "—", "—", "—", "—", "|"];
+    const ukuleleFretLength = 18;
+    const expectedResult = [
+      [
+        { string: 3, noteIndex: 2, stringToMove: 2, newNote: 17 },
+        {
+          newNote: 13,
+          noteIndex: 2,
+          string: 3,
+          stringToMove: 1,
+        },
+        {
+          newNote: 8,
+          noteIndex: 2,
+          string: 3,
+          stringToMove: 0,
+        },
+      ],
+    ];
+    // Act
+    const result = findNotesToMoveForGString(gString, ukuleleFretLength);
+
+    // Assert
+    expect(result).toStrictEqual(expectedResult);
+  });
+
+  test("find notes to move for G string with fail", () => {
+    // Arrange
+    const gString = ["G", "|", 32, "—", "—", "—", "—", "—", "|"];
+    const ukuleleFretLength = 18;
+    const expectedResult = [
+      [{ string: 3, noteIndex: 2, stringToMove: 2, newNote: 17 }],
+    ];
+    // Act
+    const result = function () {
+      findNotesToMoveForGString(gString, ukuleleFretLength);
+    };
+    // Assert
+    expect(result).toThrow("Find note on other string failed");
   });
 });

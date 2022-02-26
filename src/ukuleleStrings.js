@@ -19,24 +19,3 @@ export const ukuleleBasicOctaveTranspose = function (tabSplittedByStrings) {
   for (let i = 0; i < tabSplittedByStrings.length; i++)
     addTwelve(tabSplittedByStrings[i]);
 };
-
-export const isTransposeToOtherStingNeededAfterOctaveTranspose = function (
-  strings,
-  ukuleleFretLength
-) {
-  let result = false;
-  if (strings[4] !== undefined && strings[5] !== undefined) {
-    let aeNotesIndexes = findNotesIndexes(strings[4]).concat(
-      findNotesIndexes(strings[5])
-    );
-    if (aeNotesIndexes.length > 0) return (result = true);
-  }
-
-  strings.forEach((string) => {
-    const allStringNotes = findNotesIndexes(string);
-    allStringNotes.forEach((noteIndex) => {
-      if (string[noteIndex] > ukuleleFretLength) result = true;
-    });
-  });
-  return result;
-};

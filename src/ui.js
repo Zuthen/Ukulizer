@@ -6,7 +6,7 @@ export function addTable(resultTable, stringLines) {
   let tableBody = document.createElement("TBODY");
   table.appendChild(tableBody);
 
-  for (let i = 0; i < stringLines.length; i++) {
+  for (let i = 0; i < 4; i++) {
     let tr = document.createElement("TR");
     tableBody.appendChild(tr);
 
