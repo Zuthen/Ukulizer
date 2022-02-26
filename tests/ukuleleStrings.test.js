@@ -1,7 +1,5 @@
-import {
-  isTransposeToOtherStingNeededAfterOctaveTranspose,
-  ukuleleBasicOctaveTranspose,
-} from "../src/ukuleleStrings";
+import { ukuleleBasicOctaveTranspose } from "../src/ukuleleStrings";
+import { isTransposeNeeded } from "../src/transposeDecider";
 
 describe("ukulele strings tests", () => {
   test("check if transpose needed", () => {
@@ -19,10 +17,7 @@ describe("ukulele strings tests", () => {
     ];
     testcases.forEach((testcase) => {
       // Act
-      let result = isTransposeToOtherStingNeededAfterOctaveTranspose(
-        strings,
-        testcase.fretLength
-      );
+      let result = isTransposeNeeded(strings, testcase.fretLength);
       // Assert
       expect(result).toStrictEqual(testcase.expectedResult);
     });

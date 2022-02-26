@@ -1,11 +1,17 @@
 {
   "type": "module",
   "scripts": {
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test": "jest --env=jsdom",
     "dev": "live-server"
   },
   "devDependencies": {
     "jest": "^27.4.7",
     "live-server": "^1.2.1"
+  },
+    "jest": {
+      "verbose": true,
+      "testEnvironment": "jsdom"
+    }
   }
-}
+
+  

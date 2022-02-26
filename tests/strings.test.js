@@ -2,11 +2,11 @@
 import {
   mergeNumbers,
   convertToNumber,
-  isTransposeToOtherStingNeeded,
   removeAllAsterisks,
   prepareForConvert,
   adjustEnd,
 } from "../src/strings";
+import { isTransposeNeeded } from "../src/transposeDecider.js";
 
 //node --experimental-vm-modules node_modules/jest/bin/jest.js
 
@@ -212,7 +212,7 @@ describe("strings operations tests", () => {
     ];
     inputs.forEach((input) => {
       // Act
-      let output = isTransposeToOtherStingNeeded(input.string);
+      let output = isTransposeNeeded(input.string);
       // Assert
       expect(output).toStrictEqual(input.expectedResult);
     });
