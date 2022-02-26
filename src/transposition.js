@@ -329,12 +329,6 @@ export const transposeToHighG = function (ukuleleTab, ukuleleFretLength) {
     const transposeSucceded = moveHighGNotes(ukuleleTab, ukuleleFretLength);
     if (transposeSucceded)
       return { result: ukuleleTab, transposed: transposed };
-    else {
-      console.log("throw");
-      throwErrorWithToast(
-        "Transposition failed. Tab is unconvertible or this solution is not good enough"
-      );
-    }
   }
   return { result: ukuleleTab, transposed: transposed };
 };
