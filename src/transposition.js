@@ -267,9 +267,7 @@ export const transposeOctave = function (
         moveToOtherString(guitarTab, data);
       });
     } catch (error) {
-      throwErrorWithToast(
-        `Transposition for ${tuningError} failed. Tab is unconvertible or this solution is not good enough `
-      );
+      throw `Transposition for ${tuningError} failed. Tab is unconvertible or this solution is not good enough `;
     }
   }
   return guitarTab;
