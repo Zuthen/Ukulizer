@@ -9,6 +9,7 @@ import { transpose as transpose, transposeToHighG } from "./transposition.js";
 import { ebgdBasicConvert } from "./guitarStrings.js";
 import { isTransposeNeeded } from "./transposeDecider.js";
 import { throwErrorWithToast } from "./errors.js";
+import { adjustForUkuleleBarres } from "./barreChords.js";
 
 const formatResult = function (tab) {
   cutAdditionalStrings(tab);
@@ -20,6 +21,7 @@ const formatResult = function (tab) {
 export const convertToLowG = function (tabStrings, fretLength) {
   const strings = prepareForConvert(tabStrings);
   ebgdBasicConvert(strings);
+  adjustForUkuleleBarres(strings);
   const moveToOtherString = isTransposeNeeded(strings, fretLength);
   let result;
   if (moveToOtherString) {

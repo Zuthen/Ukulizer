@@ -1350,4 +1350,52 @@ describe("converters tests", () => {
     // Assert
     expect(convert).toThrow("convert to Low G failed");
   });
+
+  test("convert barre chords to low G", () => {
+    // Arrange
+    const tabWithBarres = [
+      ["A", "|", "—", 10, "—", "|"],
+      ["E", "|", "—", 10, "—", "|"],
+      ["C", "|", "—", 10, "—", "|"],
+      ["G", "|", "—", 10, "—", "|"],
+      ["A", "|", "—", 10, "—", "|"],
+      ["E", "|", "—", 10, "—", "|"],
+    ];
+    const expectedResult = [
+      ["A", "|", "—", 5, "—", "|"],
+      ["E", "|", "—", 5, "—", "|"],
+      ["C", "|", "—", 5, "—", "|"],
+      ["G", "|", "—", 5, "—", "|"],
+      ["A", "|", "—", "—", "—", "|"],
+      ["E", "|", "—", "—", "—", "|"],
+    ];
+    // Act
+    const converted = convertToLowG(tabWithBarres);
+    // Assert
+    expect(converted.result).toStrictEqual(expectedResult);
+  });
+
+  test("convert barre chords to high G", () => {
+    // Arrange
+    const tabWithBarres = [
+      ["A", "|", "—", 10, "—", "|"],
+      ["E", "|", "—", 10, "—", "|"],
+      ["C", "|", "—", 10, "—", "|"],
+      ["G", "|", "—", 10, "—", "|"],
+      ["A", "|", "—", 10, "—", "|"],
+      ["E", "|", "—", 10, "—", "|"],
+    ];
+    const expectedResult = [
+      ["A", "|", "—", 17, "—", "|"],
+      ["E", "|", "—", 17, "—", "|"],
+      ["C", "|", "—", 17, "—", "|"],
+      ["G", "|", "—", 5, "—", "|"],
+      ["A", "|", "—", "—", "—", "|"],
+      ["E", "|", "—", "—", "—", "|"],
+    ];
+    // Act
+    const converted = convertToHighG(tabWithBarres);
+    // Assert
+    expect(converted.result).toStrictEqual(expectedResult);
+  });
 });
