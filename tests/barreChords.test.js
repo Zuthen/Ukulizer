@@ -73,4 +73,29 @@ describe("barre chords tests", () => {
     // Assert
     expect(tabWithBarres).toStrictEqual(tabAdjustedForUkuleleBarres);
   });
+
+  test("should work if there are no barre chords for remove", () => {
+    // Arrange
+    const tabWithoutBarres = [
+      ["A", "|", "—", 10, "—", "|"],
+      ["E", "|", "—", 12, "—", "|"],
+      ["C", "|", "—", 10, "—", "|"],
+      ["G", "|", "—", 14, "—", "|"],
+      ["A", "|", "—", 10, "—", "|"],
+      ["E", "|", "—", 10, "—", "|"],
+    ];
+
+    const expectedResult = [
+      ["A", "|", "—", 10, "—", "|"],
+      ["E", "|", "—", 12, "—", "|"],
+      ["C", "|", "—", 10, "—", "|"],
+      ["G", "|", "—", 14, "—", "|"],
+      ["A", "|", "—", 10, "—", "|"],
+      ["E", "|", "—", 10, "—", "|"],
+    ];
+    // Act
+    adjustForUkuleleBarres(tabWithoutBarres);
+    // Assert
+    expect(tabWithoutBarres).toStrictEqual(expectedResult);
+  });
 });
