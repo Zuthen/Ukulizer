@@ -1,5 +1,4 @@
 "use strict";
-
 export const mergeNumbers = function (tabLine) {
   for (let i = 1; i < tabLine.length - 1; i++) {
     if (isNaN(tabLine[i]) || isNaN(tabLine[i + 1])) continue;
