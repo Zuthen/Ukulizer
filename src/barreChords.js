@@ -14,3 +14,11 @@ export const findBarreChords = function (tabToCheck) {
   });
   return barreChordsIndexes;
 };
+
+export const adjustForUkuleleBarres = function (tabForAdjust) {
+  const notesToAdjust = findBarreChords(tabForAdjust);
+  notesToAdjust.forEach((noteIndex) => {
+    tabForAdjust[4].splice(noteIndex, 1, "—");
+    tabForAdjust[5].splice(noteIndex, 1, "—");
+  });
+};

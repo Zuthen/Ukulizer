@@ -1,5 +1,5 @@
 "use strict";
-import { findBarreChords } from "../src/barreChords.js";
+import { findBarreChords, adjustForUkuleleBarres } from "../src/barreChords.js";
 describe("barre chords tests", () => {
   test("finds if there are barre chords in tab", () => {
     // Arrange
@@ -47,5 +47,30 @@ describe("barre chords tests", () => {
       // Assert
       expect(result).toStrictEqual(data.expectedResult);
     });
+  });
+
+  test("remove low notes for barre chords", () => {
+    // Arrange
+    const tabWithBarres = [
+      ["A", "|", "—", 10, "—", "—", 7, "—", "—", 2, "—", 1, "|"],
+      ["E", "|", "—", 10, "—", "—", 7, "—", "—", 2, "—", 1, "|"],
+      ["C", "|", "—", 10, "—", "—", 7, "—", "—", 2, "—", 2, "|"],
+      ["G", "|", "—", 10, "—", "—", 7, "—", "—", 2, "—", 3, "|"],
+      ["A", "|", "—", 10, "—", "—", 7, "—", "—", 2, "—", 4, "|"],
+      ["E", "|", "—", 10, "—", "—", 7, "—", "—", 2, "—", 5, "|"],
+    ];
+    const tabAdjustedForUkuleleBarres = [
+      ["A", "|", "—", 10, "—", "—", 7, "—", "—", 2, "—", 1, "|"],
+      ["E", "|", "—", 10, "—", "—", 7, "—", "—", 2, "—", 1, "|"],
+      ["C", "|", "—", 10, "—", "—", 7, "—", "—", 2, "—", 2, "|"],
+      ["G", "|", "—", 10, "—", "—", 7, "—", "—", 2, "—", 3, "|"],
+      ["A", "|", "—", "—", "—", "—", "—", "—", "—", "—", "—", 4, "|"],
+      ["E", "|", "—", "—", "—", "—", "—", "—", "—", "—", "—", 5, "|"],
+    ];
+
+    // Act
+    adjustForUkuleleBarres(tabWithBarres);
+    // Assert
+    expect(tabWithBarres).toStrictEqual(tabAdjustedForUkuleleBarres);
   });
 });
