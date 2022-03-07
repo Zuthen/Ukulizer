@@ -1,6 +1,5 @@
 "use strict";
-
-import { findNotesIndexes } from "./strings";
+import { findNotesIndexes } from "./strings.js";
 
 export const findBarreChords = function (tabToCheck) {
   const barreChordsIndexes = [];
