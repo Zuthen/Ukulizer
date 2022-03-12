@@ -27,3 +27,11 @@ export function addTableWarning(tableId, headerText) {
   let element = document.getElementById(tableId);
   element.appendChild(warning);
 }
+
+export function hideButton(buttonId) {
+  document.getElementById(buttonId).style.visibility = "hidden";
+}
+
+export function showButton(buttonId) {
+  document.getElementById(buttonId).style.visibility = "visible";
+}
