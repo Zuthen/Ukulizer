@@ -1,7 +1,7 @@
 "use strict";
 import { splitGuitarTabByStrings } from "./guitarStrings.js";
 import { convertToLowG, convertToHighG } from "./converter.js";
-import { addTableWarning, addTable } from "./ui.js";
+import { addTableWarning, addTable, hideButton, showButton } from "./ui.js";
 
 let tabInputText;
 let isConverted;
@@ -14,7 +14,7 @@ const generatePdfButton = document.getElementById("generate-pdf");
 function init() {
   const results = document.querySelectorAll(".result");
   results.forEach((result) => result.classList.add("hidden"));
-  generatePdfButton.classList.add("hidden");
+  hideButton("generate-pdf");
 }
 function showResult(resultTableUi, result) {
   if (result) {
@@ -23,6 +23,7 @@ function showResult(resultTableUi, result) {
       addTableWarning(tableId, `⚠️ Transposed by an octave!`);
     addTable(resultTableUi, result.result);
     resultTableUi.classList.remove("hidden");
+    showButton("generate-pdf");
   }
 }
 export function getFretLength() {
